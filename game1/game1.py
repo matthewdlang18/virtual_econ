@@ -264,9 +264,16 @@ def get_result_data():
                     "food": player_status['food'],
                     "log": log_data})
 
-@game1.route("/leaderboard/<int:class_number>")
+@game1.route('/leaderboard/<int:class_number>', methods=['GET'])
 def leaderboard1(class_number):
-    leaderboard_df = read_leaderboard(class_number)
-    leaderboard_df['high_score'] = to_numeric(leaderboard_df['high_score'], errors='coerce')
-    scores = leaderboard_df.sort_values(by='high_score', ascending=False)
+    leaderboard_df = read_leaderboard()
+    if 'class' in leaderboard_df.columns:
+        scores = leaderboard_df[leaderboard_df['class'] == class_number]
+    else:
+        scores = pd.DataFrame()  # Empty DataFrame if 'class' column is not found
+
+    print("Columns in scores DataFrame:", scores.columns)  # Print the columns
+
+    scores = scores.nlargest(20, 'high_score')
+    scores = scores.reset_index(drop=True)
     return render_template("leaderboard1.html", scores=scores, class_number=class_number)
