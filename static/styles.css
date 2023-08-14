@@ -1,5 +1,8 @@
 body {
-  background-color: #2a2a2a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   background-image: url('landing.png');
   background-size: cover;
   background-position: center;
@@ -8,9 +11,14 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh;
+  position: relative;
 }
 
 .title {
+  position: absolute;
+  top: 5vh; /* Position the title relative to the viewport */
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 90px;
   text-align: center;
   padding-top: 10vh;
@@ -21,7 +29,6 @@ body {
   white-space: nowrap;
   font-family: 'Georgia', serif;
   -webkit-text-stroke: 2px black;
-  text-stroke: 2px black;
 }
 
 .simulations {
@@ -31,15 +38,23 @@ body {
   transform: translate(-50%, -50%); /* Centering technique */
 }
 
+.simulations,
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .simulation {
   position: relative; /* Relative positioning within the parent .simulations class */
+  top: 15vh;
   font-size: 36px;
   font-weight: bold;
   color: #009cde;
   transition: font-size 0.3s ease;
   white-space: nowrap;
   text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
-  margin: 30px auto; /* Margins for spacing between simulations */
+  margin: 20px auto; /* Margins for spacing between simulations */
   text-align: center; /* Center text within the simulation elements */
 }
 
@@ -66,12 +81,11 @@ body {
 }
 
 
-
-.login-container {
+ .login-container {
   position: absolute;
-  bottom: -5%; /* Positioning the login container at the bottom of the page */
+  bottom: calc(25vh + 20px); /* Position the container relative to the viewport */
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   text-align: center;
   font-family: 'Georgia', serif;
 }
@@ -84,7 +98,7 @@ body {
 
 .login-container label,
 .login-container a {
-  font-size: 30px;
+  font-size: 36px;
   font-weight: bold;
   color: #009cde;
   margin: 10px;
@@ -102,7 +116,7 @@ body {
   background-color: #009cde;
   color: white;
   border: none;
-  font-size: 15px;
+  font-size: 24px;
   padding: 7px 14px;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -166,9 +180,9 @@ body {
 
 .login1-container {
   position: absolute;
-  bottom: 35%; /* Positioning the login container at the bottom of the page */
+  bottom: calc(25vh + 20px); /* Position the container relative to the viewport */
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   text-align: center;
   font-family: 'Georgia', serif;
 }
@@ -199,7 +213,7 @@ body {
   background-color: #009cde;
   color: white;
   border: none;
-  font-size: 15px;
+  font-size: 25px;
   padding: 7px 14px;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -212,6 +226,7 @@ body {
   padding: 7px 14px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
 
 .login1-container input[type="submit"]:hover {
   background-color: #007aa3;
