@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Virtual Econ</title>
+</head>
+<body>
+    <div class="title">
+        Virtual Econ
+    </div>
+    <div class="login-container">
+        <h2>Login or Play as Guest</h2>
+        <form action="/login" method="post">
+    <div>
+        <label for="student_id">Student ID:</label>
+        <input type="text" id="student_id" name="student_id" required>
+    </div>
+    <div>
+        <label for="class">Class Number:</label>
+        <input type="number" id="class" name="class" required>
+    </div>
+    <input type="submit" value="Login">
+</form>
+
+        <a href="/play_as_guest">Play as Guest</a>
+        {% if error_message %}
+            <div class="error-message">{{ error_message }}</div>
+        {% endif %}
+    </div>
+    <div class="simulations">
+        <div class="simulation">The Rational Hunter</div>
+        <div class="simulation">Equilibrium Explorer</div>
+        <div class="simulation">Market Taxonomy</div>
+        <div class="simulation">Firm Reactor</div>
+        <div class="simulation">Investment Simulation</div>
+    </div>
+</body>
+</html>

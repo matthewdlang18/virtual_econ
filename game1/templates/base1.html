@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rational Hunter</title
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body, .header-container {
+            margin: 0; /* Reset margin */
+            padding: 0; /* Reset padding */
+        }
+
+        .header-container {
+            position: relative;
+            text-align: center;
+            color: white; /* Adjust the color as needed */
+            width: 100%; /* Full width */
+            background: url("{{ url_for('static', filename='header1.jpg') }}") no-repeat center center; /* Background image */
+            background-size: cover; /* Cover the entire container */
+        }
+
+        .header-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em; /* Adjust the font size as needed */
+        }
+    </style>
+</head>
+<body>
+    <header class="header-container">
+        <a class="header-title" href="{{ url_for('main.game_selection') }}">Virtual Econ</a> <!-- Title on top of the image -->
+    </header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{ url_for('game1.home1') }}">The Rational Hunter</a>
+        {% if session['username'] and session['username'] != 'Guest' %}
+            <span class="navbar-text">Username: {{ session['username'] }}</span> <!-- Display the username -->
+        {% endif %}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                     <a class="nav-link" href="{{ url_for('game1.home1') }}">Start Over</a>
+                </li>
+<li class="nav-item">
+                     <a class="nav-link" href="{{ url_for('game1.instructions1') }}">Instructions</a>
+                </li>
+                {% if session['username'] %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('game1.leaderboard1', class_number=session['class']) }}">Leaderboard</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    {% block content %}
+    <!-- This is where the specific content for each page will go -->
+    {% endblock %}
+</body>
+</html>

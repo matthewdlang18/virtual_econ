@@ -1,0 +1,74 @@
+{% extends "base1.html" %}
+
+{% block content %}
+
+<div class="container">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microeconomic Survival Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+                <h1>Welcome, {{ username }}!</h1> <!-- Display the user's username -->
+            </header>
+        <h1>Choose how you will allocate your time.</h1>
+        <div class="game-info">
+            <p>Age: <span id="age"></span></p>
+            <p>Health: <span id="health"></span></p>
+            <p>Food: <span id="food"></span></p>
+        </div>
+        <div class="user-input">
+            <label for="hunting-hours-input">Hunting Hours (0 - 24): </label>
+            <input type="number" id="hunting-hours-input" min="0" max="24" value="0">
+            <input type="range" id="hunting-hours" min="0" max="24" value="0">
+            <label for="resting-hours-input">Resting Hours (0 - 24): </label>
+            <input type="number" id="resting-hours-input" min="0" max="24" value="0">
+            <input type="range" id="resting-hours" min="0" max="24" value="0">
+            <button id="submit-button" class="blue-button" onclick="submitDecision()">Submit</button>
+            <button id="restart-button" class="blue-button" onclick="startOver()" style="display: none;">Start Over</button>
+            <button id="view-results" class="blue-button" style="display: none;" onclick="window.location.href='{{ url_for('game1.results') }}'">View Results</button>
+
+
+
+        </div>
+        <div class="game-output">
+            <p id="output"></p>
+        </div>
+        <table id="game-log">
+            <thead>
+                <tr>
+                    <th>Age</th>
+                    <th>Health</th>
+                    <th>Food</th>
+                    <th>Net Health Change</th>
+                    <th>Net Food Change</th>
+                    <th>Hunting Hours</th>
+                    <th>Resting Hours</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Log data will be added here -->
+            </tbody>
+        </table>
+        <div class="chart-container" style="display: none;">
+    <canvas id="combined-chart"></canvas>
+    <canvas id="activity-hours-chart"></canvas>
+</div>
+    </div>
+
+
+
+</body>
+</html>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="{{ url_for('static', filename='script1.js') }}"></script>
+</div>
+
+{% endblock %}
+```

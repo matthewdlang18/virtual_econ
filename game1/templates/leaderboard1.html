@@ -1,0 +1,33 @@
+{% extends "base1.html" %}
+
+{% block content %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Leaderboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
+</head>
+<body>
+    <div class="leaderboard-container">
+        <h1>Rational Explorer Leaderboard for Class {{ class_number }}</h1>
+        <table class="leaderboard-table">
+            <tr>
+                <th>Rank</th>
+                <th>Username</th>
+                <th>High Score</th>
+            </tr>
+            {% for i in range(scores.shape[0]) %}
+<tr>
+  <td>{{ i + 1 }}</td>
+  <td>{{ scores.loc[i, 'username'] }}</td>
+  <td>{{ scores.loc[i, 'high_score'] }}</td>
+</tr>
+{% endfor %}
+        </table>
+    </div>
+</body>
+</html>
+
+{% endblock %}
+```

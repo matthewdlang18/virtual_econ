@@ -1,0 +1,431 @@
+body {
+      font-family: 'Roboto', Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+  background-color: #e0e0e0;
+  color: #333;
+  background-image: url('background1.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+
+}
+
+body {
+    background-color: #e8eaf6;
+    color: #000000;
+}
+
+h1 {
+    color: #000000;
+}
+
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ff6f00;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #ffecb3;
+    border-radius: 8px;
+}
+
+.user-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.user-input button {
+    background-color: #ff6f00;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+.game-output {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#game-log {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#game-log th, #game-log td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #eee;
+}
+
+.chart-container {
+    width: 100%;
+    height: 400px;
+    margin-bottom: 20px;
+    overflow: auto; /* Added to handle overflow */
+}
+
+canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+button, a {
+    cursor: pointer;
+}
+
+.header-image {
+    width: 100%;
+    height: 150px; /* Adjust the height as needed */
+    object-fit: cover; /* This will maintain the aspect ratio */
+    border: none; /* Remove the border */
+}
+
+.user-input input[type=range] {
+    width: 90%; /* Increase this as needed */
+    margin: 10px 0;
+    height: 25px;
+}
+
+@media only screen and (max-width: 600px) {
+    body {
+        font-size: 14px;
+    }
+    .user-input button {
+        padding: 15px 30px;
+    }
+    .user-input {
+        flex-direction: column;
+    }
+    .chart-container {
+        height: 300px;  // adjust as needed
+    }
+}
+
+.highlight {
+  color: #ff6347; /* change this to any color you like */
+}
+
+.thead-dark {
+  background-color: #343a40;
+  color: #fff;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.parent-container {
+    background-image: url("background1.jpg");
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+}
+
+.header-container {
+    height: 150px; /* reduce the height from 300px to 150px */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    padding: 20px; /* add some padding */
+}
+
+.header-container h1 {
+    font-family: 'Futura', sans-serif;
+    font-size: 2.5rem; /* Increase or decrease to your liking */
+    color: #fff; /* Set the color of the text to white */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* This adds a slight shadow to the text */
+}
+
+.header-container h2 {
+    font-family: 'Futura', sans-serif;
+    font-size: 2rem; /* Increase or decrease to your liking */
+    color: #fff; /* Set the color of the text to white */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* This adds a slight shadow to the text */
+}
+
+.dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.container {
+    flex-basis: 30%;
+    margin-bottom: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #000000;
+    font-size: 36px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+h2 {
+    color: #1a237e;
+    font-size: 28px;
+    text-align: center;
+}
+
+.chart-container {
+    width: 100%;
+    height: 300px;
+    margin-bottom: 20px;
+    overflow: auto; /* Hide horizontal scrollbar for the container */
+}
+
+canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#game-log {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#game-log th, #game-log td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #eee;
+}
+
+#game-log th {
+    background-color: #343a40;
+    color: #fff; /* This will make the text color white */
+}
+
+#game-log td {
+    color: #000; /* This will make the text color black */
+}
+
+/* Navigation styles */
+nav {
+  background-color: #f8f9fa; /* Light gray color */
+  border-bottom: 2px solid #007BFF; /* Blue color */
+  padding: 10px 0;
+}
+
+.navbar-brand {
+  color: #007BFF; /* Blue color */
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar-nav {
+  margin-left: auto; /* Push the links to the right */
+}
+
+.nav-link {
+  color: #333; /* Dark gray color */
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 20px; /* Add some space between the links */
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: #003da5; /* Blue color on hover */
+}
+
+.button, a.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #003da5;
+    color: #ffffff;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 5px;
+}
+
+a.button {
+    line-height: 20px; /* Adjust as needed */
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+.leaderboard-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 800px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.leaderboard-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+.blue-button {
+    background-color: #003da5;
+    color: white;
+    border: none;
+    padding: 14px 20px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 150px;
+}
+
+.blue-button:hover {
+    background-color: #003da5; /* No change on hover */
+}
+
+
+.center-button {
+    color: #003da5;
+    text-align: center; /* Center the content within the div */
+}
+
+.guest-button {
+    display: inline; /* Inline display to fit the parent's text alignment */
+}
+
+.button {
+    background-color: #003da5; /* Set the blue color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center; /* Center the text within the button */
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 200px; /* Set the same width for both buttons */
+    text-decoration: none; /* Remove the underline from the link */
+    height: 40px; /* Adjust the height as needed */
+}
+}
+
+.button:hover {
+    opacity: 0.8; /* Hover effect */
+}
+
+.center-buttons {
+    color: #1a237e;
+    text-align: center; /* Center the content within the div */
+}
+
+.user-input button {
+    background-color: #003da5; /* Set to blue */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: 40px; /* Adjust the height as needed */
+}
+}
+
+.user-input button:hover {
+    background-color: #003da5; /* Set to the same blue, no change on hover */
+}
+
+.header-title {
+    text-align: center;
+    margin: 10px;
+    font-size: 90px;
+    font-weight: bold;
+    color: #ffb81c;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    transition: font-size 0.3s ease;
+    white-space: nowrap;
+    font-family: 'Georgia', serif;
+    -webkit-text-stroke: 2px black;
+    text-stroke: 2px black;
+}

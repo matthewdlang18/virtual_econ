@@ -1,0 +1,29 @@
+{% extends "base1.html" %}
+
+{% block content %}
+}<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rational Hunter: A Game of Choices</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>The Rational Hunter: A Game of Choices</h1>
+        <h2>
+            <p>Embark on a journey of survival in a game of choices.</p>
+            <p>You'll start at age 18, and each round, you'll be given a choice of how many hours to spend hunting and how many hours to spend resting.</p>
+            <p>Can you make the right decisions and survive to the leaderboard?</p>
+        </h2>
+        <div class="center-button">
+            <p><a href="{{ url_for('game1.play_game') }}" class="blue-button">Start Game</a></p>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="{{ url_for('static', filename='script1.js') }}"></script>
+</body>
+</html>
+
+{% endblock %}

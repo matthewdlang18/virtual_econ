@@ -1,0 +1,86 @@
+{% extends "base1.html" %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
+    <style>
+    textarea[name='strategy'] {
+        width: 80%; /* You can adjust this value to your preference */
+        resize: vertical; /* Allows vertical resizing only */
+    }
+    h1, h2, h3 {
+        color: black;
+    }
+    textarea[name='strategy'] {
+        width: 80%; /* You can adjust this value to your preference */
+        resize: vertical; /* Allows vertical resizing only */
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Your Final Age: {{ log[-1].age + 1 }}</h1>
+     <div class="center-button">
+        <p><a href="{{ url_for('game1.leaderboard1', class_number=class_number) }}" class="blue-button">View Leaderboard</a></p>
+</div>
+    </div>
+
+    <div class="dashboard">
+        <div class="container">
+            <h2>Health and Food Status Over Time</h2>
+            <div class="chart-container">
+                <canvas id="combined-chart"></canvas>
+            </div>
+        </div>
+        <div class="container">
+            <h2>Activity Hours Over Time</h2>
+            <div class="chart-container">
+                <canvas id="activity-hours-chart"></canvas>
+            </div>
+        </div>
+        <div class="container">
+            <h2>Game Log</h2>
+            <table id="game-log">
+                <thead>
+                    <tr>
+                        <th>Age</th>
+                        <th>Health</th>
+                        <th>Food</th>
+                        <th>Net Health Change</th>
+                        <th>Net Food Change</th>
+                        <th>Hunting Hours</th>
+                        <th>Resting Hours</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in log[1:] %}
+                    <tr>
+                        <td>{{ (entry.age + 1)|round(2) }}</td>
+                        <td>{{ entry.health|round(2) }}</td>
+                        <td>{{ entry.food|round(2) }}</td>
+                        <td>{{ entry.net_health_change|round(2) }}</td>
+                        <td>{{ entry.net_food_change|round(2) }}</td>
+                        <td>{{ entry.hunting_hours|round(2) }}</td>
+                        <td>{{ entry.resting_hours|round(2) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+        <div class="center-button">
+        <p><a href="{{ url_for('game1.home1') }}" class="blue-button">Start Over</a></p>
+</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="{{ url_for('static', filename='results1.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.0/html2pdf.bundle.min.js"></script>
+</body>
+</html>
+
+{% endblock %}

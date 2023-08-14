@@ -1,0 +1,29 @@
+{% extends "base1.html" %}
+
+{% block content %}
+<div class="container">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microeconomic Survival Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
+</head>
+  <h1>Instructions</h1>
+  <ol>
+    <li><strong>Objective:</strong> The objective of the game is to survive as long as possible. You have two resources to manage: health and food. As you age, your health and food levels will change based on your decisions about how to spend your time.</li>
+    <li><strong>Starting State:</strong> You start the game at age 18, with initial health and food scores of 50.</li>
+    <li><strong>Gameplay:</strong> Each "turn" in the game represents one year of your character's life. Each year, you have to decide how many hours to spend hunting and how many hours to spend resting. The total number of hours for both activities must add up to 24. The distribution of these hours impacts your health and food levels.
+        <ul>
+            <li><strong>Hunting Hours:</strong> The more hours you spend hunting, the more food you can gather. However, hunting is strenuous and can lower your health.</li>
+            <li><strong>Resting Hours:</strong> The more hours you spend resting, the more you can recover your health. However, resting doesn't provide any food.</li>
+        </ul>
+    </li>
+    <li><strong>Game Over:</strong> The game ends when your health or food score reaches zero, indicating that you didn't survive.</li>
+    <li><strong>Charts and Logs:</strong> The game provides two charts that track your health, food, and activity hours over time. There's also a log table that details the changes in your health and food levels each year, and the hours you decided to spend on each activity.</li>
+    <li><strong>Resetting the Game:</strong> If you reach a game over state, you can reset the game by clicking on the "Start Over" button. This will reset your age to 18 and both your health and food scores to 50. Your previous game's logs and charts will be cleared.</li>
+    <li><strong>Browser Navigation:</strong> If you navigate away from the game page, you can return to it using your browser's back and forward buttons. The game will be reset to the starting state when you return.</li>
+  </ol>
+  <p>Remember, the key to the game is balancing your time between hunting and resting to maintain your health and food levels. Good luck!</p>
+</div>
+{% endblock %}

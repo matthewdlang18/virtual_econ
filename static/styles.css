@@ -1,0 +1,227 @@
+body {
+  background-color: #2a2a2a;
+  background-image: url('landing.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+
+.title {
+  font-size: 90px;
+  text-align: center;
+  padding-top: 10vh;
+  font-weight: bold;
+  color: #ffb81c;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  transition: font-size 0.3s ease;
+  white-space: nowrap;
+  font-family: 'Georgia', serif;
+  -webkit-text-stroke: 2px black;
+  text-stroke: 2px black;
+}
+
+.simulations {
+  position: absolute;
+  top: 42%; /* Adjust this value to position the simulations below the title */
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centering technique */
+}
+
+.simulation {
+  position: relative; /* Relative positioning within the parent .simulations class */
+  font-size: 36px;
+  font-weight: bold;
+  color: #009cde;
+  transition: font-size 0.3s ease;
+  white-space: nowrap;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+  margin: 30px auto; /* Margins for spacing between simulations */
+  text-align: center; /* Center text within the simulation elements */
+}
+
+.simulation:hover {
+  font-size: 60px;
+}
+
+@media only screen and (max-width: 768px) {
+  .simulations {
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .simulation {
+    font-size: 28px; /* Smaller font size for mobile */
+    margin: 15px auto; /* Adjusted margins for mobile */
+  }
+
+  .title {
+    font-size: 60px; /* Smaller title font size for mobile */
+    padding-top: 5vh; /* Adjusted padding for mobile */
+  }
+}
+
+
+
+.login-container {
+  position: absolute;
+  bottom: -5%; /* Positioning the login container at the bottom of the page */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-family: 'Georgia', serif;
+}
+
+.login-container h2 {
+  font-size: 36px;
+  color: #ffb81c;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+.login-container label,
+.login-container a {
+  font-size: 30px;
+  font-weight: bold;
+  color: #009cde;
+  margin: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+.login-container input {
+  font-size: 30px;
+  font-weight: bold;
+  color: #0f0f0f;
+  margin: 10px;
+}
+
+.login-container input[type="submit"] {
+  background-color: #009cde;
+  color: white;
+  border: none;
+  font-size: 15px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-container input[type="submit"]:hover {
+  background-color: #007aa3;
+}
+
+.login-container .error-message {
+  color: red;
+  font-size: 18px;
+}
+
+.login-link {
+  font-size: 36px;
+  font-weight: bold;
+  color: #009cde;
+  text-align: center;
+  margin: 30px auto;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+  cursor: pointer; /* Makes the text appear clickable */
+  position: absolute; /* Positions the link at the bottom of the page */
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%); /* Centers the link horizontally */
+}
+
+.login-link a {
+  text-decoration: none; /* Removes the underline from the link */
+  color: inherit; /* Inherits the color from the parent .login-link */
+}
+
+.login-link:hover {
+  font-size: 60px;
+}
+
+.logout-link {
+  font-size: 36px;
+  font-weight: bold;
+  color: #009cde;
+  text-align: center;
+  margin: 30px auto;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+  cursor: pointer; /* Makes the text appear clickable */
+  position: absolute; /* Positions the link at the bottom of the page */
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%); /* Centers the link horizontally */
+}
+
+.logout-link a {
+  text-decoration: none; /* Removes the underline from the link */
+  color: inherit; /* Inherits the color from the parent .logout-link */
+}
+
+.logout-link:hover {
+  font-size: 60px;
+}
+
+
+.login1-container {
+  position: absolute;
+  bottom: 35%; /* Positioning the login container at the bottom of the page */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-family: 'Georgia', serif;
+}
+
+.login1-container h2 {
+  font-size: 36px;
+  color: #ffb81c;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+.login1-container label,
+.login1-container a {
+  font-size: 30px;
+  font-weight: bold;
+  color: #009cde;
+  margin: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+.login1-container input {
+  font-size: 30px;
+  font-weight: bold;
+  color: #0f0f0f;
+  margin: 10px;
+}
+
+.login-container input[type="submit"] {
+  background-color: #009cde;
+  color: white;
+  border: none;
+  font-size: 15px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.login-button {
+  background-color: #009cde;
+  color: white;
+  border: none;
+  font-size: 15px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+.login1-container input[type="submit"]:hover {
+  background-color: #007aa3;
+}
+
+.login1-container .error-message {
+  color: red;
+  font-size: 18px;
+}
+
+.simulation, .login-link a, .logout-link a {
+    cursor: pointer;
+}
