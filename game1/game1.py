@@ -3,7 +3,6 @@ import random
 import math
 from google.cloud import firestore
 import pandas as pd
-from pandas import to_numeric
 
 game1 = Blueprint('game1', __name__, template_folder='templates')
 
