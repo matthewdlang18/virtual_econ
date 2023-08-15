@@ -14,17 +14,16 @@
     <div class="login-container">
         <h2>Login or Play as Guest</h2>
         <form action="/login" method="post">
-    <div>
-        <label for="student_id">Student ID:</label>
-        <input type="text" id="student_id" name="student_id" required>
-    </div>
-    <div>
-        <label for="class">Class Number:</label>
-        <input type="number" id="class" name="class" required>
-    </div>
-    <input type="submit" value="Login">
-</form>
-
+            <div>
+                <label for="student_id">Student ID:</label>
+                <input type="text" id="student_id" name="student_id" required>
+            </div>
+            <div>
+                <label for="class">Class Number:</label>
+                <input type="number" id="class" name="class" required>
+            </div>
+            <input type="submit" value="Login">
+        </form>
         <a href="/play_as_guest">Play as Guest</a>
         {% if error_message %}
             <div class="error-message">{{ error_message }}</div>

@@ -12,9 +12,9 @@
         Welcome, {{ username }}!
     </div>
     {% if not is_guest %}
-        <div class="class-info">
+        <h2 class="class-info">
             Class: {{ class_number }}
-        </div>
+        </h2>
     {% endif %}
     <div class="simulations">
         <div class="simulation" data-href={{ url_for('game1.home1') }}>The Rational Hunter</div>

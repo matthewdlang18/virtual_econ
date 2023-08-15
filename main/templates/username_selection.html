@@ -11,13 +11,12 @@
     <div class="title">
         Virtual Econ
     </div>
-    <div class="login1-container">
-    <h2>Existing Username: {{ existing_username }}</h2>
-    {% if existing_username %}
+    <div class="login-container">
+        {% if existing_username %}
         <div class="keep-username">
-            <a href="/keep_username">Keep Username: {{ existing_username }}</a>
+            <a href="/keep_username">Keep Current Username: {{ existing_username }}</a>
         </div>
-        <div class="or">
+            <div class="or">
             OR
         </div>
         <form action="/username" method="post">
