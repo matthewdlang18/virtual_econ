@@ -13,23 +13,41 @@ body {
   height: 100vh;
   position: relative;
 }
+.header-container {
+    position: absolute;
+    top: 15vh;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
 
 .title {
-  position: absolute;
-  top: 5vh; /* Position the title relative to the viewport */
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 90px;
-  text-align: center;
-  padding-top: 10vh;
-  font-weight: bold;
-  color: #ffb81c;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
-  transition: font-size 0.3s ease;
-  white-space: nowrap;
-  font-family: 'Georgia', serif;
-  -webkit-text-stroke: 2px black;
+   padding-top: 10vh; /* Adjusted padding for mobile */
+    font-size: 90px;
+  max-width: 90%;
+    font-weight: bold;
+    color: #ffb81c;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    white-space: nowrap;
+    font-family: 'Georgia', serif;
+    -webkit-text-stroke: 2px black;
+    margin-bottom: 0;
 }
+
+.class-info {
+    position: absolute;
+    top: calc(15vh + 100px);  /* Adjust based on the font-size and position of .title */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 36px;
+    text-align: center;
+    color: #ffb81c;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    font-family: 'Georgia', serif;
+    margin-top: 0;  /* Ensure there's no top margin */
+}
+
+
 
 .simulations {
   position: absolute;
@@ -62,28 +80,9 @@ body {
   font-size: 60px;
 }
 
-@media only screen and (max-width: 768px) {
-  .simulations {
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .simulation {
-    font-size: 28px; /* Smaller font size for mobile */
-    margin: 15px auto; /* Adjusted margins for mobile */
-  }
-
-  .title {
-    font-size: 60px; /* Smaller title font size for mobile */
-    padding-top: 5vh; /* Adjusted padding for mobile */
-  }
-}
-
-
  .login-container {
   position: absolute;
-  bottom: calc(25vh + 20px); /* Position the container relative to the viewport */
+  bottom: calc(35vh + 20px); /* Position the container relative to the viewport */
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
@@ -91,22 +90,40 @@ body {
 }
 
 .login-container h2 {
-  font-size: 36px;
+  font-size: 30px;
   color: #ffb81c;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
 }
 
 .login-container label,
 .login-container a {
-  font-size: 36px;
+  font-size: 30px;
   font-weight: bold;
   color: #009cde;
   margin: 10px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
 }
 
+.or {
+  font-size: 20px;
+  font-weight: bold;
+  color: #009cde;
+  margin: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+.keep-username, .keep-username a {
+    font-size: 30px;
+    font-weight: bold;
+    color: #ffb81c;
+    margin: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    text-decoration: none; /* This will remove the default underline from the anchor tag */
+}
+
+
 .login-container input {
-  font-size: 30px;
+  font-size: 20px;
   font-weight: bold;
   color: #0f0f0f;
   margin: 10px;
@@ -116,14 +133,10 @@ body {
   background-color: #009cde;
   color: white;
   border: none;
-  font-size: 24px;
+  font-size: 15px;
   padding: 7px 14px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-}
-
-.login-container input[type="submit"]:hover {
-  background-color: #007aa3;
 }
 
 .login-container .error-message {
@@ -209,15 +222,6 @@ body {
   margin: 10px;
 }
 
-.login-container input[type="submit"] {
-  background-color: #009cde;
-  color: white;
-  border: none;
-  font-size: 25px;
-  padding: 7px 14px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
 .login-button {
   background-color: #009cde;
   color: white;
@@ -239,4 +243,146 @@ body {
 
 .simulation, .login-link a, .logout-link a {
     cursor: pointer;
+}
+
+
+
+@media only screen and (max-width: 768px) {
+  .header-container {
+    position: absolute;
+    top: 2vh;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+  .simulations {
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .simulation {
+    font-size: 24px; /* Smaller font size for mobile */
+    margin: 10px auto; /* Adjusted margins for mobile */
+  }
+
+  .title {
+    font-size: 40px; /* Smaller title font size for mobile */
+    padding-top: 10vh; /* Adjusted padding for mobile */
+    white-space: normal; /* Allow wrapping */
+    width: 90%; /* Optional: set a width less than 100% to provide some padding */
+    text-align: center; /* Center the title */
+    margin-left: auto; /* Center the block */
+    margin-right: auto; /* Center the block */
+    top: 1vh;
+    -webkit-text-stroke: 0; /* This will remove the text stroke */
+}
+
+  .login-container h2 {
+    font-size: 20px;
+    padding-top: 15px;
+  }
+
+  .login-container label,
+  .login-container a {
+  font-size: 15px;
+  font-weight: bold;
+  color: #009cde;
+  margin: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+.login-container input {
+  font-size: 14px;
+  font-weight: bold;
+  color: #0f0f0f;
+  margin: 10px;
+}
+
+.login-container input[type="submit"] {
+  background-color: #009cde;
+  color: white;
+  border: none;
+  font-size: 10px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-container .error-message {
+  color: red;
+  font-size: 18px;
+}
+.login-link {
+  font-size: 24px;
+  font-weight: bold;
+  color: #009cde;
+  text-align: center;
+  margin: 20px auto;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+  cursor: pointer; /* Makes the text appear clickable */
+  position: absolute; /* Positions the link at the bottom of the page */
+  bottom: 17%;
+  left: 50%;
+  transform: translateX(-50%); /* Centers the link horizontally */
+}
+
+.logout-link {
+  font-size: 24px;
+  font-weight: bold;
+  color: #009cde;
+  text-align: center;
+  margin: 20px auto;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+  cursor: pointer; /* Makes the text appear clickable */
+  position: absolute; /* Positions the link at the bottom of the page */
+  bottom: 17%;
+  left: 50%;
+  transform: translateX(-50%); /* Centers the link horizontally */
+}
+
+.keep-username, .keep-username a {
+    font-size: 15px;
+    font-weight: bold;
+    color: #ffb81c;
+    margin: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    text-decoration: none; /* This will remove the default underline from the anchor tag */
+}
+
+.or {
+   font-size: 15px;
+    font-weight: bold;
+    color: #009cde;
+    margin: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    text-decoration: none; /* This will remove the default underline from the anchor tag */
+}
+
+.class-info {
+    position: absolute;
+    top: calc(15vh + 65px);  /* Based on the font-size of .title. Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;  /* Adjust size as you see fit */
+    text-align: center;
+    color: #ffb81c;  /* Same color as .title */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    font-family: 'Georgia', serif;
+}
+
+.simulation:hover {
+  font-size: 30px;
+}
+
+.logout-link:hover {
+  font-size: 30px;
+}
+
+.login-link:hover {
+  font-size: 30px;
+}
+
+}
+
 }

@@ -115,18 +115,44 @@ button, a {
 }
 
 @media only screen and (max-width: 600px) {
-    body {
-        font-size: 14px;
-    }
-    .user-input button {
-        padding: 15px 30px;
-    }
-    .user-input {
-        flex-direction: column;
-    }
-    .chart-container {
-        height: 300px;  // adjust as needed
-    }
+  .title {
+    text-align: center;
+    font-size: 18px; /* Smaller font size */
+    padding: 10px; /* Added padding */
+  }
+
+  .login-container {
+    width: 90%; /* Full width with 5% padding on each side */
+    max-width: 300px; /* Limit the maximum width */
+    margin: 0 auto;
+    padding: 10px; /* Reduced padding */
+  }
+
+  .login-container label,
+  .login-container input {
+    width: 100%; /* Full width */
+    font-size: 14px; /* Smaller font size */
+    padding: 5px; /* Added padding for better touch */
+    margin-bottom: 10px;
+  }
+
+  .login-container input[type="submit"] {
+    padding: 10px;
+    width: 100%; /* Full width */
+    font-size: 16px; /* Adjusted font size */
+  }
+
+  .login-container a {
+    display: block;
+    text-align: center;
+    margin: 10px 0;
+    font-size: 14px; /* Smaller font size */
+  }
+
+  .error-message {
+    text-align: center;
+    font-size: 14px; /* Smaller font size */
+  }
 }
 
 .highlight {
