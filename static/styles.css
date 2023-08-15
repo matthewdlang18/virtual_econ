@@ -268,13 +268,13 @@ body {
 
   .title {
     font-size: 40px; /* Smaller title font size for mobile */
-    padding-top: 10vh; /* Adjusted padding for mobile */
+    padding-top: 7vh; /* Adjusted padding for mobile */
     white-space: normal; /* Allow wrapping */
     width: 90%; /* Optional: set a width less than 100% to provide some padding */
     text-align: center; /* Center the title */
     margin-left: auto; /* Center the block */
     margin-right: auto; /* Center the block */
-    top: 1vh;
+    top: 0vh;
     -webkit-text-stroke: 0; /* This will remove the text stroke */
 }
 
@@ -322,7 +322,7 @@ body {
   text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
   cursor: pointer; /* Makes the text appear clickable */
   position: absolute; /* Positions the link at the bottom of the page */
-  bottom: 17%;
+  bottom: 20%;
   left: 50%;
   transform: translateX(-50%); /* Centers the link horizontally */
 }
@@ -336,7 +336,7 @@ body {
   text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
   cursor: pointer; /* Makes the text appear clickable */
   position: absolute; /* Positions the link at the bottom of the page */
-  bottom: 17%;
+  bottom: 20%;
   left: 50%;
   transform: translateX(-50%); /* Centers the link horizontally */
 }
@@ -361,7 +361,7 @@ body {
 
 .class-info {
     position: absolute;
-    top: calc(15vh + 65px);  /* Based on the font-size of .title. Adjust as needed */
+    top: calc(15vh + 60px);  /* Based on the font-size of .title. Adjust as needed */
     left: 50%;
     transform: translateX(-50%);
     font-size: 24px;  /* Adjust size as you see fit */
