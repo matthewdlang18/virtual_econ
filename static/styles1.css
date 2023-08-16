@@ -17,9 +17,6 @@ body {
     color: #000000;
 }
 
-h1 {
-    color: #000000;
-}
 
 
 .container {
@@ -31,11 +28,11 @@ h1 {
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #ff6f00;
+.large-age {
+    font-size: 48px;
+    /* You can add other styles here if needed */
 }
+
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Montserrat', sans-serif;
@@ -74,24 +71,6 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 20px;
 }
 
-#game-log {
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-#game-log th, #game-log td {
-    padding: 10px;
-    text-align: center;
-    border: 1px solid #eee;
-}
-
-.chart-container {
-    width: 100%;
-    height: 400px;
-    margin-bottom: 20px;
-    overflow: auto; /* Added to handle overflow */
-}
-
 canvas {
     width: 100% !important;
     height: 100% !important;
@@ -114,45 +93,6 @@ button, a {
     height: 25px;
 }
 
-@media only screen and (max-width: 600px) {
-  .title {
-    text-align: center;
-    font-size: 18px; /* Smaller font size */
-    padding: 10px; /* Added padding */
-  }
-
-  .login-container {
-    width: 90%; /* Full width with 5% padding on each side */
-    max-width: 300px; /* Limit the maximum width */
-    margin: 0 auto;
-    padding: 10px; /* Reduced padding */
-  }
-
-  .login-container label,
-  .login-container input {
-    width: 100%; /* Full width */
-    font-size: 14px; /* Smaller font size */
-    padding: 5px; /* Added padding for better touch */
-    margin-bottom: 10px;
-  }
-
-  .login-container input[type="submit"] {
-    padding: 10px;
-    width: 100%; /* Full width */
-    font-size: 16px; /* Adjusted font size */
-  }
-
-  .login-container a {
-    display: block;
-    text-align: center;
-    margin: 10px 0;
-    font-size: 14px; /* Smaller font size */
-  }
-
-  .error-message {
-    text-align: center;
-    font-size: 14px; /* Smaller font size */
-  }
 }
 
 .highlight {
@@ -236,6 +176,7 @@ button, a {
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 20px;
+    font-size: 24px;
 }
 
 .container {
@@ -249,7 +190,7 @@ button, a {
 
 h1 {
     color: #000000;
-    font-size: 36px;
+    font-size: 48px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     text-align: center;
 }
@@ -281,6 +222,7 @@ canvas {
     padding: 10px;
     text-align: center;
     border: 1px solid #eee;
+    font-size: 14px;
 }
 
 #game-log th {
@@ -349,6 +291,7 @@ a.button {
     margin: 20px auto;
     max-width: 800px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
 }
 
 .leaderboard-table {
@@ -363,15 +306,15 @@ a.button {
     text-align: center;
 }
 
+.smaller-heading {
+    font-size: 24px;  /* Adjust this value as desired */
+}
+
 .leaderboard-table th {
     background-color: #f0f0f0;
     font-weight: bold;
 }
 
-h1 {
-    text-align: center;
-    color: #333;
-}
 .blue-button {
     background-color: #003da5;
     color: white;
@@ -455,3 +398,134 @@ h1 {
     -webkit-text-stroke: 2px black;
     text-stroke: 2px black;
 }
+
+
+@media only screen and (max-width: 600px) {
+  .title {
+    text-align: center;
+    font-size: 36px;
+    padding: 10px;
+  }
+  .header-title {
+    font-size: 36px;
+    -webkit-text-stroke: 0.5px black;
+  }
+  .navbar-brand {
+    font-size: 18px;
+  }
+
+  .navbar-text{
+    font-size: 10px;
+  }
+
+  .header-container {
+    height: 100px;
+  }
+
+  .container {
+    max-width: 95%;
+    margin: 10px auto;
+    padding: 10px;
+    font-size: 12px;
+  }
+
+
+  h1 {
+    font-size: 14px;
+    margin-top: 8px;
+  }
+
+  .game-info p {
+    font-size: 12px;
+      height: 24px;
+  }
+
+  .user-input label,
+  .user-input input,
+  .user-input button {
+    font-size: 12px;
+    margin: 4px 0;
+  }
+
+  .game-output p {
+    font-size: 10px;
+  }
+
+  #game-log {
+    width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+  }
+.leaderboard-table{
+    width: 100%;
+    background-color: gray;
+    font-weight: bold;
+  }
+
+.leaderboard-table th, .leaderboard-table td {
+    font-size: 10px;
+    padding: 6px;
+    border: 1px solid #ddd;
+  }
+
+  #game-log th,
+  #game-log td {
+    font-size: 10px;
+    padding: 6px;
+    border: 1px solid #ddd;
+  }
+
+  .leaderboard-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  #game-log tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+.leaderboard-table tr:hover {
+    background-color: #eaeaea;
+  }
+  #game-log tr:hover {
+    background-color: #eaeaea;
+  }
+
+  .chart-container {
+    display: block;
+    width: 100%;
+    width: 100%;
+    height: 300px;
+    margin-bottom: 20px;
+    overflow: auto; /* Hide horizontal scrollbar for the container */
+    clear: both; /* Ensures each container starts on a new line */
+}
+}
+
+.dashboard {
+    display: flex;
+    flex-direction: column; /* Make flex items stack vertically */
+    justify-content: center; /* Center items vertically if there's extra space */
+    align-items: center; /* Center items horizontally */
+    padding: 20px;
+}
+
+.dashboard .container {
+    width: 100%;
+    clear: both;
+}
+.container h1 {
+    font-size: 16px; /* Reduce the font size for chart titles */
+}
+
+    .container h2 {
+        font-size: 16px;  /* Reduce the font size for chart titles */
+        text-align: center; /* Center the titles */
+    }
+
+    .blue-button {
+        font-size: 10px;   /* Adjust font size for button text */
+        padding: 6px 10px; /* Adjust button padding (vertical and horizontal) */
+        margin: 5px;       /* Adjust margin around the button if needed */
+    }
+}
+
+    }
