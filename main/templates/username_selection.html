@@ -26,7 +26,7 @@
             </div>
             <input type="submit" value="Continue" class="login-button">
         </form>
-    {% else %}
+        {% else %}
         <form action="/username" method="post">
             <div>
                 <label for="username">Choose a Username:</label>
@@ -34,8 +34,10 @@
             </div>
             <input type="submit" value="Continue" class="login-button">
         </form>
-    {% endif %}
-</div>
-
+        {% endif %}
+        <div class="home-button">
+            <a href="/" class="button">Home</a>
+        </div>
+    </div>
 </body>
 </html>
