@@ -3,6 +3,16 @@
 {% block title %}Welcome{% endblock %}
 
 {% block content %}
+<script>
+    const pagePath = window.location.pathname;
+
+    if (sessionStorage.getItem(pagePath)) {
+        window.location.href = "{{ url_for('game2.home2') }}";
+    }
+    sessionStorage.setItem(pagePath, 'visited');
+</script>
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,13 +36,5 @@
         </form>
     </div>
 </div>
-<script>
-    function validateForm() {
-        var x = document.forms[0]["equilibrium_quantity"].value;
-        if (isNaN(x) || x == "") {
-            alert("Equilibrium quantity must be a number");
-            return false;
-        }
-    }
-</script>
+
 {% endblock %}
