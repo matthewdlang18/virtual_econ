@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microeconomic Survival Game</title>
+    <title>The Rational Hunter</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
 </head>
 <body>
@@ -15,7 +15,7 @@
         <header>
                 <h1>Welcome, {{ username }}!</h1> <!-- Display the user's username -->
             </header>
-        <h1>Choose how you will allocate your time.</h1>
+        <h2>Choose how you will allocate your time.</h2>
         <div class="game-info">
             <p>Age: <span id="age"></span></p>
             <p>Health: <span id="health"></span></p>
@@ -31,9 +31,6 @@
             <button id="submit-button" class="blue-button" onclick="submitDecision()">Submit</button>
             <button id="restart-button" class="blue-button" onclick="startOver()" style="display: none;">Start Over</button>
             <button id="view-results" class="blue-button" style="display: none;" onclick="window.location.href='{{ url_for('game1.results') }}'">View Results</button>
-
-
-
         </div>
         <div class="game-output">
             <p id="output"></p>

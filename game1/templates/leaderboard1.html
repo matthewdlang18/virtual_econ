@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="leaderboard-container">
-        <h1 class="smaller-heading">Rational Explorer Leaderboard for Class {{ class_number }}</h1>
+        <h2>Rational Hunter Leaderboard for Class {{ class_number }}</h2>
         <table class="leaderboard-table">
             <tr>
                 <th>Rank</th>
@@ -25,7 +25,8 @@
 </tr>
 {% endfor %}
         </table>
-        <div class="center-button">
+        <br>
+        <div class="button-container">
     <button id="restart-button" class="blue-button" onclick="window.location.href='{{ url_for('game1.home1') }}'">Start Over</button>
             </div>
     </div>

@@ -24,14 +24,15 @@
 <body>
 <div class="container">
     <h1 class="large-age">Your Final Age: {{ log[-1].age + 1 }}</h1>
-     <div class="center-button">
-        <p><a href="{{ url_for('game1.leaderboard1', class_number=class_number) }}" class="blue-button">View Leaderboard</a></p>
+     <div class="button-container">
+        <p><a href="{{ url_for('game1.leaderboard1', class_number=class_number) }}" class="blue-button">View Leaderboard</a>
+        <a href="{{ url_for('game1.home1') }}" class="blue-button">Start Over</a></p>
 </div>
     </div>
 
     <div class="dashboard">
         <div class="container">
-            <h2>Health and Food Status Over Time</h2>
+            <h2>Health and Food Status by Age</h2>
             <div class="chart-container">
                 <canvas id="combined-chart"></canvas>
             </div>
@@ -72,8 +73,7 @@
             </table>
         </div>
     </div>
-        <div class="center-button">
-        <p><a href="{{ url_for('game1.home1') }}" class="blue-button">Start Over</a></p>
+
 </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

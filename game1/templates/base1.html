@@ -12,30 +12,7 @@
     <title>The Rational Hunter</title
     <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        body, .header-container {
-            margin: 0; /* Reset margin */
-            padding: 0; /* Reset padding */
-        }
-
-        .header-container {
-            position: relative;
-            text-align: center;
-            color: white; /* Adjust the color as needed */
-            width: 100%; /* Full width */
-            background: url("{{ url_for('static', filename='header1.jpg') }}") no-repeat center center; /* Background image */
-            background-size: cover; /* Cover the entire container */
-        }
-
-        .header-title {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 2em; /* Adjust the font size as needed */
-        }
-    </style>
-</head>
+    </head>
 <body>
     <header class="header-container">
         <a class="header-title" href="{{ url_for('main.game_selection') }}">Virtual Econ</a> <!-- Title on top of the image -->
