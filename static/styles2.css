@@ -1,0 +1,412 @@
+/* === BASE STYLES === */
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+    background-color: #e0e0e0;
+    color: #333;
+    background-image: url('background2.jpg'); /* Assuming the background remains the same */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+button, a {
+    cursor: pointer;
+}
+
+canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* === LAYOUT STYLES === */
+.container {
+    max-width: 800px;
+    margin: 20px auto; /* keep this as is since it already has a 20px top and bottom margin */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+
+.header-container {
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    padding: 250;
+    background: url("header2.jpg") no-repeat center center;
+    background-size: cover;
+}
+
+.header-title {
+    text-align: center;
+    margin: 10px;
+    font-size: 90px;
+    font-weight: bold;
+    color: #ffb81c;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    transition: font-size 0.3s ease;
+    white-space: nowrap;
+    font-family: 'Georgia', serif;
+    -webkit-text-stroke: 2px black;
+    text-stroke: 2px black;
+}
+
+
+.header-container h1 {
+    font-family: 'Futura', sans-serif;
+    font-size: 2.5rem;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.header-container h2 {
+    font-family: 'Futura', sans-serif;
+    font-size: 2rem;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+    color: #000000;
+    font-size: 48px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+h2 {
+    color: #1a237e;
+    font-size: 28px;
+    text-align: center;
+}
+
+h3 {
+    color: #1a237e;
+    font-size: 20px;
+    text-align: center;
+}
+
+.dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+    font-size: 24px;
+}
+
+/* === NAVBAR STYLES === */
+nav {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #007BFF;
+    padding: 10px 0;
+}
+
+.navbar-brand {
+    color: #007BFF;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar-nav {
+    margin-left: auto;
+}
+
+.nav-link {
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 20px;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    color: #003da5;
+}
+
+/* === Button STYLES === */
+.blue-button {
+    background-color: #003da5;
+    color: white;
+    border: none;
+    padding: 14px 20px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 150px;
+}
+
+.blue-button:hover {
+    background-color: #003da5;
+}
+
+.center-button {
+    color: #003da5;
+    text-align: center;
+}
+
+.button-container {
+    text-align: center;
+}
+
+/* ===Results STYLES === */
+.results-container {
+    max-width: 95%;
+    margin: 30px auto;
+}
+
+.results-header {
+    font-family: 'Futura', sans-serif;
+    font-size: 1.5rem;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.results-section {
+    flex: 1;
+    min-width: 400px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    overflow: auto;
+    background-color: #fff;
+}
+
+.results-section table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.results-section table th,
+.results-section table td {
+    min-width: 80px;
+    word-wrap: break-word;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.results-section:nth-child(2) {
+    flex: 2;
+    min-width: 600px;
+}
+
+.desktop-table {
+        display: block; /* Show desktop table */
+    }
+
+    .mobile-table {
+        display: none; /* Hide mobile tables */
+    }
+
+/* ===Leaderboard STYLES === */
+
+.leaderboard-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 800px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+}
+
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+
+.leaderboard-table th {
+    background-color: palegoldenrod;
+    font-weight: bold;
+}
+
+.leaderboard-table tr:nth-child(even) {
+    background-color: #009cde;
+}
+
+@media (max-width: 768px) {
+    .header-title{
+        text-align: center;
+        margin: 5px; /* Reduced margin */
+        font-size: 36px;
+        font-weight: bold;
+        color: #ffb81c;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+        transition: font-size 0.3s ease;
+        white-space: nowrap;
+        font-family: 'Georgia', serif;
+        -webkit-text-stroke: 1px black;
+        text-stroke: 1px black;
+    }
+
+
+    .header-container {
+        height: 120px; /* Reduced height */
+    }
+
+    .title {
+        text-align: center;
+        font-size: 36px;
+        padding: 5px; /* Reduced padding */
+    }
+
+    .navbar-brand {
+        font-size: 18px;
+    }
+
+    .navbar-text {
+        font-size: 10px;
+    }
+
+/* === LAYOUT STYLES === */
+
+    .container {
+        max-width: 95%;
+        margin: 5px auto; /* Reduced margin */
+        padding: 5px;     /* Reduced padding */
+        font-size: 12px;
+    }
+
+    .container h1 {
+        font-size: 18px; /* Adjust as needed */
+        margin-top: 10px; /* Adjust as needed */
+        margin-bottom: 10px; /* Adjust as needed */
+    }
+
+    .container h2 {
+        font-size: 14px; /* Adjust as needed */
+        margin-top: 5px; /* Adjust as needed */
+        margin-bottom: 5px; /* Adjust as needed */
+    }
+
+    .container h3{
+        font-size: 12px; /* Adjust as needed */
+        margin-top: 5px; /* Adjust as needed */
+        margin-bottom: 5px; /* Adjust as needed */
+    }
+
+    .container ul {
+        padding-left: 20px; /* Adjust as needed */
+    }
+
+    .container ul li {
+        font-size: 10px; /* Adjust as needed */
+        margin-bottom: 5px; /* Adjust as needed */
+    }
+
+/* === Button Styles ===  */
+    .blue-button {
+    background-color: #003da5;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    text-align: center;
+    display: inline-block;
+    font-size: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 150px;
+}
+/* ===Results STYLES === */
+
+     .results-container {
+    max-width: 100%;
+    margin: 10px auto;
+}
+
+.results-header {
+    font-size: 1.2rem;
+}
+
+.results-section {
+    min-width: 0;
+    padding: 5px;
+}
+
+.results-section table {
+    table-layout: fixed; /* This ensures that the table respects the widths we set */
+}
+
+.results-section table th,
+.results-section table td {
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words if necessary */
+    font-size: 0.6rem;
+    padding: 2px 5px;
+}
+
+.shifts-summary-table th:nth-child(1) { /* Targeting the first column header */
+    width: 20%; /* Adjust as needed */
+}
+
+.shifts-summary-table th:nth-child(3) { /* Targeting the third column header */
+    width: 60%; /* Adjust as needed */
+}
+
+ .desktop-table {
+        display: none; /* Hide desktop table */
+    }
+
+    .mobile-table {
+        display: block; /* Show mobile tables */
+    }
+
+/* ===Leaderboard STYLES === */
+
+.leaderboard-container {
+    background-color: white;
+    padding: 10px; /* Reduced padding */
+    border-radius: 10px;
+    margin: 10px auto; /* Reduced margin */
+    max-width: 100%; /* Allow it to take full width on smaller screens */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 12px; /* Slightly smaller font */
+}
+
+.leaderboard-container h2 {
+    font-size: 16px; /* Adjust as needed */
+}
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+    padding: 5px; /* Reduced padding */
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.leaderboard-table th {
+    background-color: palegoldenrod;
+    font-weight: bold;
+}
+
+.leaderboard-table tr:nth-child(even) {
+    background-color: #009cde;
+}
+
+}
