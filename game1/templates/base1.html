@@ -19,7 +19,7 @@
     </header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="{{ url_for('game1.home1') }}">The Rational Hunter</a>
-        {% if session['username'] and session['username'] != 'Guest' %}
+            {% if session['username'] and session['username'] != 'Guest' %}
             <span class="navbar-text">Username: {{ session['username'] }}</span> <!-- Display the username -->
         {% endif %}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,6 +38,9 @@
                         <a class="nav-link" href="{{ url_for('game1.leaderboard1', class_number=session['class']) }}">Leaderboard</a>
                     </li>
                 {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.game_selection') }}">Home</a>
+                </li>
             </ul>
         </div>
     </nav>
