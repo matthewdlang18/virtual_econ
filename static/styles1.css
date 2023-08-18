@@ -462,7 +462,7 @@ a.button {
 
     .leaderboard-table tr:nth-child(even),
     #game-log tr:nth-child(even) {
-        background-color: #f9f9f9;
+        background-color: #009cde;
     }
 
     .leaderboard-table tr:hover,
