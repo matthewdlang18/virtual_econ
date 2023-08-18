@@ -222,7 +222,7 @@ def game2_proceed1():
         "price of a substitute decreases",
         "population increases",
         "population decreases",
-        "price on inputs increases",
+        "price of inputs increases",
         "price of inputs decreases",
         "better technology is created for production",
         "firms enter the market",
@@ -369,9 +369,9 @@ def game2_results():
             print(f"Warning: {guess_key} not found in session!")  # Debugging print statement
             continue  # Skip to the next iteration if the guess is not found
 
-
     shifts = [
-        {"round": 2, "type": "demand", "description": session['shock_details_round2']['shock']},
+        {"round": 2, "type": session['shock_details_round2']['affected'],
+         "description": session['shock_details_round2']['shock']},
         {"round": 3, "type": "demand", "description": session['shock_details_round3_demand']['shock']},
         {"round": 3, "type": "supply", "description": session['shock_details_round3_supply']['shock']}
     ]
