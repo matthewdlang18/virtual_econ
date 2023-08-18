@@ -1,0 +1,34 @@
+{% extends 'base2.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equilibrium Explorer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles2.css') }}">
+</head>
+<div class="container">
+<h1>Round 1</h1>
+    <h3>The current supply equation is: {{ supply_equation }}</h3>
+    <h3>The current demand equation is: {{ demand_equation }}</h3>
+    <br>
+    <div class="button-container">
+        <h3><form action="{{ url_for('game2.feedback1') }}" method="post">
+            <label for="equilibrium_quantity">Calculate the equilibrium quantity:</label>
+            <input type="number" step="0.01" id="equilibrium_quantity" name="equilibrium_quantity" required></h3>
+            <button type="submit" class="blue-button" onclick="return validateForm()">Submit</button>
+        </form>
+    </div>
+</div>
+<script>
+    function validateForm() {
+        var x = document.forms[0]["equilibrium_quantity"].value;
+        if (isNaN(x) || x == "") {
+            alert("Equilibrium quantity must be a number");
+            return false;
+        }
+    }
+</script>
+{% endblock %}
