@@ -1,1 +1,37 @@
+{% extends "base3.html" %}
 
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Taxonomy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles3.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Market Taxonomy</h1>
+        <h2>Test your understanding of market interventions!</h2>
+        <ul>
+        <li><strong>Round 0:</strong> You will be presented with the current equilibrium price and quantity and the market supply curve.</li>
+        <li><strong>Round 1:</strong> A tax is applied to the market. You have to predict the new price paid by consumers after the tax.</li>
+        <li><strong>Round 2:</strong> After learning what the after-tax price paid by consumers is, a second tax is applied. Can you calculate the final price paid by consumers?</li>
+        </ul>
+        <p>Your goal is to make your guesses as accurate as possible. Penalties will be assessed based on the difference between your guess and the true equilibrium quantity. "Price is Right" Rules...try not to set the price too high!</p>
+        <div class="center-button">
+    <p><a href={{ url_for('game3.play_game3_round1') }} class="blue-button" onclick="resetGame()">Start Game</a></p>
+</div>
+
+<script>
+    function resetGame() {
+        // Clear any existing sessionStorage data related to game restarts
+        sessionStorage.clear();
+    }
+</script>
+
+
+
+</body>
+
+</html>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base3.html" %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Round 2 - Market Taxonomy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles3.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Round 2</h1>
+        <h2>The Demand for the Good is still: {{ elasticity }}</h2>
+        <h2>After the first tax of ${{ results.initial_equilibrium.tax}}:</h2>
+        <br>
+        <h2>The Current Supply Curve is: {{ supply_equation }}</h2>
+        <h2>The Current Price Paid by Consumers is: ${{ previous_price }}</h2>
+        <br>
+        <h2>A second tax of ${{ results['first_tax']['tax'] }} is applied to the market.</h2>
+        <br>
+        <div class="button-container">
+        <form action="{{ url_for('game3.feedback2') }}" method="post">
+            <h3><label for="guess_price">What is the price charged to consumers after the second tax:</label></h3>
+            <input type="number" id="predicted_price" name="guess_price" step="0.01" required style="display: block; margin: 10px auto; width: 15%;">
+<button type="submit" class="blue-button" style="display: block; margin: 10px auto;">Submit Prediction</button> <!-- Adjusted styles -->
+        </form>
+</div>
+    </div>
+</body>
+<script>
+    const pagePath = window.location.pathname;
+
+    if (sessionStorage.getItem(pagePath)) {
+        window.location.href = "{{ url_for('game3.home3') }}";
+    }
+    sessionStorage.setItem(pagePath, 'visited');
+</script>
+</html>
+{% endblock %}

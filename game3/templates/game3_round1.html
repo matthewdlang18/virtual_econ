@@ -1,0 +1,40 @@
+{% extends "base3.html" %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Round 1 - Market Taxonomy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles3.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Round 1</h1>
+        <h2>The Demand for the Good is: {{ results.initial_equilibrium.elasticity_category }}</h2>
+        <h2>The Supply for the Good is: {{ supply_equation }}</h2>
+        <br>
+        <h2>The Current Equilibrium Quantity: {{ results.initial_equilibrium.quantity }}</h2>
+        <h2>The Current Equilibrium Price: ${{ results.initial_equilibrium.price }}</h2>
+        <br>
+        <h2>A Tax of ${{ results.initial_equilibrium.tax }} is applied to the market.</h2>
+        <br>
+        <div class="button-container" style="text-align: center;">
+    <div class="button-container" style="text-align: center;">
+    <form action="{{ url_for('game3.feedback1') }}" method="post">
+        <h3><label for="predicted_price">What price do you think consumers should pay in equilibrium after the tax is levied:</label></h3>
+        <input type="number" id="predicted_price" name="guess_price" step="0.01" required style="display: block; margin: 10px auto; width: 15%;">
+<button type="submit" class="blue-button" style="display: block; margin: 10px auto;">Submit Prediction</button> <!-- Adjusted styles -->    </form>
+</div>
+    </div>
+</body>
+<script>
+    const pagePath = window.location.pathname;
+
+    if (sessionStorage.getItem(pagePath)) {
+        window.location.href = "{{ url_for('game3.home3') }}";
+    }
+    sessionStorage.setItem(pagePath, 'visited');
+</script>
+</html>
+{% endblock %}

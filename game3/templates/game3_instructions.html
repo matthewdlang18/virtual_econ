@@ -1,0 +1,25 @@
+{% extends 'base3.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="heading">Instructions</h1>
+        <p class="intro">Welcome to Market Taxonomy! This game tests your understanding of market interventions. Here's how to play:</p>
+
+        <h3 class="sub-heading">Round 0: Initial Equilibrium</h3>
+        <p>You will be given the initial equilibrium price and quantity, the supply curve and the elasticity of demand. It will be helpful to keep track of the initial conditions.</p>
+
+        <h3 class="sub-heading">Round 1: First Round Tax</h3>
+        <p>In the first round, a tax will be applied to the market. With the information you are given, try to set the optimal price charged to consumers after the tax. Setting the price too high results in over production. When the price is too low, there is excess demand.</p>
+
+        <h3 class="sub-heading">Round 2: Multiple Shifts</h3>
+        <p>After the first tax is applied, you will be given the new price charged to consumers. A second tax will then be applied and with the additional information from round 1, it is up to you to set the optimal price charged to consumers.</p>
+
+        <h3 class="sub-heading">Scoring</h3>
+        <p>Your score is based on the total difference between the price you set and the actual equilibrium prices in rounds 1 and 2. Aim for the smallest difference to top the leaderboard! Over producing is penalized!</p>
+
+        <h3 class="sub-heading">Leaderboard</h3>
+        <p>Check the leaderboard to see how you rank against other players. Can you make it to the top?</p>
+
+        <p>Good luck and have fun!</p>
+    </div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base3.html" %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - Round {{ round_number }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles3.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Feedback - Round {{ round_number }}</h1>
+        <h3>Your Prediction: {{ guess }}</h3>
+        <h3>True Equilibrium Price: {{ true_equilibrium_price }}</h3>
+        <h3>Difference: {{ difference }}</h3>
+        <br>
+        <h3>Equilibrium Quantity: {{ equilibrium_quantity }}</h3>
+
+        <br>
+
+        <div class="center-button">
+            <form action="{{ url_for('game3.game3_proceed' ~ round_number) }}" method="post">
+                <button type="submit" class="blue-button">Proceed to Next Round</button>
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+    const pagePath = window.location.pathname;
+
+    if (sessionStorage.getItem(pagePath)) {
+        window.location.href = "{{ url_for('game3.home3') }}";
+    }
+    sessionStorage.setItem(pagePath, 'visited');
+</script>
+</html>
+{% endblock %}
