@@ -83,7 +83,7 @@ def update_leaderboard(student_id, class_number, username, high_score=None):
 
 def hunt(player_status, hours_spent):
     aging_cost = hours_spent * (random.randint(1, player_status['age'] // 5 + 1) + random.uniform(0, 1))
-    food_gained = 10 * math.sqrt(hours_spent) * random.uniform(0.9, 1.1)
+    food_gained = 10 * math.sqrt(hours_spent) * random.uniform(0.9, 1.2)
     health_lost = aging_cost
     net_health_change = -health_lost
     net_food_change = food_gained
@@ -92,8 +92,8 @@ def hunt(player_status, hours_spent):
 
 def rest(player_status, hours_spent):
     aging_cost = hours_spent * (random.randint(1, player_status['age'] // 5 + 1) + random.uniform(0, 1))
-    health_gained = 8 * math.sqrt(hours_spent) * random.uniform(0.9, 1.1)
-    food_lost = (hours_spent ** 1.25) * random.uniform(0.75, 2)
+    health_gained = 8 * math.sqrt(hours_spent) * random.uniform(0.9, 1.2)
+    food_lost = (hours_spent ** 1.25) * random.uniform(0.75, 1.7)
     net_health_change = health_gained
     net_food_change = -food_lost
     return net_health_change, net_food_change
