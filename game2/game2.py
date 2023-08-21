@@ -70,7 +70,7 @@ def apply_shock(a, b, c, d, shock, size_label):
     }
 
     supply_shifts = {
-        "price on inputs increases": -shock_size,
+        "price of inputs increases": -shock_size,
         "price of inputs decreases": shock_size,
         "better technology is created for production": shock_size,
         "firms enter the market": shock_size,
@@ -167,6 +167,7 @@ def update_leaderboard(student_id, class_number, username, total_penalty):
 
     # Update or create the document
     leaderboard_ref.set({'students': students})
+
 
 @game2.route('/home2')
 def home2():
@@ -275,7 +276,7 @@ def game2_proceed2():
         "population decreases",
     ])
     session['supply_shift'] = random.choice([
-        "price on inputs increases",
+        "price of inputs increases",
         "price of inputs decreases",
         "better technology is created for production",
         "firms enter the market",
@@ -441,4 +442,4 @@ def leaderboard(class_number):
 @game2.route('/instructions')
 def instructions2():
     current_username = session.get('username')
-    return render_template('instructions.html', current_username=current_username)
+    return render_template('game2_instructions.html', current_username=current_username)
