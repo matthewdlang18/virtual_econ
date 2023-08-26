@@ -150,7 +150,7 @@ body {
 
 /* CSS for the container holding the links */
 .links-container {
-  position: fixed;  /* Changed from 'absolute' to 'fixed' */
+  position: absolute;  /* Changed from 'absolute' to 'fixed' */
   left: 50%;
   bottom: 35px;  /* Positioned at the bottom */
   transform: translateX(-50%);
@@ -356,9 +356,9 @@ h3 {
     }
 
   .links-container {
-      position: fixed;
+      position: absolute;
       left: 50%;
-      bottom: 39px;
+      bottom: 90px;
       transform: translateX(-50%);
       display: flex;
       justify-content: space-around; /* Changes here to better manage space */
