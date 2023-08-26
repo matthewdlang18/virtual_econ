@@ -96,5 +96,14 @@ def game_selection():
     class_number = session.get('class', 0)
     return render_template("game_selection.html", username=username, is_guest=is_guest, class_number=class_number)
 
+@main.route('/about_us')
+def about_us_route():
+    return render_template('about_us.html')
+
+@main.route('/description')
+def description_route():
+    return render_template('description.html')
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
