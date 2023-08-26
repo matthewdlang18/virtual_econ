@@ -2,7 +2,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   background: url('landing.png') center/cover no-repeat fixed;
   margin: 0;
   padding: 0;
