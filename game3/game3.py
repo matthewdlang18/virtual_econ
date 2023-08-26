@@ -39,12 +39,12 @@ def generate_curves():
         q_star = round(supply_curve(p_star, a, b), 2)
         elasticity = round(-d * (p_star / q_star), 2)
 
-    t = round(random.uniform(0.05, 0.25) * p_star, 2)  # Tax for round 1
+    t = round(random.uniform(0.2, 0.5) * p_star, 2)  # Tax for round 1
     a_with_tax = round(a - b * t, 2)  # Adjust supply curve for round 1 tax
     p_tax = round((c - a_with_tax) / (b + d), 2)
     q_tax = round(supply_curve(p_tax, a_with_tax, b), 2)
 
-    t_second = round(random.uniform(0.05, 0.25) * p_tax, 2)  # Tax for round 2 based on new price after first tax
+    t_second = round(random.uniform(0.25, 0.4) * p_tax, 2)  # Tax for round 2 based on new price after first tax
     a_with_tax_second = round(a_with_tax - b * t_second, 2)  # Adjust supply curve again for second tax
     p_tax_second = round((c - a_with_tax_second) / (b + d), 2)
     q_tax_second = round(supply_curve(p_tax_second, a_with_tax_second, b), 2)
