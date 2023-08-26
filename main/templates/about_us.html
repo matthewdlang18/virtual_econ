@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<header>
+<h2>
+<a class="about-title">About This Site</a>
+    </h2>
+    </header>
+<div class = "container">
+    <main>
+        <h3>Hi! We’re <a href="https://sites.google.com/site/breejoneslang/">Bree Lang</a> and <a href="https://sites.google.com/site/matthewdlang18">Matt Lang</a>, Professors of Teaching in the Economics Department at the University of California, Riverside.</h3>
+        <p>Before joining UCR, we spent six years as faculty in the Economics Department at Xavier University in Cincinnati, Ohio. Passionate about interactive learning, we've faced challenges in bringing active engagement to large-enrollment economics courses.</p>
+        <h3>The Challenge</h3>
+        <p>In smaller classes, active learning techniques and classroom experiments can create dynamic learning experiences. However, in large classes, incentivizing participation and repetition for concept mastery becomes difficult.</p>
+        <h3>Our Solution</h3>
+        <p>With the release of AI tools and our basic programming skills, we've designed a set of simulations that bridge this gap. These games allow students to explore economic concepts at their own pace, and offer the following benefits:</p>
+        <ul>
+            <li>Self-contained Learning: No additional preparation required. Students can play simulations an unlimited number of times.</li>
+            <li>Self-directed Learning: The simulations produce printable or savable results, which can be used to improve understanding and performance.</li>
+            <li>Incentivized Improvement: Class-specific leaderboards encourage students to repeat and master concepts.</li>
+            <li>Flexible Assignments: Instructors can create personalized assignments, and we'll provide examples to inspire creativity.</li>
+        </ul>
+        <p>We hope these simulations offer a fresh and engaging way to experience economics. We invite instructors and students to explore these tools and share their insights.</p>
+<p>If you have suggestions for improvements or ideas for new games, we'd love to hear from you.
+    <a href="mailto:mlang@ucr.edu,blang@ucr.edu">Contact us</a> and join us in this exciting educational journey!
+</p>    </main>
+</body>
+<!-- Back Button -->
+<div style="display: flex; justify-content: center; align-items: center;">
+    <button onclick="goBack()" class="blue-button">Go Back</button>
+</div>
+
+</div>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
+</body>
+</html>
+</html>

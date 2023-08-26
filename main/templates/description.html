@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<header>
+<h2>
+<a class="description-title">Game Descriptions</a>
+    </h2>
+    </header>
+<div class = "container">
+        <main>
+        <!-- Game 1 -->
+        <section>
+            <h3>Game 1: The Rational Hunter</h3>
+            <h3>Objective</h3>
+            <p>In this simulation, players experience the delicate balance between resource management and survival. Starting at age 18, players must navigate the fine line between health and food acquisition, where each decision has both rewards and consequences.</p>
+            <h3>Concepts Experienced:</h3>
+            <ul>
+                <li>Resource Allocation and opportunity cost: Players must allocate their time wisely between hunting and resting, representing a fundamental economic principle of opportunity cost. Each decision reflects the trade-offs in time, health, and food.</li>
+                <li>Decision Making Under Uncertainty: The game introduces players to the uncertainty in managing scarce resources. They must make decisions without full knowledge of how those decisions might impact their future state.</li>
+                <li>Data Interpretation: With charts and logs tracking health, food, and activity over time, players can visually analyze their decisions and update their strategy.</li>
+            </ul>
+        </section>
+
+        <!-- Game 2 -->
+        <section>
+            <h3>Game 2: Equilibrium Explorer</h3>
+            <h3>Objective</h3>
+            <p>This game introduces players to the concepts of supply and demand, equilibrium, and market shocks. Through three challenging rounds, players will learn, apply, and compete in an interactive microeconomic environment.</p>
+            <h3>Concepts Experienced:</h3>
+            <ul>
+                <li>Market Equilibrium: Learn the fundamental principles of equilibrium in the context of supply and demand, a cornerstone concept in microeconomics.</li>
+                <li>Adapting to Market Shocks: Experience the impact of random shocks on the market and learn to predict new equilibrium quantities.</li>
+                <li>Analyzing Multiple Shifts: Face the challenge of simultaneous shocks to both demand and supply, exploring how multiple factors can interact in a market.</li>
+            </ul>
+        </section>
+
+        <!-- Game 3 -->
+        <section>
+            <h3>Game 3: Market Taxonomy</h3>
+            <h3>Objective</h3>
+            <p>This game immerses players in the complexities of taxation and its effects on market equilibrium. Through two detailed rounds, players will learn to calculate consumer prices in response to different tax scenarios.</p>
+            <h3>Concepts Experienced:</h3>
+            <ul>
+                <li>Market Equilibrium: Learn the foundational concepts of initial equilibrium price, quantity, supply curve, and elasticity of demand.</li>
+                <li>Taxation and Price Adjustment: Learn how the market changes in response to a tax.</li>
+                <li>Price Elasticity of Demand: See how a tax interacts with elasticity of demand to change the price that consumers pay in a market.</li>
+            </ul>
+        </section>
+
+        <!-- Game 4 -->
+        <section>
+            <h3>Game 4: Firm Reactor</h3>
+            <h3>Objective</h3>
+            <p>This game immerses players in the dynamics of a market moving toward long-run competitive equilibrium. Through calculation and price guessing, players must navigate changes in market conditions and keep their firm in the game by earning and maintaining tokens.</p>
+            <h3>Concepts Experienced:</h3>
+            <ul>
+                <li>Profit Maximization: Learn to calculate the profit-maximizing quantity using market firm-level cost functions.</li>
+                <li>Economic Profit and Market Entry Decisions: Calculate economic profit and make strategic choices about market entry.</li>
+                <li>Price Adjustment and Equilibrium: Experience price adjustments as firms enter and leave the market amidst demand shocks.</li>
+            </ul>
+        </section>
+    </main>
+
+    <div style="display: flex; justify-content: center; align-items: center;">
+    <button onclick="goBack()" class="blue-button">Go Back</button>
+</div>
+
+</div>  <!-- This closes your .container div -->
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
+</body>
+</html>
+</body>
+</html>

@@ -28,6 +28,11 @@
         {% if error_message %}
             <div class="error-message">{{ error_message }}</div>
         {% endif %}
+        <!-- Moved the links-container inside the login-container -->
     </div>
+<div class="links-container">
+            <a href="{{ url_for('main.about_us_route') }}" class="about-link">About This<br>Site</a>
+            <a href="{{ url_for('main.description_route') }}" class="description-link">Game<br>Descriptions</a>
+        </div>
 </body>
 </html>
