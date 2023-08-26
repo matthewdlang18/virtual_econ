@@ -11,13 +11,13 @@
 <body>
     <div class="container">
         <h1>Round 2</h1>
-        <h2>The Demand for the Good is still: {{ elasticity }}</h2>
-        <h2>After the first tax of ${{ results.initial_equilibrium.tax}}:</h2>
+        <h3>Elasticity of Demand at the Initial Equilibrium: {{ elasticity }}</h3>
+        <h3>After the first tax of ${{ results.initial_equilibrium.tax}}:</h3>
         <br>
-        <h2>The Current Supply Curve is: {{ supply_equation }}</h2>
-        <h2>The Current Price Paid by Consumers is: ${{ previous_price }}</h2>
+        <h3>The Current Supply Curve is: {{ supply_equation }}</h3>
+        <h3>The Current Price Paid by Consumers is: <strong>${{ previous_price }}</strong></h3>
         <br>
-        <h2>A second tax of ${{ results['first_tax']['tax'] }} is applied to the market.</h2>
+        <h3>A second tax of <strong>${{ results['first_tax']['tax'] }}</strong> is applied to the market.</h3>
         <br>
         <div class="button-container">
         <form action="{{ url_for('game3.feedback2') }}" method="post">

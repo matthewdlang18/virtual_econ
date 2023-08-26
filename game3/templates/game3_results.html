@@ -44,7 +44,7 @@
                 <tbody>
                     <!-- Round 0 row -->
                     <tr>
-                        <td>0</td>
+                        <td>Initial</td>
                         <td>$0.00</td>
                         <td>{{ results['supply_curve'] }}</td>
                         <td>{{ results['demand_curve'] }}</td>
@@ -59,7 +59,7 @@
                         <tr>
                             <td>{{ round_data['round_number'] }}</td>
                             <td>${{ results['initial_equilibrium']['tax'] if round_data['round_number'] == 1 else results['first_tax']['tax']|round(2) }}</td>
-                            <td>{{ results['supply_curve'] if round_data['round_number'] == 1 else results['supply_curve_with_tax_first'] }}</td>
+                            <td>{{ results['supply_curve_with_tax_first'] if round_data['round_number'] == 1 else results['supply_curve_with_tax_second'] }}</td>
                             <td>{{ results['demand_curve'] }}</td>
                             <td>{{ results['first_tax']['quantity'] if round_data['round_number'] == 1 else results['second_tax']['quantity']|round(2) }}</td>
                             <td>${{ ((results['first_tax']['price'] - results['initial_equilibrium']['tax'])|round(2)) if round_data['round_number'] == 1 else ((results['second_tax']['price'] - results['first_tax']['tax'] - results['first_tax']['tax'])|round(2)) }}</td>
@@ -87,7 +87,7 @@
         <tbody>
             <!-- Round 0 row -->
             <tr>
-                <td>0</td>
+                <td>Initial</td>
                 <td>$0.00</td>
                 <td>{{ results['supply_curve'] }}</td>
                 <td>{{ results['demand_curve'] }}</td>
@@ -97,7 +97,7 @@
                 <tr>
                     <td>{{ round_data['round_number'] }}</td>
                     <td>${{ results['initial_equilibrium']['tax'] if round_data['round_number'] == 1 else results['first_tax']['tax']|round(2) }}</td>
-                    <td>{{ results['supply_curve'] if round_data['round_number'] == 1 else results['supply_curve_with_tax_first'] }}</td>
+                    <td>{{ results['supply_curve_with_tax_first'] if round_data['round_number'] == 1 else results['supply_curve_with_tax_second'] }}</td>
                     <td>{{ results['demand_curve'] }}</td>
                     <td>{{ results['first_tax']['quantity'] if round_data['round_number'] == 1 else results['second_tax']['quantity']|round(2) }}</td>
                 </tr>
@@ -121,7 +121,7 @@
         <tbody>
             <!-- Round 0 row -->
             <tr>
-                <td>0</td>
+                <td>Initial</td>
                 <td>${{ results['initial_equilibrium']['price']|round(2) }}</td>
                 <td>${{ results['initial_equilibrium']['price']|round(2) }}</td>
                 <td>N/A</td>

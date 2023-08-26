@@ -11,13 +11,13 @@
 <body>
     <div class="container">
         <h1>Round 1</h1>
-        <h2>The Demand for the Good is: {{ results.initial_equilibrium.elasticity_category }}</h2>
-        <h2>The Supply for the Good is: {{ supply_equation }}</h2>
+        <h3>The Elasticity of Demand for the Good is: {{ results.initial_equilibrium.elasticity_category }}</h3>
+        <h3>The Supply for the Good is: {{ supply_equation }}</h3>
         <br>
-        <h2>The Current Equilibrium Quantity: {{ results.initial_equilibrium.quantity }}</h2>
-        <h2>The Current Equilibrium Price: ${{ results.initial_equilibrium.price }}</h2>
+        <h3>The Current Equilibrium Quantity: {{ results.initial_equilibrium.quantity }}</h3>
+        <h3>The Current Equilibrium Price: <strong>${{ results.initial_equilibrium.price }}</strong></h3>
         <br>
-        <h2>A Tax of ${{ results.initial_equilibrium.tax }} is applied to the market.</h2>
+        <h3>A Tax of <strong>${{ results.initial_equilibrium.tax }}</strong> is applied to the market.</h3>
         <br>
         <div class="button-container" style="text-align: center;">
     <div class="button-container" style="text-align: center;">
