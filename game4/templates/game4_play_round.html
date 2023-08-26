@@ -1,0 +1,74 @@
+{% extends "base4.html" %}
+
+{% block content %}
+<html>
+
+<head>
+    <title>Game 4 - Round {{ round_number }}</title>
+</head>
+<div class="container">
+    <body>
+        <form action="{{ url_for('game4.play_game_round') }}" method="post">
+            <h2>Welcome to Round {{ round_number }}!</h2>
+            <h3>Token Cost in Round {{ round_number - 1 }}:
+    {{ "%.2f"|format(previous_guessed_price - prev_price if previous_guessed_price >= prev_price else prev_price - previous_guessed_price) if previous_guessed_price and prev_price else "N/A" }}
+</h3>
+            <h3>Remaining Tokens: {{ "%.2f"|format(tokens) }}</h3>
+             <!-- Flash messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="alert alert-success">
+                        {% for category, message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <br>
+            <p>Market Price in Round {{ round_number - 1}}: {{ "%.2f"|format(prev_price) }}</p> <!-- Updated line -->
+            <p>Price Guessed in Round {{ round_number - 1}}: {{ "%.2f"|format(previous_guessed_price) if previous_guessed_price else "N/A" }}</p> <!-- Updated line -->
+            <br>
+            <p>Current Firm Profit: {{ "%.2f"|format(profit) }}</p> <!-- Updated line -->
+            <br>
+            <p>In Round {{ round_number - 1}}, the market price was <strong>{{ "%.2f"|format(prev_price) }}</strong>. In Round {{ round_number}},
+                the following takes place:</p>
+            <strong>
+                {% if adjustment == "profit" %}
+                Firms react to the profit in the market
+            {% elif adjustment == "demand_increase" %}
+                Demand increases
+            {% elif adjustment == "demand_decrease" %}
+                Demand decreases
+            {% else %}
+                None
+            {% endif %}
+                </strong>
+            </p>
+            <label for="guessed_price">What do you think the price for Round {{ round_number }} will be?</label>
+            <input type="number" step="0.01" name="guessed_price" id="guessed_price" required style="margin-bottom: 20px;">
+<div class="center-button">
+    <input type="submit" class="blue-button" value="Submit">
+</div>
+
+    </body>
+</div>
+<script>
+    // Get the current round number from the server-side variable
+    const roundNumber = {{ round_number }};
+
+    if (sessionStorage.getItem('lastRoundNumber')) {
+        const lastRoundNumber = parseInt(sessionStorage.getItem('lastRoundNumber'), 10);
+        if (lastRoundNumber >= roundNumber) {
+            window.location.href = "{{ url_for('game4.home4') }}";
+        }
+    }
+    sessionStorage.setItem('lastRoundNumber', roundNumber.toString());
+
+    // Disable the back button by pushing the current state into the history stack
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+        history.go(1);
+    };
+</script>
+</html>
+{% endblock %}

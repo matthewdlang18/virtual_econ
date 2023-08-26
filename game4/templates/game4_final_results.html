@@ -1,0 +1,132 @@
+{% extends "base4.html" %}
+
+{% block content %}
+<html>
+<head>
+    <title>Game Results</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</div>
+</head>
+<body>
+<div class="container mt-5">
+    </p><h2 class="text-center mb-4">Game Results</h2>
+    <h3 class="mt-4 text-center">You made it through {{ rounds }} rounds!</h3>
+    <div class="center-button">
+    <p><a href="{{ url_for('game4.home4') }}" class="blue-button">Play Again</a>
+    <a href="{{ url_for('game4.leaderboard4', class_number=session['class']) }}" class="blue-button">View Leaderboard</a>
+
+    <h3><p></p><strong>Long-Run Price:</strong> {{ optimal_price }}</p></h3>
+        <h3><p><strong>Average total cost function (ATC) =</strong> {{ f }}/q + 0.5q</p>
+</h3>
+    <h3 class="mt-4">Round Details</h3>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Round</th>
+                <th>Adjustment</th>
+                <th>Guessed Price</th>
+                <th>Market Price</th>
+                <th>Difference</th>
+                <th>Tokens</th>
+            </tr>
+        </thead>
+        <tbody>
+
+
+    {% for i in range(game_details|length) %}
+   <tr>
+    <td>{{ game_details[i].round_number }}</td>
+    <td>
+    {% if game_details[i].adjustment == "profit" %}
+        Firms Reacted
+    {% elif game_details[i].adjustment == "demand_decrease" %}
+        Demand Decreased
+    {% elif game_details[i].adjustment == "demand_increase" %}
+        Demand Increased
+    {% else %}
+        {{ game_details[i].adjustment }}
+    {% endif %}
+    </td>
+    <td>{{ "%.2f"|format(game_details[i].guessed_price) }}</td> <!-- Guessed price formatted to 2 decimal places -->
+    <td>{{ "%.2f"|format(game_details[i].market_price) if game_details[i].market_price is not none else 'N/A' }}</td> <!-- Market price formatted to 2 decimal places -->
+    <td>
+    {{ "%.2f"|format(game_details[i].market_price - game_details[i].guessed_price) if game_details[i].market_price is not none else 'N/A' }}
+    {% set difference = game_details[i].market_price - game_details[i].guessed_price %}
+    {% if game_details[i].market_price is not none and ((difference < 0) and -difference or difference) <= 0.25 %}
+    <span class="badge badge-success">Great Guess!</span>
+    {% endif %}
+</td>
+
+    <td>{{ "%.2f"|format(game_details[i].tokens) }}</td> <!-- Tokens formatted to 2 decimal places -->
+</tr>
+
+    {% endfor %}
+</tbody>
+    </table>
+    </div>
+
+    <h3 class="mt-4">Price Fluctuations</h3>
+    <canvas id="priceChart" width="800" height="400"></canvas>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('priceChart').getContext('2d');
+
+    var data = {
+        labels: {{ game_details|map(attribute='round_number')|list }},
+        datasets: [{
+            label: 'Market Price',
+            borderColor: 'red',
+            fill: false,
+            data: {{ game_details|map(attribute='market_price')|list }}
+        }, {
+            label: 'Guessed Price',
+            borderColor: 'blue',
+            fill: false,
+            data: {{ game_details|map(attribute='guessed_price')|list }}
+        }, {
+            label: 'Long Run Price',
+            borderColor: 'green',
+            fill: false,
+            data: {{ game_details|map(attribute='optimal_price')|list }}
+        }]
+    };
+
+    new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: {
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Round'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Price'
+                    }
+                }
+            }
+        }
+    });
+
+    const pagePath = window.location.pathname;
+
+    if (sessionStorage.getItem(pagePath)) {
+        window.location.href = "{{ url_for('game4.home4') }}";
+    }
+    sessionStorage.setItem(pagePath, 'visited');
+</script>
+
+</script>
+</body>
+</html>
+{% endblock %}

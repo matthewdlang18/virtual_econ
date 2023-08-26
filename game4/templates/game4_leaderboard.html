@@ -1,10 +1,35 @@
-<!DOCTYPE html>
+{% extends "base4.html" %}
+
+{% block content %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game 3 Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles4.css') }}">
 </head>
 <body>
-
+    <div class="leaderboard-container">
+        <h2>Firm Reactor - Class {{ class_number }}</h2>
+<table class="leaderboard-table">
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Username</th>
+            <th>Rounds Reached</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for score in scores %}
+    <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ score.username }}</td>
+        <td>{{ score.score }}</td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+        <div class="button-container" style="text-align: center; margin-top: 20px;">
 </body>
-</html>
+</div>
+{% endblock %}

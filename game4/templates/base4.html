@@ -34,9 +34,10 @@
                 </li>
                 {% if session['username'] %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('game4.leaderboard', class_number=session['class']) }}">Leaderboard</a>
+                        <a class="nav-link" href="{{ url_for('game4.leaderboard4', class_number=session['class']) }}">Leaderboard</a>
                     </li>
                 {% endif %}
+                <li class="nav-item">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('main.game_selection') }}">Home</a>
                 </li>

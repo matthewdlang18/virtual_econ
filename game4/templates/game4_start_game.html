@@ -1,0 +1,55 @@
+{% extends "base4.html" %}
+
+{% block content %}
+<html>
+<head>
+    <title>Game 4 - Start Game</title>
+    <script>
+        // JavaScript function to change the text based on the dropdown selection
+        function changeQuestionText() {
+            const dropdown = document.getElementById('enter_market1');
+            const questionElement = document.getElementById('quantityQuestion');
+
+            if (dropdown.value === 'y') {
+                questionElement.innerHTML = 'How many units do you want to produce?';
+            } else {
+                questionElement.innerHTML = 'If you did enter the market, how many units would you have chosen to produce?';
+            }
+        }
+    </script>
+</head>
+<div class = "container">
+<body>
+    <h1>Round 0</h1>
+    <p><strong>Inverse demand curve:</strong> P = {{ a }} - {{ b }}Q</p>
+    <p><strong>Fixed cost, which includes opportunity cost:</strong> {{ f }}</p>
+    <p><strong>Marginal cost function:</strong> MC = q</p>
+    <p><strong>Average total cost function:</strong> ATC = {{ f }}/q + 0.5q</p>
+    <p><strong>Current Market Price:</strong> {{ P1 }}</p>
+
+    <form method="post">
+        <label for="enter_market1">Do you want to enter the market?</label>
+        <select name="enter_market1" id="enter_market1" onchange="changeQuestionText()">
+            <option value="y">Yes</option>
+            <option value="n">No</option>
+        </select>
+        <br><br>
+        <label id="quantityQuestion" for="quantity">How many units do you want to produce? </label>
+        <input type="number" step="0.01" name="quantity" id="quantity" required>
+        <br><br>
+        <div class="center-button">
+        <button type="submit" class="blue-button">Submit</button>
+        </div>
+    </form>
+</body>
+</div>
+<script>
+    const pagePath = window.location.pathname;
+
+    if (sessionStorage.getItem(pagePath)) {
+        window.location.href = "{{ url_for('game4.home4') }}";
+    }
+    sessionStorage.setItem(pagePath, 'visited');
+</script>
+</html>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base4.html" %}
+
+{% block content %}
+<html>
+<head>
+    <title>Round 0 Results</title>
+</head>
+<div class="container">
+<body>
+    <h1>Round 0 Results</h1>
+    <div id="message-container">
+        <!-- Splitting message into lines -->
+        {% for line in message.split('. ') %}
+            <p>{{ line }}</p>
+        {% endfor %}
+    </div>
+    <p>You have earned a total of <strong>{{ tokens }}</strong> tokens this round.</p>
+    <div class="center-button">
+        {% if restart_game %}
+            <a href="{{ url_for('game4.play_game4') }}" class="blue-button">Start Over</a>
+        {% else %}
+            <a href="{{ url_for('game4.play_game_round') }}" class="blue-button">Proceed</a>
+        {% endif %}
+    </div>
+</body>
+</div>
+<script>
+    const pagePath = window.location.pathname;
+
+    if (sessionStorage.getItem(pagePath)) {
+        window.location.href = "{{ url_for('game4.home4') }}";
+    }
+    sessionStorage.setItem(pagePath, 'visited');
+</script>
+</html>
+{% endblock %}

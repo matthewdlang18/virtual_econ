@@ -1,0 +1,36 @@
+{% extends "base4.html" %}
+
+{% block content %}
+<html>
+
+<head>
+    <title>Game Round {{ round_number }} Results</title>
+</head>
+<div class = "container">
+<body>
+    <h2>Welcome to Round {{ round_number }} Results!</h2>
+    <p>Profit from This Round: {{ profit }}</p>
+    <p>Market Price from This Round: {{ price }}</p>
+    p>This Round's Adjustment:
+    {% if adjustment == "profit" %}
+        Profit
+    {% elif adjustment == "demand_increase" %}
+        Demand increased
+    {% elif adjustment == "demand_decrease" %}
+        Demand decreased
+    {% else %}
+        None
+    {% endif %}
+</p>
+    </p>
+    <p>Current Tokens: {{ tokens }}</p>
+
+    <form action="{{ url_for('game4.play_game_round') }}" method="post">
+        <input type="submit" value="Proceed to Next Round">
+    </form>
+</body>
+
+      </div>
+</html>
+    {% endblock %}
+

@@ -1,10 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base4.html" %}
 
-</body>
-</html>
+{% block content %}
+<div class="container">
+    <head>
+        <meta charset="UTF-8">
+        <title>Firm Reactor Instructions</title>
+    </head>
+    <body>
+        <h1>Game 4: Firm Reactor Instructions</h1>
+        <p>
+            <strong>Instructions:</strong> Earn tokens by correctly answering two questions in the first round,
+            then embark on a multi-round price guessing game as you experience a market moving toward a
+            long-run competitive equilibrium, with a few detours along the way. You’ll lose tokens for inaccurate
+            guesses and the game ends when you run out of tokens.
+        </p>
+        <h2>Round 0:</h2>
+        <p>
+            You’re given a market demand, firm-level cost functions and the current market price.
+            You must correctly calculate the profit-maximizing quantity and decide if this firm should enter the market.
+            Earn 5 tokens for each question you answer correctly.
+        </p>
+        <h2>Guessing Rounds:</h2>
+        <p>
+            In the rounds that follow, you’ll guess the price adjustments as the market experiences a change
+            to the number of firms in the market and demand shocks. Inaccurate guesses reduce your tokens,
+            but you can replenish tokens with very accurate guesses.
+        </p>
+        <h2>Scoring:</h2>
+        <p>
+            Your score is equal to the number of rounds you can remain in the game before losing all of your tokens.
+            See how high you can go!
+        </p>
+    </body>
+</div>
+{% endblock %}
