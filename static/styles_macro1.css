@@ -1,0 +1,363 @@
+/* === BASE STYLES === */
+/* === BASE STYLES === */
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e0e0e0;
+    color: #333;
+    background-image: url('macro1_background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    margin: 15px 0;
+}
+
+button, a, .policy-card {
+    cursor: pointer;
+    transition: transform 0.2s;  /* smoothens the hover effect */
+}
+
+button:hover, a:hover, .policy-card:hover {
+    transform: scale(1.05);  /* a subtle hover effect */
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+
+
+.header-container {
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    padding: 250;
+    background: url("macro1_header.jpg") no-repeat center center;
+    background-size: cover;
+}
+
+.header-title {
+    text-align: center;
+    margin: 10px;
+    font-size: 90px;
+    font-weight: bold;
+    color: #ffb81c;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    transition: font-size 0.3s ease;
+    white-space: nowrap;
+    font-family: 'Georgia', serif;
+    -webkit-text-stroke: 2px black;
+    text-stroke: 2px black;
+}
+
+
+.header-container h1 {
+    font-family: 'Futura', sans-serif;
+    font-size: 2.5rem;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.header-container h2 {
+    font-family: 'Futura', sans-serif;
+    font-size: 2rem;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+    color: #000000;
+    font-size: 48px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+h2 {
+    color: #1a237e;
+    font-size: 28px;
+    text-align: center;
+}
+
+h3 {
+    color: #1a237e;
+    font-size: 20px;
+    text-align: center;
+}
+
+
+
+/* === NAVBAR STYLES === */
+nav {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #007BFF;
+    padding: 10px 0;
+}
+
+.navbar-brand {
+    color: #007BFF;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar-nav {
+    margin-left: auto;
+}
+
+.nav-link {
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 20px;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    color: #003da5;
+}
+
+/* === Button STYLES === */
+.blue-button {
+    background-color: #003da5;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    text-align: center;
+    display: inline-block;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 150px;
+}
+
+.yellow-button {
+    background-color: #ffb81c;
+    color: black;
+    border: none;
+    padding: 10px 14px;
+    text-align: center;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 150px;
+    font-weight: bold;
+}
+}
+
+.blue-button:hover {
+    background-color: #003da5;
+}
+
+.center-button {
+    color: #003da5;
+    text-align: center;
+}
+
+.button-container {
+    text-align: center;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 8px 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+
+
+.policy-section {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    justify-content: center;
+}
+
+.policy-card {
+    width: 90px;
+    height: 75px;
+    padding: 2px;
+    margin: 5px;
+    font-size: 14px;display: inline-block; /* This will make cards sit side by side */
+    flex-direction: top; /* Arrange content in column */
+    justify-content: top; /* Vertical centering for flex column direction */
+    align-items: center; /* Horizontal centering */
+    text-align: top;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.policy-card h3 {
+    font-size: 0.8em; /* Adjusted for abbreviated names */
+    margin-bottom: 10px; /* Space between title and details */
+}
+
+.policy-card .policy-details {
+    font-size: 0.7em; /* Adjusted for consistency */
+    display: none;  /* hides the policy details in the non-expanded state */
+}
+
+.policy-card.expanded {
+    width: 300px;
+    height: fit-content;  /* Adjusted height to ensure all content fits */
+    margin: 15px; /* Adjusted margin for expanded state */
+}
+
+.policy-card.expanded h3 {
+    font-size: 1.2em; /* Adjusted for expanded state */
+}
+
+.policy-card.expanded .policy-details {
+    font-size: 1em; /* Adjusted for expanded state */
+    display: block; /* shows the policy details in the expanded state */
+}
+.impact-text {
+    font-size: 1.0em;
+}
+
+.impact-and-policy-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; /* This will create space between the impacts and policy cards */
+    width: 100%; /* Ensure the container takes up the full width of its parent */
+}
+
+.impacts-section {
+    flex: 1; /* Make it take up the available space */
+    padding-right: 20px; /* Add some space between the impacts and the policy cards */
+    max-width: 60%; /* Restrict the width */
+}
+
+.policy-cards-section {
+    flex: 2;
+    max-width: 40%; /* Restrict the width */
+    text-align: center;
+}
+
+
+.h5 {
+    text-align: center;
+}
+
+/* === FLEX WRAPPER STYLES === */
+.flex-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.results-section, .impacts-section, .policy-cards-section {
+    flex: 1;
+    padding: 10px; /* For some spacing */
+}
+
+/* === RESPONSIVE STYLES FOR SMALLER SCREENS === */
+@media (max-width: 767px) {
+
+    h1 {
+        font-size: 32px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+    .header-title{
+        text-align: center;
+        margin: 5px; /* Reduced margin */
+        font-size: 36px;
+        font-weight: bold;
+        color: #ffb81c;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+        transition: font-size 0.3s ease;
+        white-space: nowrap;
+        font-family: 'Georgia', serif;
+        -webkit-text-stroke: 1px black;
+        text-stroke: 1px black;
+    }
+
+
+    .header-container {
+        height: 120px; /* Reduced height */
+    }
+
+    .title {
+        text-align: center;
+        font-size: 36px;
+        padding: 5px; /* Reduced padding */
+    }
+
+    .navbar-brand {
+        font-size: 18px;
+    }
+
+    .navbar-text {
+        font-size: 10px;
+    }
+
+    .container {
+        max-width: 95%;
+        margin: 5px auto; /* Reduced margin */
+        padding: 5px;     /* Reduced padding */
+        font-size: 12px;
+    }
+
+    .flex-wrapper,
+    .impact-and-policy-container {
+        flex-direction: column;
+    }
+
+    .results-section,
+    .impacts-section,
+    .policy-cards-section {
+        flex: none;
+        max-width: 100%;
+        padding: 10px 0;
+    }
+
+    .policy-card {
+        width: 85px;
+        margin: 10px 0;
+    }
+
+    .blue-button,
+    .yellow-button {
+        width: 100%;
+    }
+
+}
