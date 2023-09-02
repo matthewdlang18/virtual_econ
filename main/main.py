@@ -104,6 +104,20 @@ def about_us_route():
 def description_route():
     return render_template('description.html')
 
+@main.route("/microgames")
+def microgames():
+    is_guest = session.get('student_id') == "guest"
+    username = session.get('username', 'Guest')
+    class_number = session.get('class', 0)
+    return render_template("microgames.html", username=username, is_guest=is_guest, class_number=class_number)
+
+@main.route("/macrogames")
+def macrogames():
+    is_guest = session.get('student_id') == "guest"
+    username = session.get('username', 'Guest')
+    class_number = session.get('class', 0)
+    return render_template("macrogames.html", username=username, is_guest=is_guest, class_number=class_number)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
