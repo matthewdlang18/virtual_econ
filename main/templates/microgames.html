@@ -9,39 +9,31 @@
 </head>
 <body>
     <div class="title">
-        Welcome, {{ username }}!
+        Microeconomics Games
     </div>
-    {% if not is_guest %}
-        <h2 class="class-info">
-            Class: {{ class_number }}
-        </h2>
-    {% endif %}
-    <div class="game-categories">
-    <div class="game-category" data-href="{{ url_for('main.microgames') }}">Microeconomic Games</div>
-    <div class="game-category" data-href="{{ url_for('main.macrogames') }}">Macroeconomic Games</div>
-</div>
-
-    {% if is_guest %}
-        <div class="login-link">
-            <a href="/">Login</a>
-        </div>
-    {% else %}
-        <div class="logout-link">
-            <a href="/logout">Logout</a>
-        </div>
-    {% endif %}
+    <div class="simulations">
+        <div class="simulation" data-href="{{ url_for('game1.home1') }}">The Rational Hunter</div>
+        <div class="simulation" data-href="{{ url_for('game2.home2') }}">Equilibrium Explorer</div>
+        <div class="simulation" data-href="{{ url_for('game3.home3') }}">Market Taxonomy</div>
+        <div class="simulation" data-href="{{ url_for('game4.home4') }}">Firm Reactor</div>
+    </div>
 <div class="links-container">
   <a href="{{ url_for('main.about_us_route') }}" class="about-link">About This<br>Site</a>
+  <div class="back-link">
+    <a onclick="goBack()">Go Back</a>
+  </div>
   <a href="{{ url_for('main.description_route') }}" class="description-link">Game<br>Descriptions</a>
 </div>
-
 </body>
 <script>
-    document.querySelectorAll('.game-category, .login-link a, .logout-link a').forEach(item => {
+    document.querySelectorAll('.simulation, .login-link a').forEach(item => {
     item.addEventListener('click', event => {
         window.location.href = item.getAttribute('data-href') || item.getAttribute('href');
     });
 });
 
+function goBack() {
+    window.history.back();
+}
 </script>
 </html>

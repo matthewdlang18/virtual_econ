@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Game Selection</title>
+</head>
+<body>
+     <div class="title">
+        Macroeconomics Games
+    </div>
+     <div class="simulations">
+        <div class="simulation" data-href="{{ url_for('macro1.home') }}">Economic Pathways</div>
+    </div>
+<div class="links-container">
+  <a href="{{ url_for('main.about_us_route') }}" class="about-link">About This<br>Site</a>
+  <a href="{{ url_for('main.description_route') }}" class="description-link">Game<br>Descriptions</a>
+</div>
+     <div class="back-link">
+    <a onclick="goBack()">Go Back</a>
+</div>
+<script>
+    document.querySelectorAll('.simulation, .login-link a').forEach(item => {
+    item.addEventListener('click', event => {
+        window.location.href = item.getAttribute('data-href') || item.getAttribute('href');
+    });
+});
+
+function goBack() {
+    window.history.back();
+}
+</script>
+</body>
+</html>
