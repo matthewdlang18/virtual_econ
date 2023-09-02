@@ -1,0 +1,84 @@
+{% extends "base_macro1.html" %}
+
+{% block content %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event for Quarter {{ game_data['current_quarter'] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_macro1.css') }}">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+</head>
+<style>
+    @media (max-width: 767px) {
+        table {
+            font-size: 0.8em;
+            width: 100%;
+        }
+        td, th {
+            padding: 5px;
+        }
+        .full {
+            display: none;
+        }
+        .center-button a.blue-button {
+        margin-bottom: 10px; /* Add space at the bottom of the button */
+        display: block;      /* Make the button take up the full width */
+    }
+    }
+    @media (min-width: 768px) {
+        .combined {
+            display: none;
+        }
+       }
+</style>
+<div class="container">
+    <h1>Your Economic Pathway Results</h1>
+    <p>Here's how your country performed over the past four years:</p>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="combined">Year - Event - Policy</th>
+                <th class="full">Year</th>
+                <th class="full">Event</th>
+                <th class="full">Policy</th>
+                <th>GDP</th>
+                <th>CPI</th>
+                <th>Unemployment</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for round_report in game_data['game_history'] %}
+                <tr>
+                    <td class="combined">{{ round_report['quarter'] }} - {{ EVENT_ABBREVIATIONS[round_report['random_event']] }} - {{ POLICY_ABBREVIATIONS[round_report['policy_choice']] }}</td>
+                    <td class="full">{{ round_report['quarter'] }}</td>
+                    <td class="full">{{ EVENT_NAMES[round_report['random_event']] }}</td>
+                    <td class="full">{{ POLICY_NAMES[round_report['policy_choice']] }}</td>
+                    <td>{{ round_report['final_values']['gdp_growth']|round(2) }}%</td>
+                    <td>{{ round_report['final_values']['cpi']|round(2) }}%</td>
+                    <td>{{ round_report['final_values']['unemployment']|round(2) }}%</td>
+                    <td>{{ round_report['score']|round(2) }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Your Final Score: {{ game_data['score']|round(2) }}</h2>
+    <div class = "center-button">
+    <a href="{{ url_for('macro1.home') }}" class="blue-button">Start Over</a>
+    <a href="{{ url_for('macro1.leaderboard') }}" class="blue-button">View Leaderboard</a>
+    </div>
+</div>
+<script type="text/javascript">
+    if (window.performance) {
+        if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+            window.location.replace("{{ url_for('macro1.home') }}");
+        }
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base_macro1.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Economic Pathways</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_macro1.css') }}">
+</head>
+<div class="container">
+    <body>
+        <h1>Economic Pathways Instructions</h1>
+        <h2>Objective:</h2>
+        <p>
+            In "Economic Pathways," you're tasked with making policy decisions to guide a country through a year filled with various global events. Your choices will determine the economic outcomes of the country, impacting GDP growth, the Consumer Price Index (CPI), and unemployment rates.
+        </p>
+        <h2>Gameplay:</h2>
+        <ul>
+            <li>At the beginning of each round, a global event will be presented. This event has the potential to influence your country's economy.</li>
+            <li>Your job is to select a policy in response to the global event.</li>
+            <li>Based on your chosen policy, the global event, and the type of country you're managing, you'll see economic outcomes for that round.</li>
+        </ul>
+        <h2>Scoring:</h2>
+        <ul>
+            <li>Your primary aim is to maximize GDP growth, which will directly add to your score.</li>
+            <li>Strive to maintain the CPI growth rate at 2%. Deviations from this target will result in penalties, with double penalties applying for overshooting the target.</li>
+            <li>Similarly, work to keep the unemployment rate at 4%. Exceeding this target will lead to double penalties.</li>
+            <li>Bonus points can be earned if you manage to keep the CPI and unemployment rates close to their targets:
+                <ul>
+                    <li>1 bonus point for deviations within 0.5%.</li>
+                    <li>3 bonus points for deviations within 0.1%.</li>
+                </ul>
+            </li>
+        </ul>
+        <h2>Example:</h2>
+<p>
+    Imagine a "Global Tech Boom" event occurs while you're managing a "Developed" country. In response, you choose the policy "Increase Infrastructure Spending." The combination of the event, policy, and country type results in:
+</p>
+<ul>
+    <li>GDP growth of 5% - directly adding 5 to your score.</li>
+    <li>A CPI growth rate of 3%, overshooting the 2% target by 1%. This results in a 2-point penalty since overshooting 1% is double-penalized.</li>
+    <li>Unemployment rate at 3%, undershooting the 4% target by 1%. This results in a 1-point penalty for undershooting the target by 1%.</li>
+</ul>
+<p>
+    Your score for that round will be: 5 (GDP growth) - 2 (CPI change) - 1 (Unemployment change) = 2.00.
+</p>
+        <h2>Tips:</h2>
+        <p>
+            The country type you select (Developed, Emerging, or Resource-rich) and the synergies between your policy choices and global events play a crucial role. Different countries respond differently to the same set of events and policies. Always anticipate the potential outcomes and make informed decisions.
+        </p>
+    </body>
+</div>
+{% endblock %}

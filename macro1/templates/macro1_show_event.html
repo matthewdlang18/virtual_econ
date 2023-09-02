@@ -1,0 +1,26 @@
+{% extends "base_macro1.html" %}
+
+{% block content %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event for Quarter {{ game_data['current_quarter'] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_macro1.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>Event for Year {{ game_data['current_quarter'] }}</h1>
+    <p>Event: {{ EVENT_NAMES[round_report['random_event']] }}</p>
+    <ul>
+        {% for sentence in EVENT_NARRATIVES[round_report['random_event']] %}
+            <li>{{ sentence }}</li>
+        {% endfor %}
+    </ul>
+    <br>
+    <div class="center-button">
+        <a href="{{ url_for('macro1.choose_policy') }}" class="blue-button">Proceed to Choose Policy</a>
+    </div>
+</body>
+</html>
+{% endblock %}

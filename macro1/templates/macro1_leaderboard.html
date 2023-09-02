@@ -1,0 +1,38 @@
+{% extends "base_macro1.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_macro1.css') }}">
+</head>
+<div class="container">
+    <h1>Leaderboard</h1>
+    <p>Top players in Economic Pathways:</p>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Student ID</th>
+                <th>Score</th>
+                <!-- Add any other relevant columns like class number, GDP, CPI, etc. -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in leaderboard %}
+                <tr>
+                    <td>{{ loop.index }}</td> <!-- This will give the rank based on loop iteration -->
+                    <td>{{ entry['username'] }}</td>
+                    <td>{{ entry['score'] }}</td>
+                    <!-- Add any other relevant data points -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class = "center-button">
+    <a href="{{ url_for('macro1.home') }}" class="blue-button">Start Over</a>
+        </div   >
+</div>
+{% endblock %}

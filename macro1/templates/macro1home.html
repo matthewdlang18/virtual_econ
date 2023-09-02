@@ -1,0 +1,35 @@
+{% extends "base_macro1.html" %}
+
+{% block content %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Economic Pathways</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_macro1.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>Economic Pathways</h1>
+    <h2>Steer a country through economic challenges and decisions!</h2>
+    <ul>
+        <li><strong>Yearly Decisions:</strong> Review your country's economic data each year and decide on a policy direction.</li>
+        <li><strong>Global Events:</strong> Adapt to unpredictable global events that can change the economic landscape.</li>
+        <li><strong>Complex Dynamics:</strong> Your country, policy choices, and global events interact, leading to diverse outcomes. Choose wisely and anticipate consequences.</li>
+        <li><strong>Objective:</strong> Target high GDP growth, maintain a 2% price growth, and achieve a 4% unemployment rate for a higher score.</li>
+    </ul>
+    <p>Make strategic decisions for your nation's economy. Ready for the challenge?</p>
+    <div class="center-button">
+        <a href="{{ url_for('macro1.start_game') }}" class="blue-button" onclick="resetGame()">Start Game</a>
+    </div>
+</div>
+
+<script>
+    function resetGame() {
+        sessionStorage.removeItem('pageLoaded');
+        sessionStorage.removeItem('backButtonUsed');
+    }
+</script>
+</body>
+</html>
+{% endblock %}

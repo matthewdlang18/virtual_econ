@@ -1,0 +1,133 @@
+{% extends "base_macro1.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game 4: Firm Reactor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_macro1.css') }}">
+    <title>Economic Pathways</title>
+</head>
+<style>
+/* General styles */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.country-section {
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.country-name {
+    cursor: pointer;
+    font-size: 1.5em;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.country-name:hover {
+    color: #007BFF;
+    background-color: #f7f7f7;
+}
+
+input[type="radio"] {
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+}
+
+.country-info {
+    display: none;
+    padding-left: 20px;
+    font-size: 1.1em;
+    margin-top: 10px;
+    border-left: 4px solid #007BFF;
+    padding-left: 15px;
+}
+
+input[type="submit"] {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    display: block;
+    margin: 20px auto;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 767px) {
+    .container {
+        padding: 10px;
+    }
+}
+</style>
+<div class="container">
+    <h1>Select Your Country Type</h1>
+    <p>Choose a type of country to navigate through economic challenges:</p>
+
+    <form action="{{ url_for('macro1.start_game') }}" method="POST">
+        <div class="country-section">
+            <div class="country-name" onclick="toggleCard('Developed')">
+                <input type="radio" name="country_type" value="Developed" required>
+                Developed
+            </div>
+            <div class="country-info" id="info-Developed">
+                <p>Stable multipliers, less volatile but also less potential for explosive growth.</p>
+            </div>
+        </div>
+
+        <div class="country-section">
+            <div class="country-name" onclick="toggleCard('Emerging')">
+                <input type="radio" name="country_type" value="Emerging" required>
+                Emerging
+            </div>
+            <div class="country-info" id="info-Emerging">
+                <p>Potential for higher growth, but with increased volatility.</p>
+            </div>
+        </div>
+
+        <div class="country-section">
+            <div class="country-name" onclick="toggleCard('Resource-rich')">
+                <input type="radio" name="country_type" value="Resource-rich" required>
+                Resource-rich
+            </div>
+            <div class="country-info" id="info-Resource-rich">
+                <p>Consistent growth potential but can be affected by external resource prices.</p>
+            </div>
+        <div class="center-button">
+    <button type="submit" class="blue-button">First Year Event</button>
+</div>
+
+</div>
+
+<script>
+function toggleCard(countryType) {
+    let infoDivs = document.querySelectorAll('.country-info');
+    infoDivs.forEach(div => div.style.display = "none");
+
+    let targetDiv = document.getElementById(`info-${countryType}`);
+    targetDiv.style.display = "block";
+
+    // Check the radio button associated with the clicked country
+    let radioButton = document.querySelector(`input[name="country_type"][value="${countryType}"]`);
+    radioButton.checked = true;
+}
+</script>
+
+{% endblock %}
