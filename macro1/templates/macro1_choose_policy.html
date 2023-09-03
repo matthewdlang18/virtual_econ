@@ -130,32 +130,32 @@
                     <h2>Year {{ game_data['current_quarter'] }} Event: <strong>{{ EVENT_NAMES[game_data['random_event']] }}</strong></h2>
                     <h3>Potential Impact of the {{ EVENT_NAMES[game_data['random_event']] }}</h3>
                     <p style="font-size: 1.0em;">GDP Growth:
-                        <span style="color:{{ 'green' if event_effects['gdp_growth'][0] >= 0 else 'red' }}; font-size: 1.2em;">
-                            {{ event_effects['gdp_growth'][0] }}%
-                        </span>
-                        to
-                        <span style="color:{{ 'green' if event_effects['gdp_growth'][1] >= 0 else 'red' }}; font-size: 1.2em;">
-                            {{ event_effects['gdp_growth'][1] }}%
-                        </span>
-                    </p>
-                    <p style="font-size: 1.0em;">CPI Change:
-                        <span style="color:{{ 'gold' if -1 <= cpi_min <= 1 else 'red' }}; font-size: 1.2em;">
-                            {{ cpi_min }}%
-                        </span>
-                        to
-                        <span style="color:{{ 'gold' if -1 <= cpi_max <= 1 else 'red' }}; font-size: 1.2em;">
-                            {{ cpi_max }}%
-                        </span>
-                    </p>
-                    <p style="font-size: 1.0em;">Unemployment Change:
-                        <span style="color:{{ 'gold' if -1 <= unemployment_min <= 1 else 'red' }}; font-size: 1.2em;">
-                            {{ unemployment_min }}%
-                        </span>
-                        to
-                        <span style="color:{{ 'gold' if -1 <= unemployment_max <= 1 else 'red' }}; font-size: 1.2em;">
-                            {{ unemployment_max }}%
-                        </span>
-                    </p>
+    <span style="color:{{ 'green' if event_effects['gdp_growth'][0] >= 0 else 'red' }}; font-size: 1.2em;">
+        {{ event_effects['gdp_growth'][0] }}%
+    </span>
+    to
+    <span style="color:{{ 'green' if event_effects['gdp_growth'][1] >= 0 else 'red' }}; font-size: 1.2em;">
+        {{ event_effects['gdp_growth'][1] }}%
+    </span>
+        </p>
+        <p style="font-size: 1.0em;">CPI Change:
+            <span style="color:{{ 'gold' if -1 <= event_effects['CPI'][0] <= 1 else 'red' }}; font-size: 1.2em;">
+                {{ event_effects['CPI'][0] }}%
+            </span>
+            to
+            <span style="color:{{ 'gold' if -1 <= event_effects['CPI'][1] <= 1 else 'red' }}; font-size: 1.2em;">
+                {{ event_effects['CPI'][1] }}%
+            </span>
+            </p>
+            <p style="font-size: 1.0em;">Unemployment Change:
+            <span style="color:{{ 'gold' if -1 <= event_effects['Unemployment'][0] <= 1 else 'red' }}; font-size: 1.2em;">
+                {{ event_effects['Unemployment'][0] }}%
+            </span>
+            to
+            <span style="color:{{ 'gold' if -1 <= event_effects['Unemployment'][1] <= 1 else 'red' }}; font-size: 1.2em;">
+                {{ event_effects['Unemployment'][1] }}%
+            </span>
+            </p>
                     <br>
                 </div>
                 <div class="policy-cards-section">
