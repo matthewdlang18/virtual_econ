@@ -488,526 +488,527 @@ COUNTRY_MULTIPLIERS = {
 INTERACTIONS = {
     'A': {
         'I': {
-            'GDP': "Infrastructure boosts tech, enhancing GDP.",
-            'CPI': "High-tech infrastructure raises prices.",
-            'Unemployment': "Tech projects create jobs."
-        },
-        'II': {
-            'GDP': "Cheaper infrastructure boosts GDP.",
-            'CPI': "Low oil prices mitigate inflation.",
-            'Unemployment': "More infrastructure projects mean more jobs."
-        },
-        'III': {
-            'GDP': "Infrastructure mitigates recession impacts.",
-            'CPI': "Recession can reduce material costs.",
-            'Unemployment': "Infrastructure provides jobs during downturns."
-        },
-        'IV': {
-            'GDP': "Lockdowns may delay projects.",
-            'CPI': "Disruptions raise material costs.",
-            'Unemployment': "Infrastructure jobs likely persist."
-        },
-        'V': {
-            'GDP': "Infrastructure resists trade war impacts.",
-            'CPI': "Tariffs can increase material costs.",
-            'Unemployment': "Domestic focus maintains jobs."
-        },
-        'VI': {
-            'GDP': "Infrastructure supports green revolution.",
-            'CPI': "Sustainable components rise in price.",
-            'Unemployment': "Green projects create jobs."
-        },
-        'VII': {
-            'GDP': "Infrastructure strengthens cybersecurity.",
-            'CPI': "Demand for cyber tech raises prices.",
-            'Unemployment': "Cyber projects create jobs."
-        },
-        'VIII': {
-            'GDP': "Post-disaster spending boosts GDP.",
-            'CPI': "Reconstruction increases material demand.",
-            'Unemployment': "Rebuilding creates jobs."
-        },
-        'IX': {
-            'GDP': "Infrastructure aids space exploration.",
-            'CPI': "Space tech demand raises prices.",
-            'Unemployment': "Space projects create tech jobs."
-        },
-        'X': {
-            'GDP': "Infrastructure aids AI, robotics.",
-            'CPI': "AI component demand raises prices.",
-            'Unemployment': "Infrastructure creates tech jobs."
-        }
+        'GDP': "Infrastructure spending supercharges the tech-induced GDP growth by catalyzing tech infrastructure projects.",
+        'CPI': "A heightened demand from tech and construction can lead to a mild CPI increase.",
+        'Unemployment': "A surge in construction jobs reduces unemployment."
     },
+    'II': {
+        'GDP': "The downturn in GDP from the oil sector is alleviated by the stimulus from infrastructure projects.",
+        'CPI': "CPI experiences a slight uptick due to increased activity in construction.",
+        'Unemployment': "Construction jobs counterbalance oil sector job losses."
+    },
+    'III': {
+        'GDP': "Infrastructure spending acts as a counter-cyclical buffer, reducing the severity of GDP decline.",
+        'CPI': "CPI remains relatively stable due to countervailing forces of recession and spending.",
+        'Unemployment': "The recession's unemployment rise is mitigated by government-induced construction jobs."
+    },
+    'IV': {
+        'GDP': "Infrastructure spending provides some relief to GDP, although full benefits might be delayed due to pandemic-related disruptions.",
+        'CPI': "CPI remains relatively stable, balancing pandemic-induced deflationary pressures against inflation from government spending.",
+        'Unemployment': "Potential job creation is offset by pandemic restrictions, leading to a marginal impact."
+    },
+    'V': {
+        'GDP': "Infrastructure spending bolsters domestic production, helping offset GDP losses from reduced trade.",
+        'CPI': "CPI increases due to reduced imports and higher domestic demand.",
+        'Unemployment': "Infrastructure projects create jobs, offsetting losses from reduced exports."
+    },
+    'VI': {
+        'GDP': "GDP gets a boost from the construction of green infrastructure projects.",
+        'CPI': "CPI might see a moderate increase due to demand for green technologies and materials.",
+        'Unemployment': "Green projects create new jobs, reducing unemployment."
+    },
+    'VII': {
+        'GDP': "Infrastructure spending unrelated to cybersecurity might not significantly impact GDP affected by breaches.",
+        'CPI': "CPI remains stable, with infrastructure spending having minimal direct effects on prices amidst cybersecurity concerns.",
+        'Unemployment': "New construction jobs might be offset by job losses in sectors impacted by breaches."
+    },
+    'VIII': {
+        'GDP': "Infrastructure rebuilding projects following disasters boost GDP.",
+        'CPI': "CPI rises due to demand for rebuilding resources and potential supply chain disruptions.",
+        'Unemployment': "Rebuilding efforts create jobs, decreasing unemployment."
+    },
+    'IX': {
+        'GDP': "Infrastructure spending, especially on space-related projects, further amplifies GDP growth.",
+        'CPI': "CPI sees a mild increase due to heightened demand from combined space and construction activities.",
+        'Unemployment': "Space-related infrastructure projects generate jobs, reducing unemployment."
+    },
+    'X': {
+        'GDP': "Infrastructure projects, especially those integrating AI and robotics, boost GDP.",
+        'CPI': "Increased demand for advanced materials and tech can lead to a moderate CPI rise.",
+        'Unemployment': "While construction jobs increase, the integration of AI might limit the net job growth."
+    }
+},
     'B': {
         'I': {
-            'GDP': "Tech boom, low rates attract investment.",
-            'CPI': "Tech demand raises prices.",
-            'Unemployment': "Tech industries boom."
+            'GDP': "Easier borrowing stimulates tech investments, amplifying GDP growth.",
+            'CPI': "Increased demand from borrowing can cause a moderate CPI increase.",
+            'Unemployment': "Investment-led growth provides more job opportunities, decreasing unemployment."
         },
         'II': {
-            'GDP': "Low oil, rates boost investment.",
-            'CPI': "Low oil prices counter inflation.",
-            'Unemployment': "Low oil costs preserve jobs."
+            'GDP': "Lower interest rates encourage non-oil sectors to borrow and invest, providing a buffer to GDP.",
+            'CPI': "Increased borrowing might push up prices slightly, causing a CPI rise.",
+            'Unemployment': "Investment in non-oil sectors could mitigate job losses from the oil crash."
         },
         'III': {
-            'GDP': "Low rates boost domestic demand.",
-            'CPI': "Recessionary pressures offset inflation.",
-            'Unemployment': "Domestic demand maintains jobs."
-        },
-        'IV': {
-            'GDP': "Pandemic deters investment.",
-            'CPI': "Pandemic reduces spending.",
-            'Unemployment': "Borrowing ease preserves jobs."
-        },
-        'V': {
-            'GDP': "Trade war hinders exports; low rates stimulate domestic demand.",
-            'CPI': "Trade wars raise import prices.",
-            'Unemployment': "Domestic demand retains jobs despite export challenges."
-        },
-        'VI': {
-            'GDP': "Low rates boost green tech investments.",
-            'CPI': "Green tech borrowing raises product prices.",
-            'Unemployment': "Green tech investments create jobs."
-        },
-        'VII': {
-            'GDP': "Low rates boost cybersecurity investments.",
-            'CPI': "Cyber tech borrowing raises prices.",
-            'Unemployment': "Cybersecurity sector growth creates jobs."
-        },
-        'VIII': {
-            'GDP': "Post-disaster low rates encourage rebuilding.",
-            'CPI': "Reconstruction borrowing raises material prices.",
-            'Unemployment': "Reconstruction boosts job creation."
-        },
-        'IX': {
-            'GDP': "Low rates boost space exploration investments.",
-            'CPI': "Space tech borrowing raises prices.",
-            'Unemployment': "Space tech investments create jobs."
-        },
-        'X': {
-            'GDP': "Low rates boost AI, robotics investments.",
-            'CPI': "AI tech borrowing raises product prices.",
-            'Unemployment': "AI and robotics sectors create jobs."
-        }
+        'GDP': "Reduced interest rates can act as a buffer, promoting borrowing and investment, thus alleviating the recession's impact on GDP.",
+        'CPI': "A potential increase in borrowing may offset deflationary pressures, leading to a stabilized CPI.",
+        'Unemployment': "Increased business activity due to borrowing can mitigate the rise in unemployment during a recession."
+    },
+    'IV': {
+        'GDP': "Lower interest rates might boost borrowing and spending, but the full effect on GDP may be hindered by health concerns.",
+        'CPI': "While borrowing can exert upward pressure on CPI, pandemic-induced reduced consumer spending can balance it out.",
+        'Unemployment': "Potential borrowing-induced job growth is offset by job losses from pandemic restrictions."
+    },
+    'V': {
+        'GDP': "Reduced interest rates encourage domestic borrowing and investment, potentially offsetting some GDP losses from reduced trade.",
+        'CPI': "Potential inflationary effects from borrowing can be offset by deflationary pressures from reduced trade.",
+        'Unemployment': "Increased domestic investments may offset some job losses from trade disruptions."
+    },
+    'VI': {
+        'GDP': "Lower interest rates might stimulate borrowing for green initiatives, supporting GDP growth.",
+        'CPI': "Increased green projects can lead to a moderate rise in CPI due to demand.",
+        'Unemployment': "Green projects funded through easier borrowing can create jobs."
+    },
+    'VII': {
+        'GDP': "Lower interest rates could encourage borrowing and investment, helping mitigate GDP losses from cybersecurity disruptions.",
+        'CPI': "Increased economic activity from borrowing might exert mild upward pressure on CPI.",
+        'Unemployment': "Any potential job growth from borrowing might be offset by job losses in affected industries."
+    },
+    'VIII': {
+        'GDP': "Reduced interest rates can stimulate disaster recovery investments, supporting GDP.",
+        'CPI': "Increased demand for rebuilding can exert upward pressure on CPI.",
+        'Unemployment': "Rebuilding and recovery efforts funded through borrowing can generate jobs."
+    },
+    'IX': {
+        'GDP': "Lower interest rates could further stimulate investments in space-related ventures, enhancing GDP growth.",
+        'CPI': "Increased economic activity in the space sector might lead to a mild CPI rise.",
+        'Unemployment': "Space-related ventures and projects can create new employment opportunities."
+    },
+    'X': {
+        'GDP': "Easier borrowing can accelerate investments in AI and robotics, enhancing GDP growth.",
+        'CPI': "Increased demand for tech-driven solutions can lead to a moderate CPI rise.",
+        'Unemployment': "While AI and robotics might replace some jobs, new opportunities in R&D and tech sectors can emerge."
+    }
     },
     'C': {
         'I': {
-            'GDP': "Tech exports boost revenue.",
-            'CPI': "Tech exports may raise domestic prices.",
-            'Unemployment': "Global tech demand creates jobs."
-        },
-        'II': {
-            'GDP': "Reduced oil costs aid exports.",
-            'CPI': "Exports stabilize CPI.",
-            'Unemployment': "Oil price drop may boost jobs."
-        },
-        'III': {
-            'GDP': "Global recession dampens export benefits.",
-            'CPI': "Oversupply from recession stabilizes prices.",
-            'Unemployment': "Recession reduces export jobs."
-        },
-        'IV': {
-            'GDP': "Supply disruptions hinder exports.",
-            'CPI': "Export reduction stabilizes domestic prices.",
-            'Unemployment': "Disruptions affect export jobs."
-        },
-        'V': {
-            'GDP': "Trade barriers hinder exports.",
-            'CPI': "Barriers cause domestic oversupply.",
-            'Unemployment': "Trade barriers risk export jobs."
-        },
-        'VI': {
-            'GDP': "Green product exports raise revenue.",
-            'CPI': "Green exports might raise domestic prices.",
-            'Unemployment': "Green exports create jobs."
-        },
-        'VII': {
-            'GDP': "Exporting cybersecurity solutions boosts revenue.",
-            'CPI': "Exporting solutions may raise domestic prices.",
-            'Unemployment': "Cybersecurity exports create tech jobs."
-        },
-        'VIII': {
-            'GDP': "Exports post-disasters boost revenue.",
-            'CPI': "Exporting reconstruction materials raises domestic prices.",
-            'Unemployment': "Post-disaster exports create construction jobs."
-        },
-        'IX': {
-            'GDP': "Space tech exports boost revenue.",
-            'CPI': "Exporting space tech may raise domestic prices.",
-            'Unemployment': "Space tech exports create research jobs."
-        },
-        'X': {
-            'GDP': "AI, robotics exports boost revenue.",
-            'CPI': "Exporting AI, robotics raises domestic prices.",
-            'Unemployment': "AI exports create tech jobs."
-        }
+        'GDP': "Promotion of exports during a tech boom amplifies GDP growth by accessing larger, global markets for new technologies.",
+        'CPI': "Increased demand for exported tech goods can cause a slight rise in CPI.",
+        'Unemployment': "Growing export sectors, especially in tech, generate more jobs, decreasing unemployment."
     },
+    'II': {
+        'GDP': "Promoting exports aids GDP by diversifying revenue sources, especially in non-oil sectors.",
+        'CPI': "Increased demand for exported goods can cause a slight rise in CPI.",
+        'Unemployment': "Growing export sectors can counteract job losses in the oil industry."
+    },
+    'III': {
+        'GDP': "Promotion of exports can act as a buffer, potentially securing foreign revenue to counterbalance the domestic recession's impact on GDP.",
+        'CPI': "Increased export activity might exert upward pressure on CPI due to export demand.",
+        'Unemployment': "Increased export activities can create jobs, helping to alleviate recession-induced unemployment."
+    },
+    'IV': {
+        'GDP': "While promoting exports can boost GDP, global health restrictions might hinder trade.",
+        'CPI': "Reduced global demand due to the pandemic might counteract any potential CPI rise from increased export activity.",
+        'Unemployment': "Potential job growth in export sectors might be balanced out by pandemic-induced global trade disruptions."
+    },
+    'V': {
+        'GDP': "Promoting exports during a trade war can be challenging, and might not significantly benefit GDP.",
+        'CPI': "Trade restrictions and tariffs might exert upward pressure on CPI.",
+        'Unemployment': "A trade war environment can neutralize potential job growth from export promotion."
+    },
+    'VI': {
+        'GDP': "Promoting exports of green technologies can significantly boost GDP in the face of global green demand.",
+        'CPI': "Increased export activity in green sectors might lead to a slight rise in CPI.",
+        'Unemployment': "Green tech exports generate jobs, decreasing unemployment."
+    },
+    'VII': {
+        'GDP': "Promotion of exports might be hampered by concerns over cybersecurity, leading to cautious GDP growth.",
+        'CPI': "Cybersecurity concerns might exert a neutral effect on CPI, regardless of export promotions.",
+        'Unemployment': "Cyber breaches could deter potential job growth in the export sector."
+    },
+    'VIII': {
+        'GDP': "Natural disasters might disrupt export capabilities, limiting the positive effect on GDP.",
+        'CPI': "Supply chain disruptions due to disasters can lead to a rise in CPI.",
+        'Unemployment': "While export promotion can create jobs, natural disasters might disrupt these sectors, leading to potential job losses."
+    },
+    'IX': {
+        'GDP': "Exporting space-related goods and technologies can significantly enhance GDP growth.",
+        'CPI': "Space tech exports could cause a moderate rise in CPI due to their high value.",
+        'Unemployment': "Space tech export sectors create specialized jobs, reducing unemployment."
+    },
+    'X': {
+        'GDP': "Exporting AI and robotics technologies boosts GDP by tapping into global demand for automation.",
+        'CPI': "AI and robotics exports might lead to a moderate rise in CPI due to the high value of these technologies.",
+        'Unemployment': "While AI and robotics exports create jobs, widespread automation might reduce employment in other sectors."
+    }
+    },
+
     'D': {
         'I': {
-            'GDP': "High borrowing costs dampen tech investments.",
-            'CPI': "Less tech demand stabilizes prices.",
-            'Unemployment': "Tech investments stagnate."
-        },
-        'II': {
-            'GDP': "High rates deter investment despite low oil.",
-            'CPI': "Low oil prices counter inflation.",
-            'Unemployment': "High rates risk jobs."
-        },
-        'III': {
-            'GDP': "High rates amplify recession impacts.",
-            'CPI': "Less borrowing risks deflation.",
-            'Unemployment': "High rates increase layoffs."
-        },
-        'IV': {
-            'GDP': "Pandemic and rates hinder growth.",
-            'CPI': "Low borrowing offsets inflation.",
-            'Unemployment': "Pandemic and rates risk jobs."
-        },
-        'V': {
-            'GDP': "Trade war and rates hurt GDP.",
-            'CPI': "Trade war raises import prices.",
-            'Unemployment': "Rates and trade war risk jobs."
-        },
-        'VI': {
-            'GDP': "Rates deter green tech investments.",
-            'CPI': "Low green demand stabilizes prices.",
-            'Unemployment': "Rates hinder green job growth."
-        },
-        'VII': {
-            'GDP': "Rates deter cyber investments.",
-            'CPI': "Low cyber demand stabilizes prices.",
-            'Unemployment': "Cyber job growth stagnates."
-        },
-        'VIII': {
-            'GDP': "High rates post-disasters slow recovery.",
-            'CPI': "Less borrowing stabilizes reconstruction prices.",
-            'Unemployment': "High rates deter post-disaster jobs."
-        },
-        'IX': {
-            'GDP': "Rates deter space investments.",
-            'CPI': "Low space demand stabilizes prices.",
-            'Unemployment': "Space job growth stagnates."
-        },
-        'X': {
-            'GDP': "Rates deter AI investments.",
-            'CPI': "Low AI demand stabilizes prices.",
-            'Unemployment': "AI job growth stagnates."
-        }
+        'GDP': "Raising interest rates might temper the tech-driven GDP growth by making borrowing costlier for tech ventures.",
+        'CPI': "Higher rates can lead to decreased spending and a potential drop in CPI.",
+        'Unemployment': "Increased borrowing costs might lead to slower business expansion, leading to a stable or slightly increased unemployment."
     },
+    'II': {
+        'GDP': "Higher interest rates could exacerbate the GDP decline caused by the oil price crash, by reducing borrowing and investment.",
+        'CPI': "Reduced spending and borrowing due to higher rates can lead to a further drop in CPI amidst the oil crash.",
+        'Unemployment': "The combined effect of oil sector downturn and reduced borrowing might increase unemployment."
+    },
+    'III': {
+        'GDP': "Raising interest rates during a recession might further dampen GDP by discouraging borrowing and spending.",
+        'CPI': "Higher rates can lead to deflationary pressures, further decreasing CPI in a recessionary environment.",
+        'Unemployment': "Decreased economic activity due to high rates can exacerbate the recession's unemployment."
+    },
+    'IV': {
+        'GDP': "Increasing interest rates during a pandemic might exacerbate the downturn, as both consumer and business spending are discouraged.",
+        'CPI': "Less borrowing and spending due to higher rates might exert a downward pressure on CPI.",
+        'Unemployment': "Increased borrowing costs combined with pandemic-induced business closures might amplify unemployment."
+    },
+    'V': {
+        'GDP': "Raising interest rates during a trade war might intensify the GDP decline, discouraging both domestic and international investment.",
+        'CPI': "Less borrowing and spending due to higher rates might combine with trade disruptions to push CPI downwards.",
+        'Unemployment': "Increased borrowing costs and trade disruptions can jointly exacerbate unemployment."
+    },
+    'VI': {
+        'GDP': "Higher interest rates could slow down green initiatives by making borrowing more expensive, potentially stunting GDP growth from this sector.",
+        'CPI': "Reduced borrowing due to higher rates might put a damper on CPI growth despite increased green projects.",
+        'Unemployment': "Potential job growth from green projects could be balanced out by reduced borrowing and investments."
+    },
+    'VII': {
+        'GDP': "Raising interest rates amidst cybersecurity concerns could deter investments, hindering GDP recovery.",
+        'CPI': "Higher interest rates might exert a downward pressure on CPI, in addition to concerns over cyber breaches.",
+        'Unemployment': "The combined effect of increased borrowing costs and cyber concerns might suppress job growth."
+    },
+    'VIII': {
+        'GDP': "Higher interest rates can make recovery more expensive post-disasters, potentially hindering GDP recovery.",
+        'CPI': "Increased borrowing costs can combine with supply chain disruptions to exert mixed pressures on CPI.",
+        'Unemployment': "While disaster recovery creates jobs, increased borrowing costs might deter large-scale reconstruction projects."
+    },
+    'IX': {
+        'GDP': "Raising interest rates could slow investments in space-related ventures, potentially reducing the GDP boost from such a breakthrough.",
+        'CPI': "Higher borrowing costs might exert a downward pressure on CPI despite increased space-related activities.",
+        'Unemployment': "While space exploration offers new job avenues, increased borrowing costs might slow down these opportunities."
+    },
+    'X': {
+        'GDP': "Increased interest rates can deter rapid investments in AI and robotics, potentially slowing GDP growth from these sectors.",
+        'CPI': "Despite the growth in AI and robotics, higher borrowing costs might put downward pressure on CPI.",
+        'Unemployment': "AI and robotics might replace certain jobs, and increased borrowing costs could deter new tech-driven employment opportunities."
+    }
+},
     'E': {
         'I': {
-            'GDP': "Tax boosts tech during boom.",
-            'CPI': "Increased goods availability stabilizes prices.",
-            'Unemployment': "Tax boosts tech jobs."
-        },
-        'II': {
-            'GDP': "Tax encourages business growth.",
-            'CPI': "Tax boosts production, reducing CPI.",
-            'Unemployment': "Tax savings boost jobs."
-        },
-        'III': {
-            'GDP': "Tax offsets global recession.",
-            'CPI': "Tax keeps prices competitive.",
-            'Unemployment': "Tax helps retain jobs."
-        },
-        'IV': {
-            'GDP': "Pandemic outweighs tax benefits.",
-            'CPI': "Tax doesn't offset inflation from disruptions.",
-            'Unemployment': "Pandemic risks jobs despite tax."
-        },
-        'V': {
-            'GDP': "Tax boosts domestic production.",
-            'CPI': "Tax offsets trade war inflation.",
-            'Unemployment': "Tax aids job retention."
-        },
-        'VI': {
-            'GDP': "Tax boosts green sectors.",
-            'CPI': "Tax stabilizes green product prices.",
-            'Unemployment': "Tax incentives boost green jobs."
-        },
-        'VII': {
-            'GDP': "Tax stimulates cybersecurity growth.",
-            'CPI': "Tax boosts cyber product supply.",
-            'Unemployment': "Tax boosts cyber jobs."
-        },
-        'VIII': {
-            'GDP': "Tax aids post-disaster growth.",
-            'CPI': "Tax stabilizes reconstruction prices.",
-            'Unemployment': "Tax aids post-disaster jobs."
-        },
-        'IX': {
-            'GDP': "Tax aids space sector growth.",
-            'CPI': "Tax boosts space tech supply.",
-            'Unemployment': "Tax boosts space jobs."
-        },
-        'X': {
-            'GDP': "Tax aids AI, robotics growth.",
-            'CPI': "Tax boosts AI supply.",
-            'Unemployment': "Tax boosts AI, robotics jobs."
-        }
+        'GDP': "Tax incentives during a tech boom can supercharge GDP growth by promoting further investments in emerging technologies.",
+        'CPI': "Increased business activity due to tax incentives can cause a rise in CPI.",
+        'Unemployment': "Enhanced business growth due to tax breaks can lead to more job creation, decreasing unemployment."
+    },
+    'II': {
+        'GDP': "Tax incentives can mitigate some of the GDP decline caused by the oil price crash by stimulating non-oil sectors.",
+        'CPI': "Increased business activity from tax breaks can push up CPI despite declining oil prices.",
+        'Unemployment': "Stimulated sectors due to tax incentives might offset job losses in the oil industry."
+    },
+    'III': {
+        'GDP': "Tax incentives during a recession can provide a buffer, encouraging businesses to invest and potentially lifting GDP.",
+        'CPI': "Business stimulation through tax breaks might counteract some deflationary pressures, stabilizing CPI.",
+        'Unemployment': "Tax incentives can encourage businesses to retain or hire staff, potentially curbing unemployment rises."
+    },
+    'IV': {
+        'GDP': "Tax incentives can encourage businesses to persevere and invest during pandemic challenges, potentially mitigating GDP declines.",
+        'CPI': "While a pandemic can create deflationary pressures, tax incentives might bolster business activity, countering some CPI drops.",
+        'Unemployment': "Tax breaks can help businesses retain staff during pandemic disruptions, potentially reducing unemployment surges."
+    },
+    'V': {
+        'GDP': "During a trade war, tax incentives can encourage domestic investments, acting as a counterbalance to GDP declines from disrupted trade.",
+        'CPI': "Tax breaks might bolster domestic business activity, influencing a rise in CPI amidst trade challenges.",
+        'Unemployment': "By stimulating domestic businesses with tax incentives, some trade war-induced job losses might be offset."
+    },
+    'VI': {
+        'GDP': "Tax incentives can accelerate green investments, amplifying GDP gains from the green revolution.",
+        'CPI': "Increased green business activity from tax breaks can contribute to a rise in CPI.",
+        'Unemployment': "The green sector's growth, spurred by tax incentives, can create jobs, reducing unemployment."
+    },
+    'VII': {
+        'GDP': "Tax incentives can promote business resilience and investment amidst cybersecurity challenges, potentially mitigating GDP impacts.",
+        'CPI': "Businesses bolstered by tax breaks might maintain activity levels, stabilizing CPI despite cybersecurity concerns.",
+        'Unemployment': "Tax incentives can aid businesses in navigating cyber challenges, potentially avoiding larger unemployment spikes."
+    },
+    'VIII': {
+        'GDP': "Tax breaks can aid businesses in disaster-stricken areas, potentially softening the GDP impact of natural disasters.",
+        'CPI': "By sustaining business activity with tax incentives, CPI declines from disaster-induced disruptions might be moderated.",
+        'Unemployment': "Tax incentives can support businesses in retaining staff post-disaster, potentially curbing unemployment rises."
+    },
+    'IX': {
+        'GDP': "Tax incentives can spur investments in space ventures, amplifying GDP gains from space exploration breakthroughs.",
+        'CPI': "Increased space-related business activity due to tax incentives might push up CPI.",
+        'Unemployment': "Tax breaks can encourage hiring in space-related fields, potentially driving down unemployment."
+    },
+    'X': {
+        'GDP': "Tax incentives can expedite investments in AI and robotics, maximizing the potential GDP boost from these sectors.",
+        'CPI': "Business growth in AI and robotics from tax breaks might contribute to a CPI rise.",
+        'Unemployment': "While AI and robotics can lead to job displacement, tax incentives might also support new job creation, balancing unemployment impacts."
+    }
     },
     'F': {
         'I': {
-            'GDP': "Welfare ensures funds for tech products, bolstering the tech industry.",
-            'CPI': "Increased funds may push prices up slightly.",
-            'Unemployment': "Welfare supports those affected by tech changes."
-        },
-        'II': {
-            'GDP': "Welfare ensures steady consumption despite oil sector challenges.",
-            'CPI': "Welfare stabilizes demand, offsetting deflationary oil price effects.",
-            'Unemployment': "Welfare supports those affected in the oil sector."
-        },
-        'III': {
-            'GDP': "Welfare supports domestic consumption amidst reduced global demand.",
-            'CPI': "Welfare-driven demand can stabilize prices during a recession.",
-            'Unemployment': "Welfare prevents higher unemployment in a recession."
-        },
-        'IV': {
-            'GDP': "Welfare provides support during pandemic lockdowns.",
-            'CPI': "Welfare maintains demand during a pandemic.",
-            'Unemployment': "Welfare supports job losses in a pandemic."
-        },
-        'V': {
-            'GDP': "Welfare ensures steady consumption despite trade wars.",
-            'CPI': "Welfare helps stabilize prices during trade wars.",
-            'Unemployment': "Welfare supports those affected by trade wars."
-        },
-        'VI': {
-            'GDP': "Welfare supports those during the green technology transition.",
-            'CPI': "Welfare stabilizes green product prices.",
-            'Unemployment': "Welfare acts as a net during the green revolution."
-        },
-        'VII': {
-            'GDP': "Welfare supports those affected by cybersecurity threats.",
-            'CPI': "Welfare stabilizes demand amidst cybersecurity threats.",
-            'Unemployment': "Welfare supports jobs amidst cybersecurity breaches."
-        },
-        'VIII': {
-            'GDP': "Welfare supports post-disaster recovery.",
-            'CPI': "Welfare stabilizes post-disaster demand.",
-            'Unemployment': "Welfare supports post-disaster job losses."
-        },
-        'IX': {
-            'GDP': "Welfare supports those during space industry transition.",
-            'CPI': "Welfare stabilizes space product prices.",
-            'Unemployment': "Welfare acts as a net in space industry shifts."
-        },
-        'X': {
-            'GDP': "Welfare supports those affected by AI and robotics.",
-            'CPI': "Welfare stabilizes AI product prices.",
-            'Unemployment': "Welfare supports jobs amidst AI transitions."
-        }
+        'GDP': "Welfare expansion during a tech boom can support those not involved in tech, possibly leading to increased consumer spending and a GDP rise.",
+        'CPI': "Increased consumer demand from welfare expansion might lead to a rise in CPI.",
+        'Unemployment': "While tech industries boom, expanded welfare supports those outside of tech, potentially reducing the overall unemployment rate."
+    },
+    'II': {
+        'GDP': "Welfare expansion during an oil price crash can act as a GDP stabilizer by bolstering consumer spending.",
+        'CPI': "The increased consumer spending from welfare benefits might push CPI upwards.",
+        'Unemployment': "Expanded welfare offers a safety net to those affected by job losses in the oil sector, potentially stabilizing the unemployment rate."
+    },
+    'III': {
+        'GDP': "Amidst a global recession, expanding welfare can mitigate GDP declines by supporting consumer spending.",
+        'CPI': "The bolstered consumer activity from welfare can counteract deflationary pressures, potentially stabilizing CPI.",
+        'Unemployment': "Enhanced welfare support provides relief for those affected by a recession, potentially curbing steep unemployment rises."
+    },
+    'IV': {
+        'GDP': "Welfare expansion during a pandemic can support households affected by disruptions, potentially reducing the GDP downturn.",
+        'CPI': "With increased consumer spending due to welfare, CPI might see upward pressures even amidst pandemic challenges.",
+        'Unemployment': "Expanded welfare acts as a buffer for those unemployed due to pandemic-related business closures, potentially moderating unemployment spikes."
+    },
+    'V': {
+        'GDP': "Expanding welfare during a trade war can act as an economic stabilizer, potentially offsetting some GDP declines from reduced trade.",
+        'CPI': "Welfare-induced consumer spending might push CPI upwards, despite trade disruptions.",
+        'Unemployment': "Welfare expansion supports those affected by the trade war, potentially preventing a steeper unemployment rise."
+    },
+    'VI': {
+        'GDP': "Welfare expansion in the wake of a green revolution ensures that benefits are distributed widely, potentially leading to broader consumer spending and a GDP rise.",
+        'CPI': "Consumer demand, bolstered by welfare, might push CPI up, even amidst a shift to green technologies and practices.",
+        'Unemployment': "While the green sector grows, expanded welfare supports workers from displaced industries, potentially moderating unemployment rates."
+    },
+    'VII': {
+        'GDP': "During cybersecurity crises, expanded welfare provides a safety net for affected households, offering some stability to GDP.",
+        'CPI': "Welfare-backed consumer spending might remain steady or even rise, influencing CPI, despite cybersecurity challenges.",
+        'Unemployment': "Expanded welfare can offer support to those unemployed due to cyber disruptions, potentially moderating unemployment increases."
+    },
+    'VIII': {
+        'GDP': "In the aftermath of natural disasters, welfare expansion supports affected communities, potentially buffering GDP declines.",
+        'CPI': "Sustained consumer activity due to welfare might stabilize or increase CPI, even amidst disaster challenges.",
+        'Unemployment': "Welfare acts as a safety net post-disaster, supporting those who've lost jobs, potentially stabilizing the unemployment rate."
+    },
+    'IX': {
+        'GDP': "While space exploration advances, expanded welfare ensures the broader population benefits, potentially stimulating consumer spending and aiding GDP.",
+        'CPI': "With welfare support, consumer spending might remain buoyant, pushing CPI upwards.",
+        'Unemployment': "As space sectors grow, welfare offers a buffer to those not involved, potentially moderating overall unemployment rates."
+    },
+    'X': {
+        'GDP': "As AI and robotics sectors surge, welfare expansion ensures benefits are felt more broadly, potentially stimulating GDP through wider consumer spending.",
+        'CPI': "Robust consumer spending backed by welfare can push CPI upwards, even as AI and robotics transform industries.",
+        'Unemployment': "Expanded welfare offers a safety net to workers displaced by AI and robotics, potentially preventing a steep rise in unemployment."
+    }
     },
 'G': {
         'I': {
-            'GDP': "Less infrastructure spending dampens tech boom benefits.",
-            'CPI': "Reduced spending might ease inflationary pressures.",
-            'Unemployment': "Less spending misses job opportunities in tech."
-        },
-        'II': {
-            'GDP': "Less infrastructure spending reduces oil price crash benefits.",
-            'CPI': "Reduced spending stabilizes demand.",
-            'Unemployment': "Less spending leads to potential job losses."
-        },
-        'III': {
-            'GDP': "Reduced spending during a recession amplifies GDP decline.",
-            'CPI': "Less projects stabilize construction material prices.",
-            'Unemployment': "Less spending increases construction unemployment."
-        },
-        'IV': {
-            'GDP': "Less spending during a pandemic hinders GDP.",
-            'CPI': "Pandemic and less projects lead to price instability.",
-            'Unemployment': "Reduced spending during a pandemic increases job losses."
-        },
-        'V': {
-            'GDP': "Decreased spending during trade wars hits GDP.",
-            'CPI': "Trade wars and reduced spending balance prices.",
-            'Unemployment': "Less spending during trade wars increases job losses."
-        },
-        'VI': {
-            'GDP': "Decreased spending hinders green technology transition.",
-            'CPI': "Less spending stabilizes green tech prices.",
-            'Unemployment': "Reduced green projects lead to job losses."
-        },
-        'VII': {
-            'GDP': "Reduced spending makes economy vulnerable to cyber threats.",
-            'CPI': "Reduced spending doesn't impact CPI amidst cyber threats.",
-            'Unemployment': "Outdated infrastructure and cyber breaches cause job losses."
-        },
-        'VIII': {
-            'GDP': "Decreased post-disaster spending hinders recovery.",
-            'CPI': "Reduced reconstruction efforts stabilize prices.",
-            'Unemployment': "Reduced post-disaster spending reduces jobs."
-        },
-        'IX': {
-            'GDP': "Reduced spending hinders space industry growth.",
-            'CPI': "Less space-related spending stabilizes prices.",
-            'Unemployment': "Reduced space projects lead to job losses."
-        },
-        'X': {
-            'GDP': "Decreased spending hinders AI, robotics growth.",
-            'CPI': "Less AI-related spending stabilizes prices.",
-            'Unemployment': "Reduced AI projects lead to job losses."
-        }
+        'GDP': "Reduced infrastructure spending during a tech boom might hinder broader economic benefits, potentially leading to a subdued GDP rise.",
+        'CPI': "A decline in public spending might have a neutral or deflationary effect on CPI amidst a tech boom.",
+        'Unemployment': "The decreased public sector infrastructure jobs combined with a tech surge might lead to a mixed impact on unemployment."
+    },
+    'II': {
+        'GDP': "Decreasing infrastructure spending amidst an oil price crash could exacerbate GDP declines, with two major sectors slowing down.",
+        'CPI': "Reduced public spending might contribute to deflationary pressures, further pulling CPI down during an oil crash.",
+        'Unemployment': "Cuts in infrastructure projects could lead to job losses, amplifying unemployment challenges from the oil sector downturn."
+    },
+    'III': {
+        'GDP': "Reduced infrastructure spending during a global recession might deepen GDP declines, removing a potential stabilizing factor.",
+        'CPI': "Declines in public infrastructure spending can contribute to further deflationary pressures during a recession, potentially lowering CPI.",
+        'Unemployment': "Withholding investments in infrastructure can exacerbate job losses during a recession, pushing unemployment higher."
+    },
+    'IV': {
+        'GDP': "Decreasing infrastructure spending during a pandemic could lead to compounded economic slowdowns, further pressuring GDP.",
+        'CPI': "Reduced public spending in the midst of pandemic disruptions might contribute to deflationary pressures, potentially decreasing CPI.",
+        'Unemployment': "Cuts in infrastructure might mean fewer public sector jobs, intensifying unemployment challenges during pandemic times."
+    },
+    'V': {
+        'GDP': "Decreased infrastructure spending during a trade war could compound economic challenges, leading to a more pronounced GDP downturn.",
+        'CPI': "The pullback in public spending might exert additional deflationary pressures on CPI amidst trade disruptions.",
+        'Unemployment': "Reduced spending on infrastructure can amplify job losses during a trade war, pushing the unemployment rate higher."
+    },
+    'VI': {
+        'GDP': "While the green sector might grow, reducing infrastructure spending can dampen the broader GDP benefits of the green revolution.",
+        'CPI': "Decreased public spending can have a neutral or deflationary impact on CPI, even amidst green sector growth.",
+        'Unemployment': "The growth of the green sector might be offset by job losses from reduced infrastructure spending, leading to mixed unemployment impacts."
+    },
+    'VII': {
+        'GDP': "Reduced infrastructure spending during cyber crises might hinder recovery efforts, potentially leading to a subdued GDP response.",
+        'CPI': "A pullback in public spending during cyber challenges might stabilize or decrease CPI.",
+        'Unemployment': "Decreased investments in infrastructure during a cyber crisis can amplify job losses, pushing unemployment upwards."
+    },
+    'VIII': {
+        'GDP': "Cutting back on infrastructure post-natural disasters can hinder recovery efforts, potentially deepening GDP impacts.",
+        'CPI': "Reduced public spending in disaster-hit regions might exert deflationary pressures, pulling CPI downwards.",
+        'Unemployment': "Withholding infrastructure spending post-disasters can lead to job losses, exacerbating unemployment challenges."
+    },
+    'IX': {
+        'GDP': "While the space sector might advance, cutting infrastructure spending can limit broader GDP gains from spin-off industries.",
+        'CPI': "Decreased public spending might have a neutral or deflationary impact on CPI, despite space sector growth.",
+        'Unemployment': "The growth in space-related industries might be offset by job losses from infrastructure spending cuts, leading to mixed unemployment outcomes."
+    },
+    'X': {
+        'GDP': "As AI and robotics grow, decreased infrastructure spending can limit the broader economic benefits, potentially leading to a more muted GDP rise.",
+        'CPI': "Reduced public infrastructure investments might have a neutral or deflationary effect on CPI, even amidst AI and robotics growth.",
+        'Unemployment': "The job creation in AI and robotics might be balanced by losses from infrastructure cutbacks, leading to mixed unemployment impacts."
+    }
     },
 
     'H': {
         'I': {
-            'GDP': "During a tech boom, limiting exports curbs global demand benefits.",
-            'CPI': "Export restrictions may reduce tech product prices.",
-            'Unemployment': "Untapped global tech demand can limit job opportunities."
-        },
-        'II': {
-            'GDP': "In an oil price crash, export limits reduce revenue potential.",
-            'CPI': "Export reductions can lead to domestic price drops.",
-            'Unemployment': "Export limits can increase sectoral layoffs."
-        },
-        'III': {
-            'GDP': "During a recession, export limits deepen GDP impact.",
-            'CPI': "Export limits can induce deflationary pressures.",
-            'Unemployment': "Reduced exports amplify export sector job losses."
-        },
+        'GDP': "Limiting exports during a tech boom might reduce GDP growth as tech firms are restricted from capitalizing on global markets.",
+        'CPI': "Restricted exports can lead to an oversupply domestically, potentially reducing CPI.",
+        'Unemployment': "Tech firms might see limited job growth or even job cuts due to export restrictions, raising unemployment."
+    },
+    'II': {
+        'GDP': "Limiting exports amidst an oil price crash can further strain GDP as oil producers can't capitalize on possible favorable external markets.",
+        'CPI': "With restricted exports, local markets might experience oversupply, potentially decreasing CPI.",
+        'Unemployment': "Oil sector job losses might be compounded with limited export avenues, pushing unemployment higher."
+    },
+    'III': {
+        'GDP': "During a global recession, limiting exports can exacerbate GDP declines, depriving domestic companies of external demand.",
+        'CPI': "Domestic oversupply due to export restrictions might exert further deflationary pressures, reducing CPI.",
+        'Unemployment': "Job losses might increase as firms face both local and global demand shocks, further raising unemployment."
+    },
         'IV': {
-            'GDP': "In a pandemic, limiting exports exacerbates GDP drops.",
-            'CPI': "Export restrictions could stabilize prices.",
-            'Unemployment': "Export limits during a pandemic heighten job losses."
-        },
-        'V': {
-            'GDP': "Trade wars and additional export limits contract GDP.",
-            'CPI': "Export limits in trade wars might decrease prices.",
-            'Unemployment': "Trade wars and export restrictions amplify job losses."
-        },
-        'VI': {
-            'GDP': "During a green revolution, export limits curtail global market access.",
-            'CPI': "Green product export restrictions may decrease prices.",
-            'Unemployment': "Green sector faces job risks due to export limits."
-        },
-        'VII': {
-            'GDP': "Export limits can reduce cybersecurity market opportunities.",
-            'CPI': "Export restrictions may decrease cybersecurity product prices.",
-            'Unemployment': "Reduced export opportunities can impact job growth."
-        },
-        'VIII': {
-            'GDP': "Post-disasters, export limits hinder recovery opportunities.",
-            'CPI': "Export limits can reduce prices post disasters.",
-            'Unemployment': "Export restrictions post disasters risk job losses."
-        },
-        'IX': {
-            'GDP': "Limiting space exports curtails global market growth.",
-            'CPI': "Export limits may reduce space tech prices.",
-            'Unemployment': "Space sector can face job risks from export limits."
-        },
-        'X': {
-            'GDP': "Limiting AI exports curbs global market benefits.",
-            'CPI': "AI export restrictions may reduce prices.",
-            'Unemployment': "AI sector faces job risks due to export limits."
-        }
+        'GDP': "During a pandemic, limiting exports can further suppress GDP by restricting firms from diversifying risks across markets.",
+        'CPI': "Domestic oversupply due to export restrictions may lead to a decrease in CPI.",
+        'Unemployment': "As companies face reduced export opportunities, they might lay off workers, leading to increased unemployment."
+    },
+    'V': {
+        'GDP': "In a trade war scenario, limiting exports can be redundant and can intensify negative GDP impacts.",
+        'CPI': "Trade restrictions might cause scarcity of some goods, potentially increasing CPI.",
+        'Unemployment': "Reduced global trade avenues can lead to layoffs, thus raising unemployment."
+    },
+    'VI': {
+        'GDP': "Limiting exports during a green revolution can impede GDP growth by restricting green businesses from accessing broader markets.",
+        'CPI': "Domestic oversupply of green goods might lead to a decrease in CPI.",
+        'Unemployment': "Green industries might experience reduced growth or layoffs due to export limitations, increasing unemployment."
+    },
+    'VII': {
+        'GDP': "Limiting exports after a cybersecurity breach might be seen as a protective measure, but can hinder GDP recovery by reducing market access for affected businesses.",
+        'CPI': "Reduced exports may not significantly affect CPI in the short term following a breach.",
+        'Unemployment': "Affected industries might see additional job cuts if they are also limited from exporting, exacerbating unemployment."
+    },
+    'VIII': {
+        'GDP': "During natural disasters, limiting exports can be detrimental to GDP as domestic production capabilities might be impaired and external markets could provide relief.",
+        'CPI': "Export limitations combined with disaster-related supply shortages might drive up CPI.",
+        'Unemployment': "Job losses from disaster impacts might be compounded if industries are also barred from exporting, pushing unemployment up."
+    },
+    'IX': {
+        'GDP': "Limiting exports during a period of space exploration advancements might hinder GDP growth by restricting aerospace industries from global collaborations and market access.",
+        'CPI': "Reduced exports in aerospace might not have a significant direct impact on CPI.",
+        'Unemployment': "The aerospace sector could face growth limitations or job cuts due to export restrictions, affecting unemployment."
+    },
+    'X': {
+        'GDP': "Limiting exports in an era of AI and robotics surge can dampen GDP growth by restricting these industries from accessing global markets.",
+        'CPI': "A domestic oversupply of AI and robotics products might lead to a decrease in CPI.",
+        'Unemployment': "AI and robotics industries might see limited growth or layoffs due to export restrictions, increasing unemployment."
+    }
     },
 
     'J': {
         'I': {
-            'GDP': "Tax hikes during tech boom deter tech advancements.",
-            'CPI': "Higher taxes can increase tech product prices.",
-            'Unemployment': "Tax hikes during tech boom curtail job growth."
-        },
-        'II': {
-            'GDP': "Tax hikes in an oil crash deepen GDP impacts.",
-            'CPI': "Higher taxes and oil price crash unsettle prices.",
-            'Unemployment': "Tax increases during oil crash risk more layoffs."
-        },
-        'III': {
-            'GDP': "In a recession, tax hikes amplify GDP drops.",
-            'CPI': "Higher taxes in a recession risk inflation.",
-            'Unemployment': "Tax increases during recession amplify layoffs."
-        },
+        'GDP': "Increasing taxes on businesses during a tech boom can dampen the GDP growth, as tech firms have reduced profits for reinvestment.",
+        'CPI': "Higher business costs due to tax hikes might be passed onto consumers, raising CPI.",
+        'Unemployment': "Tax increases can slow hiring or even lead to layoffs in the tech sector, potentially increasing unemployment."
+    },
+    'II': {
+        'GDP': "Raising taxes amidst an oil price crash can deepen GDP declines, further stressing an already vulnerable sector.",
+        'CPI': "Higher production costs due to tax increases can contribute to inflationary pressures, potentially raising CPI.",
+        'Unemployment': "The oil sector, already struggling, might face further job cuts due to increased taxation, exacerbating unemployment."
+    },
+    'III': {
+        'GDP': "During a global recession, tax hikes on businesses can exacerbate economic downturns, further depressing GDP.",
+        'CPI': "Increased business costs from tax hikes might drive up prices, exerting inflationary pressures on CPI.",
+        'Unemployment': "Raising taxes can lead to business contractions and layoffs during a recession, further escalating unemployment."
+    },
         'IV': {
-            'GDP': "During a pandemic, tax hikes restrain investments.",
-            'CPI': "Tax hikes during a pandemic can inflate prices.",
-            'Unemployment': "Increased taxes in a pandemic deepen job losses."
-        },
-        'V': {
-            'GDP': "In trade wars, tax hikes further deter investments.",
-            'CPI': "Trade wars and tax hikes inflate prices.",
-            'Unemployment': "Tax hikes in trade wars amplify job losses."
-        },
-        'VI': {
-            'GDP': "Tax hikes during green revolution deter green tech investments.",
-            'CPI': "Higher taxes can raise green product prices.",
-            'Unemployment': "Tax hikes during green revolution limit job growth."
-        },
-        'VII': {
-            'GDP': "Tax hikes can deter cybersecurity investments.",
-            'CPI': "Higher taxes can raise cybersecurity solution prices.",
-            'Unemployment': "Increased taxes hinder job growth in cybersecurity."
-        },
-        'VIII': {
-            'GDP': "Post-disaster tax hikes hinder recovery investments.",
-            'CPI': "Higher taxes post disasters can inflate prices.",
-            'Unemployment': "Tax hikes post disasters restrain job growth."
-        },
-        'IX': {
-            'GDP': "Tax hikes hinder space industry investments.",
-            'CPI': "Higher taxes can raise space tech prices.",
-            'Unemployment': "Tax hikes limit job growth in space sector."
-        },
-        'X': {
-            'GDP': "In AI surge, tax hikes deter advancements.",
-            'CPI': "Higher taxes can increase AI tech prices.",
-            'Unemployment': "Tax hikes during AI surge curtail job growth."
-        }
+        'GDP': "Increasing business taxes during a pandemic can further depress GDP as businesses might be already struggling with reduced revenues.",
+        'CPI': "Higher business costs due to tax hikes might be passed onto consumers, leading to an increase in CPI.",
+        'Unemployment': "Increased taxation during a pandemic can lead to business closures and job cuts, pushing unemployment up."
+    },
+    'V': {
+        'GDP': "In a trade war, raising business taxes can be detrimental, amplifying GDP declines due to double stress on businesses.",
+        'CPI': "Increased production costs due to both trade restrictions and tax hikes can contribute to inflationary pressures on CPI.",
+        'Unemployment': "Businesses facing both trade barriers and tax hikes might opt for job cuts, exacerbating unemployment."
+    },
+    'VI': {
+        'GDP': "Taxing businesses more during a green revolution might slow down the GDP growth derived from green industries.",
+        'CPI': "Increased costs for green businesses might be passed onto consumers, potentially raising CPI.",
+        'Unemployment': "Green businesses might see slower hiring or even layoffs due to higher taxes, affecting unemployment rates."
+    },
+    'VII': {
+        'GDP': "Raising taxes after a cybersecurity breach can hinder GDP recovery by placing additional financial burdens on already vulnerable businesses.",
+        'CPI': "Higher business costs due to tax hikes might lead to inflationary pressures on CPI.",
+        'Unemployment': "Affected industries might face additional layoffs if also subjected to increased taxation, pushing unemployment higher."
+    },
+    'VIII': {
+        'GDP': "Increasing taxes post-natural disasters can suppress GDP recovery by straining businesses already coping with physical damages.",
+        'CPI': "Higher costs for businesses recovering from disasters might be passed onto consumers, raising CPI.",
+        'Unemployment': "Business recovery might be slower with higher taxes, potentially leading to sustained or increased unemployment."
+    },
+    'IX': {
+        'GDP': "Increasing taxes during a space exploration surge might slow GDP growth by reducing profitability and reinvestment capabilities for aerospace industries.",
+        'CPI': "Increased costs in aerospace due to higher taxes might lead to inflationary pressures on CPI.",
+        'Unemployment': "Aerospace industries might face hiring slowdowns or layoffs due to higher taxation, affecting unemployment."
+    },
+    'X': {
+        'GDP': "Raising taxes during an AI and robotics surge can dampen the GDP growth as these sectors might have reduced funds for R&D and expansion.",
+        'CPI': "Increased costs in AI and robotics due to taxation might contribute to inflationary pressures on CPI.",
+        'Unemployment': "The AI and robotics sectors could see reduced growth or layoffs due to higher taxation, potentially raising unemployment."
+    }
     },
 
     'K': {
         'I': {
-            'GDP': "Welfare cuts during tech boom slow GDP growth.",
-            'CPI': "Welfare cuts stabilize tech product prices.",
-            'Unemployment': "Tech boom welfare cuts risk financial stability."
-        },
-        'II': {
-            'GDP': "In an oil crash, welfare cuts deepen GDP impacts.",
-            'CPI': "Welfare cuts and oil crash induce deflation.",
-            'Unemployment': "Welfare cuts during oil crash amplify financial risks."
-        },
-        'III': {
-            'GDP': "During a recession, welfare cuts deepen GDP impacts.",
-            'CPI': "Welfare cuts in a recession amplify deflation.",
-            'Unemployment': "Recession welfare cuts amplify financial risks."
-        },
+        'GDP': "In the midst of a global tech boom, cutting social welfare might reduce consumer spending, potentially slowing the overall GDP growth slightly.",
+        'CPI': "With decreased consumer demand due to welfare cuts, there might be deflationary pressures leading to a decrease in CPI, despite the tech growth.",
+        'Unemployment': "The tech industry might see significant job creation, but the broader impact of welfare cuts could lead to employment challenges in other sectors."
+    },
+    'II': {
+        'GDP': "Following an oil price crash, cutting welfare can depress GDP further by reducing consumer spending power, especially in economies dependent on oil revenues.",
+        'CPI': "The combined effect of reduced oil prices and decreased consumer spending due to welfare cuts might lead to significant deflationary pressures on CPI.",
+        'Unemployment': "While the oil sector might see layoffs due to price crashes, welfare cuts can exacerbate unemployment as other sectors feel the pinch from reduced consumer spending."
+    },
+    'III': {
+        'GDP': "During a global recession, cutting social welfare can have a detrimental effect on GDP, deepening the recession by further suppressing consumer demand.",
+        'CPI': "With a global recession and reduced consumer spending power due to welfare cuts, strong deflationary pressures might pull down CPI.",
+        'Unemployment': "The recession itself might lead to significant job losses, and welfare cuts can intensify unemployment as people have fewer safety nets and decreased spending affects various sectors."
+    },
         'IV': {
-            'GDP': "In a pandemic, welfare cuts deepen GDP drops.",
-            'CPI': "Welfare cuts during a pandemic stabilize prices.",
-            'Unemployment': "Pandemic welfare cuts deepen financial risks."
-        },
-        'V': {
-            'GDP': "Trade war welfare cuts impact domestic consumption.",
-            'CPI': "Trade wars and welfare cuts may stabilize prices.",
-            'Unemployment': "Welfare cuts during trade wars increase financial risks."
-        },
-        'VI': {
-            'GDP': "During a green revolution, welfare cuts curtail consumption.",
-            'CPI': "Welfare cuts stabilize green product prices.",
-            'Unemployment': "Green revolution welfare cuts risk financial stability."
-        },
-        'VII': {
-            'GDP': "Welfare cuts risk household stability during cybersecurity threats.",
-            'CPI': "Welfare cuts stabilize prices during cybersecurity threats.",
-            'Unemployment': "Cybersecurity threats and welfare cuts risk job losses."
-        },
-        'VIII': {
-            'GDP': "Post-disaster welfare cuts hinder recovery consumption.",
-            'CPI': "Welfare cuts post disasters may stabilize prices.",
-            'Unemployment': "Post-disaster welfare cuts increase financial risks."
-        },
-        'IX': {
-            'GDP': "Space industry welfare cuts curtail consumption.",
-            'CPI': "Welfare cuts stabilize space tech prices.",
-            'Unemployment': "Space industry welfare cuts risk financial stability."
-        },
-        'X': {
-            'GDP': "In AI surge, welfare cuts curtail consumption.",
-            'CPI': "Welfare cuts stabilize AI tech prices.",
-            'Unemployment': "AI surge welfare cuts risk financial stability."
-        },
+        'GDP': "Cutting social welfare during a pandemic can depress consumer spending, potentially leading to a further decline in GDP.",
+        'CPI': "With reduced consumer spending power, deflationary pressures might increase, leading to a potential decrease in CPI.",
+        'Unemployment': "With reduced welfare support, many affected by the pandemic might seek jobs, but opportunities might be scarce, leading to high unemployment."
+    },
+    'V': {
+        'GDP': "In a trade war scenario, cutting welfare can exacerbate GDP declines by further reducing domestic consumer spending.",
+        'CPI': "Reduced spending power from welfare cuts can lead to deflationary pressures, potentially reducing CPI.",
+        'Unemployment': "Reduced domestic demand due to welfare cuts combined with trade restrictions can lead to job losses, raising unemployment."
+    },
+    'VI': {
+        'GDP': "Cutting social welfare during a green revolution can reduce consumer spending on green products, potentially slowing GDP growth.",
+        'CPI': "Decreased consumer demand for green products due to welfare cuts might exert deflationary pressures, reducing CPI.",
+        'Unemployment': "While green industries grow, other sectors affected by welfare cuts might see job losses, leading to mixed unemployment outcomes."
+    },
+    'VII': {
+        'GDP': "Reducing social welfare after a cybersecurity breach might not directly affect GDP recovery but can affect overall consumer confidence and spending.",
+        'CPI': "Reduced consumer spending power from welfare cuts can exert deflationary pressures, potentially pulling down CPI.",
+        'Unemployment': "Job market recovery post-breach might be slowed if affected populations also face welfare cuts, potentially keeping unemployment high."
+    },
+    'VIII': {
+        'GDP': "Cutting welfare post-disasters can hinder GDP recovery by depriving affected populations of necessary financial support and depressing consumer spending.",
+        'CPI': "With decreased consumer spending power post-disaster, deflationary pressures might pull down CPI.",
+        'Unemployment': "Post-disaster job market recovery might be slowed if affected communities also face welfare cuts, potentially exacerbating unemployment."
+    },
+    'IX': {
+        'GDP': "Cutting welfare during a space exploration surge might not directly influence aerospace GDP growth but can impact broader consumer spending patterns.",
+        'CPI': "Reduced spending power due to welfare cuts might exert some deflationary pressures, potentially affecting CPI.",
+        'Unemployment': "While aerospace sectors might see growth, other sectors impacted by welfare cuts can face job losses, leading to mixed unemployment outcomes."
+    },
+    'X': {
+        'GDP': "During an AI and robotics surge, cutting welfare can depress broader consumer spending, potentially slowing down overall GDP growth.",
+        'CPI': "Reduced spending power due to welfare cuts can lead to deflationary pressures, affecting CPI.",
+        'Unemployment': "While AI and robotics sectors might thrive, reduced welfare can impact other sectors leading to job losses, potentially raising unemployment."
+    }
     },
     'L': {  # No Policy
     'I': {
