@@ -1,70 +1,68 @@
 {% extends "base_macro1.html" %}
 
 {% block content %}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Choose Policy for Year {{ game_data['current_quarter'] }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles_macro1.css') }}">
+    <style>
+        .results-section, .impacts-section, .policy-cards-section {
+            flex: 1;
+            padding: 10px; /* For some spacing */
+        }
+
+        .container {
+            display: flex;
+            max-width: 95%;
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .results-section {
+            order: 0;
+            flex: 0 1 40%; /* This ensures that the results-section takes up a maximum of 40% */
+            border-right: 1px solid #ccc;
+            padding: 0 10px;
+            box-sizing: border-box;
+            max-width: 40%; /* Ensures it doesn't grow beyond 40% */
+        }
+
+        .impact-and-policy-container {
+            flex: 1; /* This will allow it to take the remaining available space */
+            padding: 0 10px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .grid-wrapper {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .container table {
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 767px) {
+            .container {
+                flex-direction: column;
+            }
+            .results-section {
+                order: -1; /* Ensures results-section always comes first */
+                border-right: none;
+                max-width: 100%; /* Allows it to take the full width on mobile */
+            }
+            .grid-wrapper {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
-<style>
-
-.results-section, .impacts-section, .policy-cards-section {
-    flex: 1;
-    padding: 10px; /* For some spacing */
-}
-
-.container {
-    display: flex;
-    max-width: 95%;
-    width: 100%;
-    overflow-x: auto;
-}
-
-.results-section {
-    order: 0;
-    flex: 0 1 40%; /* This ensures that the results-section takes up a maximum of 40% */
-    border-right: 1px solid #ccc;
-    padding: 0 10px;
-    box-sizing: border-box;
-    max-width: 40%; /* Ensures it doesn't grow beyond 40% */
-}
-
-.impact-and-policy-container {
-    flex: 1; /* This will allow it to take the remaining available space */
-    padding: 0 10px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: row;
-}
-
-.grid-wrapper {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-}
-
-.container table {
-    font-size: 0.9em;
-}
-
-@media (max-width: 767px) {
-    .container {
-        flex-direction: column;
-    }
-    .results-section {
-        order: -1; /* Ensures results-section always comes first */
-        border-right: none;
-        max-width: 100%; /* Allows it to take the full width on mobile */
-    }
-    .grid-wrapper {
-        flex-direction: column;
-    }
-}
-</style>
-
-
 <body>
     <div class="container">
         {% if game_data['current_quarter'] > 1 %}
@@ -79,83 +77,83 @@
                     </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>GDP Growth</td>
-                    <td>{{ event_effect['gdp_growth']|default(0)|round(2) }}%</td>
-                    <td>{{ (round_report if round_report else {}).get('changes_after_effects', {}).get('gdp_growth', 0)|round(2) }}%</td>
-                </tr>
-                <tr>
-                    <td>CPI Change</td>
-                    <td>{{ event_effect['cpi']|default(0)|round(2) }}%</td>
-                    <td>{{ (round_report if round_report else {}).get('changes_after_effects', {}).get('cpi', 0)|round(2) }}%</td>
-                </tr>
-                <tr>
-                    <td>Unemployment Rate Change</td>
-                    <td>{{ event_effect['unemployment']|default(0)|round(2) }}%</td>
-                    <td>{{ (round_report if round_report else {}).get('changes_after_effects', {}).get('unemployment', 0)|round(2) }}%</td>
-                </tr>
-            </tbody>
-        </table>
-        <br>
-        <h3>Current Values After the {{ EVENT_NAMES[round_report['random_event']]|default('N/A') }} and the {{ POLICY_NAMES[round_report['policy_choice']]|default('N/A') }} Policy</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Metric</th>
-                    <th>Value</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>GDP Growth</td>
-                    <td>{{ game_data['game_history'][-1]['final_values']['gdp_growth']|default(0)|round(2) }}%</td>
-                </tr>
-                <tr>
-                    <td>CPI</td>
-                    <td>{{ game_data['game_history'][-1]['final_values']['cpi']|default(0)|round(2) }}%</td>
-                </tr>
-                <tr>
-                    <td>Unemployment</td>
-                    <td>{{ game_data['game_history'][-1]['final_values']['unemployment']|default(0)|round(2) }}%</td>
-                </tr>
-            </tbody>
-        </table>
+                    <tr>
+                        <td>GDP Growth</td>
+                        <td>{{ event_effect['gdp_growth']|default(0)|round(2) }}%</td>
+                        <td>{{ (round_report if round_report else {}).get('changes_after_effects', {}).get('gdp_growth', 0)|round(2) }}%</td>
+                    </tr>
+                    <tr>
+                        <td>CPI Change</td>
+                        <td>{{ event_effect['cpi']|default(0)|round(2) }}%</td>
+                        <td>{{ (round_report if round_report else {}).get('changes_after_effects', {}).get('cpi', 0)|round(2) }}%</td>
+                    </tr>
+                    <tr>
+                        <td>Unemployment Rate Change</td>
+                        <td>{{ event_effect['unemployment']|default(0)|round(2) }}%</td>
+                        <td>{{ (round_report if round_report else {}).get('changes_after_effects', {}).get('unemployment', 0)|round(2) }}%</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <h3>Current Values After the {{ EVENT_NAMES[round_report['random_event']]|default('N/A') }} and the {{ POLICY_NAMES[round_report['policy_choice']]|default('N/A') }} Policy</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>GDP Growth</td>
+                        <td>{{ game_data['game_history'][-1]['final_values']['gdp_growth']|default(0)|round(2) }}%</td>
+                    </tr>
+                    <tr>
+                        <td>CPI</td>
+                        <td>{{ game_data['game_history'][-1]['final_values']['cpi']|default(0)|round(2) }}%</td>
+                    </tr>
+                    <tr>
+                        <td>Unemployment</td>
+                        <td>{{ game_data['game_history'][-1]['final_values']['unemployment']|default(0)|round(2) }}%</td>
+                    </tr>
+                </tbody>
+            </table>
             <h3>Current Score: {{ game_data['game_history'][-1]['score']|round(2) }}</h3>
         </div>
         {% endif %}
 
         <div class="impact-and-policy-container">
-    <div class="grid-wrapper">
-             <div class="impacts-section">
+            <div class="grid-wrapper">
+                <div class="impacts-section">
                     <h2>Year {{ game_data['current_quarter'] }} Event: <strong>{{ EVENT_NAMES[game_data['random_event']] }}</strong></h2>
                     <h3>Potential Impact of the {{ EVENT_NAMES[game_data['random_event']] }}</h3>
                     <p style="font-size: 1.0em;">GDP Growth:
-    <span style="color:{{ 'green' if event_effects['gdp_growth'][0] >= 0 else 'red' }}; font-size: 1.2em;">
-        {{ event_effects['gdp_growth'][0] }}%
-    </span>
-    to
-    <span style="color:{{ 'green' if event_effects['gdp_growth'][1] >= 0 else 'red' }}; font-size: 1.2em;">
-        {{ event_effects['gdp_growth'][1] }}%
-    </span>
-        </p>
-        <p style="font-size: 1.0em;">CPI Change:
-            <span style="color:{{ 'gold' if -1 <= event_effects['CPI'][0] <= 1 else 'red' }}; font-size: 1.2em;">
-                {{ event_effects['CPI'][0] }}%
-            </span>
-            to
-            <span style="color:{{ 'gold' if -1 <= event_effects['CPI'][1] <= 1 else 'red' }}; font-size: 1.2em;">
-                {{ event_effects['CPI'][1] }}%
-            </span>
-            </p>
-            <p style="font-size: 1.0em;">Unemployment Change:
-            <span style="color:{{ 'gold' if -1 <= event_effects['Unemployment'][0] <= 1 else 'red' }}; font-size: 1.2em;">
-                {{ event_effects['Unemployment'][0] }}%
-            </span>
-            to
-            <span style="color:{{ 'gold' if -1 <= event_effects['Unemployment'][1] <= 1 else 'red' }}; font-size: 1.2em;">
-                {{ event_effects['Unemployment'][1] }}%
-            </span>
-            </p>
+                        <span style="color:{{ 'green' if event_effects['gdp_growth'][0] >= 0 else 'red' }}; font-size: 1.2em;">
+                            {{ event_effects['gdp_growth'][0] }}%
+                        </span>
+                        to
+                        <span style="color:{{ 'green' if event_effects['gdp_growth'][1] >= 0 else 'red' }}; font-size: 1.2em;">
+                            {{ event_effects['gdp_growth'][1] }}%
+                        </span>
+                    </p>
+                    <p style="font-size: 1.0em;">CPI Change:
+                        <span style="color:{{ 'gold' if -1 <= event_effects['CPI'][0] <= 1 else 'red' }}; font-size: 1.2em;">
+                            {{ event_effects['CPI'][0] }}%
+                        </span>
+                        to
+                        <span style="color:{{ 'gold' if -1 <= event_effects['CPI'][1] <= 1 else 'red' }}; font-size: 1.2em;">
+                            {{ event_effects['CPI'][1] }}%
+                        </span>
+                    </p>
+                    <p style="font-size: 1.0em;">Unemployment Change:
+                        <span style="color:{{ 'gold' if -1 <= event_effects['Unemployment'][0] <= 1 else 'red' }}; font-size: 1.2em;">
+                            {{ event_effects['Unemployment'][0] }}%
+                        </span>
+                        to
+                        <span style="color:{{ 'gold' if -1 <= event_effects['Unemployment'][1] <= 1 else 'red' }}; font-size: 1.2em;">
+                            {{ event_effects['Unemployment'][1] }}%
+                        </span>
+                    </p>
                     <br>
                 </div>
                 <div class="policy-cards-section">
@@ -167,11 +165,12 @@
                                 <p id="gdp-{{ policy }}">GDP: ...</p>
                                 <p id="cpi-{{ policy }}">CPI: ...</p>
                                 <p id="unemployment-{{ policy }}">Unemployment: ...</p>
-                                <form action="{{ url_for('macro1.choose_policy') }}" method="post" onsubmit="return applyPolicy('{{ policy }}')">
+                                <form action="{{ url_for('macro1.choose_policy') }}" method="post" onsubmit="console.log('Submitting policy:', '{{ policy }}'); return applyPolicy('{{ policy }}')">
                                     <input type="hidden" name="policy_choice" value="{{ policy }}">
                                     <div class="center-button">
-                                    <button type="submit" class="blue-button">Apply Policy</button>
-                                </div>
+                                        <button type="submit" class="blue-button">Apply Policy</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     {% endfor %}
@@ -183,13 +182,12 @@
                                 <p id="gdp-{{ policy }}">GDP: ...</p>
                                 <p id="cpi-{{ policy }}">CPI: ...</p>
                                 <p id="unemployment-{{ policy }}">Unemployment: ...</p>
-                                <form action="{{ url_for('macro1.choose_policy') }}" method="post" onsubmit="return applyPolicy('{{ policy }}')">
-                                <input type="hidden" name="policy_choice" value="{{ policy }}">
-                                <div class="center-button">
-                                    <button type="submit" class="blue-button">Apply Policy</button>
-                                </div>
-                            </form>
-
+                                <form action="{{ url_for('macro1.choose_policy') }}" method="post" onsubmit="console.log('Submitting policy:', '{{ policy }}'); return applyPolicy('{{ policy }}')">
+                                    <input type="hidden" name="policy_choice" value="{{ policy }}">
+                                    <div class="center-button">
+                                        <button type="submit" class="blue-button">Apply Policy</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     {% endfor %}
@@ -200,7 +198,7 @@
                             <p id="gdp-L">...</p>
                             <p id="cpi-L">...</p>
                             <p id="unemployment-L">...</p>
-                            <form action="{{ url_for('macro1.choose_policy') }}" method="post" onsubmit="return applyPolicy('L')">
+                            <form action="{{ url_for('macro1.choose_policy') }}" method="post" onsubmit="console.log('Submitting policy:', 'L'); return applyPolicy('L')">
                                 <input type="hidden" name="policy_choice" value="L">
                                 <div class="center-button">
                                     <button type="submit" class="blue-button">Apply Policy</button>
@@ -209,47 +207,45 @@
                         </div>
                     </div>
                 </div>
-            {% if game_data['current_quarter'] == 1 %}
+                {% if game_data['current_quarter'] == 1 %}
+                </div>
+                {% endif %}
             </div>
-            {% endif %}
         </div>
     </div>
 
-<script>
-let interactions = {{ interactions|safe }};
-let currentEvent = "{{ game_data['random_event'] }}";
+    <script>
+        let interactions = {{ interactions|safe }};
+        let currentEvent = "{{ game_data['random_event'] }}";
 
-function toggleCard(policy) {
-    let card = document.querySelector(`[data-policy="${policy}"]`);
-    if (card.classList.contains("expanded")) {
-        card.classList.remove("expanded");
-    } else {
-        // First, collapse all expanded cards
-        document.querySelectorAll('.policy-card.expanded').forEach(function (expandedCard) {
-            expandedCard.classList.remove("expanded");
-        });
+        function toggleCard(policy) {
+            let card = document.querySelector(`[data-policy="${policy}"]`);
+            if (card.classList.contains("expanded")) {
+                card.classList.remove("expanded");
+            } else {
+                // First, collapse all expanded cards
+                document.querySelectorAll('.policy-card.expanded').forEach(function (expandedCard) {
+                    expandedCard.classList.remove("expanded");
+                });
 
-        // Then, expand the clicked card
-        card.classList.add("expanded");
+                // Then, expand the clicked card
+                card.classList.add("expanded");
 
-        // Fetch the data just like before
-        let currentInteractions = interactions[policy][currentEvent];
-        document.getElementById(`gdp-${policy}`).textContent = "GDP: " + currentInteractions["GDP"];
-        document.getElementById(`cpi-${policy}`).textContent = "CPI: " + currentInteractions["CPI"];
-        document.getElementById(`unemployment-${policy}`).textContent = "Unemployment: " + currentInteractions["Unemployment"];
-    }
-}
+                // Fetch the data just like before
+                let currentInteractions = interactions[policy][currentEvent];
+                document.getElementById(`gdp-${policy}`).textContent = "GDP: " + currentInteractions["GDP"];
+                document.getElementById(`cpi-${policy}`).textContent = "CPI: " + currentInteractions["CPI"];
+                document.getElementById(`unemployment-${policy}`).textContent = "Unemployment: " + currentInteractions["Unemployment"];
+            }
+        }
 
-window.onload = function() {
-    if (performance.navigation.type === performance.navigation.TYPE_BACK_FORWARD ||
-        performance.navigation.type === performance.navigation.TYPE_RELOAD) {
-        window.location.href = "{{ url_for('macro1.home') }}";
-    }
-}
-
-
-</script>
-
+        window.onload = function() {
+            if (performance.navigation.type === performance.navigation.TYPE_BACK_FORWARD ||
+                performance.navigation.type === performance.navigation.TYPE_RELOAD) {
+                window.location.href = "{{ url_for('macro1.home') }}";
+            }
+        }
+    </script>
 </body>
 </html>
 {% endblock %}
