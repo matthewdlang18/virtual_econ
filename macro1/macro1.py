@@ -132,11 +132,11 @@ EVENT_EFFECTS = {
     'III': {'gdp_growth': (-1.12, -2.52), 'CPI': (-2.78, -1.32), 'Unemployment': (0.76, 2.66)},
     'IV': {'gdp_growth': (-0.92, -3.02), 'CPI': (-4.48, 0.88), 'Unemployment': (0.24, 5.86)},
     'V': {'gdp_growth': (-0.62, 4.02), 'CPI': (1.68, 3.08), 'Unemployment': (-0.56, 1.46)},
-    'VI': {'gdp_growth': (1.0, 3.0), 'CPI': (1.1, 2.9), 'Unemployment': (-1.5, -0.5)},
+    'VI': {'gdp_growth': (1.5, 3.5), 'CPI': (1.1, 2.0), 'Unemployment': (-1.5, -0.5)},
     'VII': {'gdp_growth': (-2.0, -0.5), 'CPI': (0.5, 2.5), 'Unemployment': (0.2, 2.0)},
     'VIII': {'gdp_growth': (-3.50, -1.50), 'CPI': (0.85, 2.75), 'Unemployment': (-1.0, 3.0)},
-    'IX': {'gdp_growth': (1.0, 3.5), 'CPI': (0.0, 1.0), 'Unemployment': (-1.5, 1.5)},
-    'X': {'gdp_growth': (3.0, 5.0), 'CPI': (-1.0, 1.5), 'Unemployment': (0.5, 3.5)}
+    'IX': {'gdp_growth': (1.0, 3.5), 'CPI': (0.0, 1.0), 'Unemployment': (-1.5, -0.5)},
+    'X': {'gdp_growth': (4.0, 5.5), 'CPI': (-1.0, 1.5), 'Unemployment': (0.5, 1.5)}
 }
 
 
@@ -1310,6 +1310,7 @@ def choose_policy():
 
     if request.method == 'POST':
         policy_choice = request.form.get('policy_choice')
+        print(f"Chosen policy: {policy_choice}")
         game_data['policy_choice'] = policy_choice
 
         event_effect = apply_policy_and_event_effects(game_data, policy_choice, game_data['random_event'], game_data['country_type'])
