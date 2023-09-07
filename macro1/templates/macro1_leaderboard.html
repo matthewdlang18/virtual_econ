@@ -25,7 +25,7 @@
                 <tr>
                     <td>{{ loop.index }}</td> <!-- This will give the rank based on loop iteration -->
                     <td>{{ entry['username'] }}</td>
-                    <td>{{ entry['score'] }}</td>
+                    <td>{{ entry['score']|round(2) }}</td>
                     <!-- Add any other relevant data points -->
                 </tr>
             {% endfor %}
