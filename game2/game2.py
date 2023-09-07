@@ -17,9 +17,9 @@ def generate_equations():
     while True:  # Keep looping until valid numbers are found
         iterations += 1
         a = random.randint(-20, 20)  # Adjusted range
-        b = random.randint(1, 5)   # Adjusted range
-        c = random.randint(50, 100) # Adjusted range
-        d = random.randint(1, 5)   # Adjusted range
+        b = random.randint(1, 5)  # Adjusted range
+        c = random.randint(50, 100)  # Adjusted range
+        d = random.randint(1, 5)  # Adjusted range
 
         # Supply and Demand equations
         supply_eq = a + b * P
@@ -114,6 +114,7 @@ def apply_shock(a, b, c, d, shock, size_label):
     }
     return a, b, c, d, equilibrium_quantity_float, shock_details  # Add shock_details to the return values
 
+
 def get_student_record(student_id, class_number, students_df):
     return students_df[(students_df['student_id'] == student_id) & (students_df['class'] == class_number)]
 
@@ -173,6 +174,7 @@ def update_leaderboard(student_id, class_number, username, total_penalty):
 def home2():
     return render_template('home2.html')
 
+
 @game2.route('/game2', methods=['GET', 'POST'])
 def play_game2_round1():
     if 'username' in session:
@@ -191,6 +193,7 @@ def play_game2_round1():
 
     session.clear()
     return render_template('game2_round1.html')
+
 
 @game2.route('/round1', methods=['POST'])
 def feedback1():
@@ -230,6 +233,8 @@ def game2_proceed1():
         "firms leave the market",
     ])
     session['size'] = random.choice(["small", "medium", "large"])
+    session['demand_size'] = random.choice(["small", "medium", "large"])
+    session['supply_size'] = random.choice(["small", "medium", "large"])
     session['supply_equation2'] = f"{a} + {b}P"
     session['demand_equation2'] = f"{c} - {d}P"
     previous_q = session['true_equilibrium_quantity']  # Get the actual equilibrium quantity from round 1
@@ -284,7 +289,9 @@ def game2_proceed2():
     ])
     session['size'] = random.choice(["small", "medium", "large"])
     previous_q = session['equilibrium_quantity_with_shock']
-    return render_template('game2_round3.html', demand_shift=session['demand_shift'], supply_shift=session['supply_shift'], size=session['size'], previous_q=previous_q)
+    return render_template('game2_round3.html', demand_shift=session['demand_shift'],
+                           supply_shift=session['supply_shift'], demand_size=session['demand_size'],
+                           supply_size=session['supply_size'], previous_q=previous_q)
 
 
 @game2.route('/game2_round3', methods=['GET', 'POST'])
@@ -298,16 +305,19 @@ def feedback3():
 
     if request.method == 'POST':
         guess3 = float(request.form['equilibrium_quantity'])
-        size_label = session['size']
 
-        # Apply the demand shock
+        # Assuming you now have two separate size labels stored in the session
+        demand_size_label = session['demand_size']
+        supply_size_label = session['supply_size']
+
+        # Apply the demand shock with its own size label
         a, b, c, d, equilibrium_quantity_with_shifts, shock_details = apply_shock(a, b, c, d, session['demand_shift'],
-                                                                                  size_label)
+                                                                                  demand_size_label)
         session['shock_details_round3_demand'] = shock_details
 
-        # Apply the supply shock
+        # Apply the supply shock with its own size label
         a, b, c, d, equilibrium_quantity_with_shifts, shock_details = apply_shock(a, b, c, d, session['supply_shift'],
-                                                                                  size_label)
+                                                                                  supply_size_label)
         session['shock_details_round3_supply'] = shock_details
 
         # Debugging lines to print the variables
@@ -326,15 +336,16 @@ def feedback3():
         session['difference3'] = round(difference3, 2)
         return render_template('game2_feedback.html', round_number=3, guess=guess3,
                                true_equilibrium_quantity=equilibrium_quantity_with_shifts,
-                               difference=session['difference3'])
+                               difference=session['difference3'],
+                               demand_size=session['demand_size'],
+                               supply_size=session['supply_size'])
 
     # If the method is GET, render the round3.html template for the user to submit the guess
-    return render_template('game2_round3.html')
+    return render_template('game2_round3.html', )
 
 
 @game2.route('/game2_results', methods=['POST'])
 def game2_results():
-
     # Check if the results have already been processed
     if session.get('results_processed'):
         return render_template('game2_results.html', current_username=session['current_username'],
@@ -350,11 +361,12 @@ def game2_results():
         guess_key = f'guess{i + 1}'
         if guess_key in session:
             submitted_q = session[guess_key]
-            actual_q = session[f'true_equilibrium_quantity'] if i == 0 else session[f'equilibrium_quantity_with_shock'] if i == 1 else session[f'true_equilibrium_quantity_with_shifts']
+            actual_q = session[f'true_equilibrium_quantity'] if i == 0 else session[
+                f'equilibrium_quantity_with_shock'] if i == 1 else session[f'true_equilibrium_quantity_with_shifts']
             difference = abs(submitted_q - actual_q)
             penalty_multiplier = 2 if submitted_q > actual_q else 1
             penalty = round(penalty_multiplier * difference, 2)  # Round to 2 decimal places
-            total_penalty += round(penalty,2)
+            total_penalty += round(penalty, 2)
             status = "Right amount" if difference == 0 else "Too much" if submitted_q > actual_q else "Too little"
             rounds_data.append({
                 'username': current_username,
@@ -387,8 +399,10 @@ def game2_results():
     session['class'] = class_number
     update_leaderboard(student_id, class_number, current_username, high_score)
 
-    return render_template('game2_results.html', current_username=current_username, total_penalty=round(total_penalty, 2),
+    return render_template('game2_results.html', current_username=current_username,
+                           total_penalty=round(total_penalty, 2),
                            rounds_data=rounds_data, shifts=shifts)
+
 
 @game2.route('/start_over')
 def start_over():
@@ -434,10 +448,12 @@ def process_results():
     # Clear the existing rounds_data from the session
     session.pop('rounds_data', None)
 
+
 @game2.route('/leaderboard/<int:class_number>')
 def leaderboard(class_number):
     students = get_leaderboard(class_number)
     return render_template('game2_leaderboard.html', class_number=class_number, students=students)
+
 
 @game2.route('/instructions')
 def instructions2():
