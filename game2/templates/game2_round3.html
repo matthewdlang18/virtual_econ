@@ -12,7 +12,6 @@
     sessionStorage.setItem(pagePath, 'visited');
 </script>
 
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,19 +25,18 @@
     <h2><strong>{{ previous_q }}</strong></h2>
     <br>
     <h2>Round 3 Shocks:</h2>
-    <h3>Shock 1: {{ demand_shift }}</h3>
-    <h3>Shock 2: {{ supply_shift }}</h3>
-    <br>
-    <h3>Size: {{ size }}</h3>
+    <h3>Demand Shock: {{ demand_shift }} (<strong>{{ demand_size }}</strong>)</h3>
+    <h3>Supply Shock: {{ supply_shift }} (<strong>{{ supply_size }}</strong>)</h3>
     <br>
     <div class="button-container">
-        <h3><form action="{{ url_for('game2.feedback3') }}" method="post">
-            <label for="equilibrium_quantity">Enter your guess for the new equilibrium quantity:</label>
-            <input type="number" step="0.01" id="equilibrium_quantity" name="equilibrium_quantity" required></h3>
+        <form action="{{ url_for('game2.feedback3') }}" method="post">
+            <h3>
+                <label for="equilibrium_quantity">Enter your guess for the new equilibrium quantity:</label>
+                <input type="number" step="0.01" id="equilibrium_quantity" name="equilibrium_quantity" required>
+            </h3>
             <button type="submit" class="blue-button" onclick="return validateForm()">Submit</button>
         </form>
     </div>
 </div>
-
 
 {% endblock %}

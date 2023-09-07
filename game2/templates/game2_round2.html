@@ -25,8 +25,7 @@
     <br>
     <h2><strong>{{ previous_q }}</strong></h2>
     <br>
-    <h3>Round 2 Shock: {{ shock }}</h3>
-    <h3>Size: {{ size }}</h3>
+    <h3>Round 2 Shock: <strong>{{ size }}</strong> {{ shock }}</h3>
     <br>
     <div class="button-container">
     <h3><form action="{{ url_for('game2.feedback2') }}" method="post">
