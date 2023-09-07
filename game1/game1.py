@@ -167,6 +167,7 @@ def initialize_player_status():
         }
 
 
+
 @game1.route("/get_game_state", methods=["GET"])
 def get_game_state():
     return jsonify(get_player_status())
