@@ -6,6 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <title>Virtual Econ</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VLSGNRXRXM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VLSGNRXRXM');
+    </script>
+
 </head>
 <body>
     <div class="title">
@@ -28,11 +39,10 @@
         {% if error_message %}
             <div class="error-message">{{ error_message }}</div>
         {% endif %}
-        <!-- Moved the links-container inside the login-container -->
     </div>
-<div class="links-container">
-            <a href="{{ url_for('main.about_us_route') }}" class="about-link">About This<br>Site</a>
-            <a href="{{ url_for('main.description_route') }}" class="description-link">Game<br>Descriptions</a>
-        </div>
+    <div class="links-container">
+        <a href="{{ url_for('main.about_us_route') }}" class="about-link">About This<br>Site</a>
+        <a href="{{ url_for('main.description_route') }}" class="description-link">Game<br>Descriptions</a>
+    </div>
 </body>
 </html>
