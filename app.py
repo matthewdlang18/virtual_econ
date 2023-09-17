@@ -4,6 +4,7 @@ from game2.game2 import game2
 from game3.game3 import game3
 from game4.game4 import game4
 from macro1.macro1 import macro1
+from macro2.macro2 import macro2
 from main.main import main
 
 app = Flask(__name__)
@@ -15,6 +16,7 @@ app.register_blueprint(game2, url_prefix='/game2')
 app.register_blueprint(game3, url_prefix='/game3')
 app.register_blueprint(game4, url_prefix='/game4')
 app.register_blueprint(macro1, url_prefix='/macro1')
+app.register_blueprint(macro2, url_prefix='/macro2')
 
 app.config['SECRET_KEY'] = 'thisisasecret'
 app.config['SESSION_PERMANENT'] = True
