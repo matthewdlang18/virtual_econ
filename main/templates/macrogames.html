@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
     </div>
      <div class="simulations">
         <div class="simulation" data-href="{{ url_for('macro1.home') }}">Economic Pathways</div>
+        <div class="simulation" data-href="{{ url_for('macro2.home') }}">Balancing Act</div>
     </div>
 <div class="links-container">
   <a href="{{ url_for('main.about_us_route') }}" class="about-link">About This<br>Site</a>
