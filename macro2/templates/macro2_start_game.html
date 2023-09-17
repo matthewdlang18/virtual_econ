@@ -1,0 +1,90 @@
+{% extends "base_macro2.html" %}
+
+{% block content %}
+<head>
+  <title>Your Economic Adventure Begins</title>
+  <style>
+    .container {
+      text-align: center;
+    }
+    .indicators {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+    .indicator-card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 8px;
+      flex: 1;
+    }
+    .major {
+      background-color: #e6f7ff;
+    }
+    .minor {
+      background-color: #fff3e6;
+    }
+    .bottom-highlight {
+      background-color: #ccffcc;
+      text-align: center;
+    }
+    .indicator-value {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .indicator-value, h3 {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    @media (max-width: 600px) {
+      .indicators {
+        flex-direction: column;
+      }
+      h2, h3 {
+                font-size: 0.9em;
+            }
+
+            ul {
+                font-size: 0.6em;
+            }
+            .indicator-value {
+      font-size: 14px;
+      font-weight: bold;
+    }
+        }
+  </style>
+</head>
+<div class="container">
+  <h1>Welcome, {{ session['username'] }}!</h1>
+  <h2>Your Balancing Act Begins Here</h2>
+  {% if initial_values %}
+    <div class="indicators">
+      <div class="indicator-card major">
+        <h2>Major Indicators</h2>
+        <p><h3>GDP: <span class="indicator-value">{{ initial_values.GDP|round(2) }}</span></h3></p>
+        <p><h3>CPI: <span class="indicator-value">{{ initial_values.CPI|round(2) }}</span></h3></p>
+        <p><h3>Unemployment Rate: <span class="indicator-value">{{ initial_values.unemployment_rate|round(2) }}</span></h3></p>
+      </div>
+
+      <div class="indicator-card minor">
+        <h2>Minor Indicators</h2>
+        <p><h3>Debt Level: <span class="indicator-value">{{ initial_values.debt_level|round(2) }}</span></h3></p>
+        <p><h3>Tax Rate: <span class="indicator-value">{{ initial_values.tax_rate|round(2) }}</span></h3></p>
+        <p><h3>Interest Rate: <span class="indicator-value">{{ initial_values.interest_rate|round(2) }}</span></h3></p>
+      </div>
+
+      <div class="indicator-card bottom-highlight">
+        <h2>Voter Happiness</h2>
+        <p><h3><span class="indicator-value">{{ initial_values.happiness_rate|round(2) }}</span></p></h3>
+      </div>
+    </div>
+
+    <div class="center-button">
+    <a href="{{ url_for('macro2.pay_interest') }}" class="blue-button">Proceed to Pay Interest</a>
+    </div>
+  {% else %}
+    <p>Initial values have not been set yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,342 @@
+{% extends "base_macro2.html" %}
+
+{% block content %}
+<head>
+  <title>Public Spending</title>
+  <style>
+    .panels {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+    .panel {
+      flex: 1 1 auto;
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin: 10px;
+      background-color: white;
+      max-width: 600px;
+      margin: auto;
+    }
+    .indicators {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      font-size: 14px;
+      width: 100%;
+    }
+    .indicator-wrapper {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+    .indicator-card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 8px;
+      margin: 8px;
+      text-align: center;
+    }
+    .major {
+      background-color: #e6f7ff;
+    }
+    .minor {
+      background-color: #fff3e6;
+    }
+    .bottom-highlight {
+      background-color: #ccffcc;
+    }
+    .slider-container {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    #leftover_slider {
+      width: 70%;
+    }
+    .slider-label {
+      width: 15%;
+    }
+    .info-popup {
+      position: relative;
+      display: inline-block;
+    }
+    .info-icon {
+      background-color: #007bff;
+      color: white;
+      border-radius: 50%;
+      padding: 5px;
+      cursor: pointer;
+    }
+    .info-content {
+      display: none;
+      position: absolute;
+      width: 300px;
+      background-color: white;
+      border: 1px solid #ccc;
+      padding: 10px;
+      z-index: 1;
+    }
+    @media only screen and (max-width: 600px) {
+      h1, h2 {
+        font-size: 16px;
+      }
+
+      h3 {
+        font-size: 14px;
+      }
+  body {
+    font-size: 12px; /* Adjust to your preference */
+  }
+      .panels {
+    flex-direction: column;
+    align-items: center;
+  }
+  .panel {
+    max-width: 100%;
+    margin: 10px 0;
+  }
+  .slider-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .info-content {
+    width: 90%;
+  }
+}
+  </style>
+</head>
+<body onload="updateFundingChoices();">
+  <div class="container">
+    <h1>Year {{ current_round }}: Public Spending Decisions</h1>
+      <ul>
+      <li>Paying interest on the debt increased the CPI by {{ 100*latest_choice.impact_on_CPI|default("N/A")|round(4) }}.</li>
+      <br>
+      <li>Support public programs for economic growth.</li>
+    <li>$1000 in public programs boosts GDP by $400 in Year 1.</li>
+    <li>Voters expect yearly increases in public spending.</li>
+    <li>Lack of investment may lower GDP and increase unemployment.</li>
+    <li>Funding options: raise taxes or print money.</li>
+    <li>Option to pay off debt and reduce next year's interest.</li>
+      </ul>
+  </div>
+
+  <div class="container">
+  <form action="{{ url_for('macro2.public_spending') }}" method="post" class="panels">
+    <div class="panel">
+      <h2>Public Spending and Funding</h2>
+      <center>
+        <label for="public_spending_amount">How much do you want to spend on funding public programs:</label>
+        <br>
+        <input type="number" name="public_spending_amount" step="0.01" id="public_spending_amount" min="0" onchange="updateFundingChoices()">
+        <br>
+         <label for="money_printing_used">How much money do you want to print:</label>
+        <br>
+        <input type="number" name="money_printing_used" id="money_printing_used" min="0" step="0.01" onchange="updateFundingChoices()">
+        <br>
+        <label for="tax_revenue_used">How much tax revenue do you want to use (Max: {{ "%.2f"|format(tax_revenue) }}):</label>
+        <br>
+        <input type="number" name="tax_revenue_used" id="tax_revenue_used" min="0" max="{{ tax_revenue }}" step="0.01" onchange="updateFundingChoices()">
+        <br>
+      </center>
+    </div>
+
+    <div class="panel" id="leftover_panel" style="text-align: center;">
+  <h3>How do you want to allocate the <span id="leftover_funds">0.00</span> in leftover funds?</h3>
+  <div class="slider-container">
+    <span class="slider-label">Add to the Tax Pool:<span id="payToDebtAmount">0.00</span></span>
+<input type="range" id="leftover_slider" min="0" max="100" step="0.01" value="50" oninput="updateAllocation()">
+        <span class="slider-label">Pay off Debt:<span id="addToTaxAmount">0.00</span></span>
+  </div>
+  <label for="debtFractionNumeric">Fraction of funds allocated to Debt:</label>
+  <input type="number" id="debtFractionNumeric" min="0" max="100" step="0.01" value="50" oninput="updateSliderFromInput()">
+  <input type="hidden" name="leftover_to_tax_percentage" id="leftover_to_tax_percentage">
+  <input type="hidden" name="debt_fraction" id="debtFractionInput">
+<div class="center-button">
+  <input type="submit" class="blue-button" value="Submit">
+</div>
+</div>
+
+
+<div class="panel" id="debt_panel" style="text-align: center;">
+  <h2>Debt Information</h2>
+  <h3>We will add <span id="debt_increase_next"></span> to the debt.</h3>
+  <h3>Current Debt Level: <span id="current_debt_level">{{ "%.2f"|format(debt_level) }}</span></h3>
+  <h3>Next year, the total debt will be <span id="total_debt_next"></span></h3>
+  <div class="center-button">
+    <input type="submit" class="blue-button" value="Submit">
+  </div>
+</div>
+</form>
+</div>
+
+
+<div class="indicator-wrapper">
+<div class="indicators">
+    <div class="indicator-card major">
+      <h3>Real GDP</h3>
+      <p><span class="indicator-value">{{ "%.2f"|format(GDP) }}</span></p>
+      <h3>Nominal GDP</h3>
+      <p><span class="indicator-value">{{ "%.2f"|format(GDP * (CPI / 100)) }}</span></p>
+      <h3>CPI</h3>
+      <p><span class="indicator-value">{{ "%.2f"|format(CPI) }}</span></p>
+      <h3>Unemployment Rate</h3>
+      <p><span class="indicator-value">{{ "%.2f"|format(unemployment_rate) }}</span></p>
+    </div>
+
+    <div class="indicator-card minor">
+      <h3>Debt Level</h3>
+      <p><span class="indicator-value">{{ "%.2f"|format(debt_level) }}</span></p>
+      <h3>Interest Rate</h3>
+      <p><span class="indicator-value">{{ "%.2f"|format(interest_rate) }}</span></p>
+      <h3>Tax Rate</h3>
+      <p><span class="indicator-value">{{ "%.2f"|format(tax_rate) }}</span></p>
+      <h3>Tax Pool</h3>
+      <p><span class="indicator-value">{{ "%.2f"|format(tax_revenue) }}</span></p>
+    </div>
+
+    <div class="indicator-card bottom-highlight">
+      <h3>Happiness</h3>
+      <p><span class="indicator-value">{{ "%.2f"|format(happiness_rate) }}</span></p>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// Initialize variables to store user choices
+let publicSpendingAmount = 0;
+let taxRevenueUsed = 0;
+let moneyPrintingUsed = 0;
+let leftoverAmount = 0;
+
+// Function to update debt information
+function updateDebtInfo() {
+  const publicSpendingAmount = parseFloat(document.getElementById('public_spending_amount').value) || 0;
+  const taxRevenueUsed = parseFloat(document.getElementById('tax_revenue_used').value) || 0;
+  const moneyPrintingUsed = parseFloat(document.getElementById('money_printing_used').value) || 0;
+
+  const debtIncrease = publicSpendingAmount - (taxRevenueUsed + moneyPrintingUsed);
+  document.getElementById("debt_increase_next").textContent = debtIncrease.toFixed(2);
+
+  const currentDebt = parseFloat(document.getElementById("current_debt_level").textContent.replace(',', ''));
+  const totalDebtNextYear = currentDebt + debtIncrease;
+  document.getElementById("total_debt_next").textContent = totalDebtNextYear.toFixed(2);
+}
+
+// Function to update funding choices
+function updateFundingChoices() {
+  publicSpendingAmount = parseFloat(document.getElementById('public_spending_amount').value) || 0;
+  taxRevenueUsed = parseFloat(document.getElementById('tax_revenue_used').value) || 0;
+  moneyPrintingUsed = parseFloat(document.getElementById('money_printing_used').value) || 0;
+
+  const maxTaxRevenue = parseFloat(document.getElementById('tax_revenue_used').max);
+  if (taxRevenueUsed > maxTaxRevenue) {
+    alert('Tax Revenue Used cannot exceed the maximum available tax revenue.');
+    document.getElementById('tax_revenue_used').value = maxTaxRevenue;
+    taxRevenueUsed = maxTaxRevenue;
+  }
+
+  const totalFunding = taxRevenueUsed + moneyPrintingUsed;
+  leftoverAmount = totalFunding - publicSpendingAmount;
+  document.getElementById('leftover_funds').innerText = leftoverAmount.toFixed(2);
+
+  // Toggle visibility of the panels based on leftoverAmount
+  if (leftoverAmount > 0) {
+    document.getElementById("leftover_panel").style.display = "block";
+    document.getElementById("debt_panel").style.display = "none";
+  } else if (leftoverAmount <= 0) {
+    document.getElementById("debt_panel").style.display = "block";
+    document.getElementById("leftover_panel").style.display = "none";
+  }
+
+  updateAllocation();
+}
+
+// Function to update allocation
+var isFirstLoadAllocation = true;
+
+// Function to update allocation
+function updateAllocation() {
+    var slider = document.getElementById("leftover_slider");
+    var sliderInput = document.getElementById("debtFractionNumeric");
+
+    if (isFirstLoadAllocation) {
+        slider.value = 50;
+        sliderInput.value = 50;
+        isFirstLoadAllocation = false;
+    }
+
+    var sliderValue = slider.value;
+
+    if (sliderInput.value === "") {
+        sliderInput.value = 0;  // Set the input box to 0 if it's empty
+        sliderValue = 0;  // Set the slider value to 0 as well
+        slider.value = 0;
+    } else if (sliderInput.value !== sliderValue) {
+        sliderInput.value = sliderValue;  // Update the input box if it's different from slider
+    }
+
+    const addToTax = sliderValue / 100 * leftoverAmount;
+    const payToDebt = (100 - sliderValue) / 100 * leftoverAmount;
+
+    document.getElementById('payToDebtAmount').innerText = payToDebt.toFixed(2);
+    document.getElementById('addToTaxAmount').innerText = addToTax.toFixed(2);
+
+    document.getElementById('debtFractionInput').value = sliderValue.toFixed(2);
+    document.getElementById('leftover_to_tax_percentage').value = sliderValue;
+}
+
+// Function to update slider from input
+function updateSliderFromInput() {
+    var inputValue = document.getElementById("debtFractionNumeric").value;
+    var slider = document.getElementById("leftover_slider");
+
+    if (inputValue === "") {
+        inputValue = 0; // Set input value to 0 if it's empty
+    }
+
+    slider.value = inputValue;  // Update the slider
+    updateAllocation();
+}
+
+// Initialize when the page loads
+window.onload = function() {
+  updateFundingChoices();
+  updateDebtInfo();
+  setDefaultAllocation();
+};
+
+// Function to set default allocation to 50-50
+function setDefaultAllocation() {
+  document.getElementById("leftover_slider").value = 50;
+  document.getElementById("debtFractionNumeric").value = 50;
+  updateAllocation();
+}
+
+// Add Event Listeners
+document.getElementById("money_printing_used").addEventListener("input", updateDebtInfo);
+document.getElementById("public_spending_amount").addEventListener("input", updateDebtInfo);
+document.getElementById("tax_revenue_used").addEventListener("input", updateDebtInfo);
+
+document.getElementById('leftover_slider').addEventListener('input', updateAllocation);
+document.getElementById('debtFractionNumeric').addEventListener('input', updateAllocation);
+document.getElementById('tax_revenue_used').addEventListener('input', updateFundingChoices);
+
+ window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+      // Redirect to the relative URL for "/macro2/home"
+      window.location.href = "/macro2/home"; // Relative URL
+    }
+  });
+
+  // Check if the page is being refreshed
+  if (performance.navigation.type === 1) {
+    // Redirect to the relative URL for "/macro2/home"
+    window.location.href = "/macro2/home"; // Relative URL
+  }
+
+</script>
+{% endblock %}

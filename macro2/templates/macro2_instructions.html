@@ -1,0 +1,55 @@
+{% extends "base_macro2.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balancing Act Instructions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_macro2.css') }}">
+</head>
+<style>
+@media only screen and (max-width: 600px) {
+    h1 {
+        font-size: 95%;
+    }
+    h2, h3, p, li, button {
+        font-size: 90%; /* Reduce font size to 80% of the original */
+    }
+}
+</style>
+<div class="container">
+    <body>
+        <h1>Balancing Act Instructions</h1>
+        <h2>Objective:</h2>
+        <p>
+            In "Balancing Act," your aim is to manage your country's macroeconomic indicators while making policy choices related to interest payments, public spending, and tax rates. Successfully balance these factors to keep your citizens happy and get re-elected at the end of each year.
+        </p>
+        <h2>Gameplay:</h2>
+        <ul>
+            <li>Each round, you will have to decide how to pay interest on your country's debt, allocate public spending, and set tax rates.</li>
+            <li>Your choices will impact key economic indicators such as Gross Domestic Product (GDP), the Consumer Price Index (CPI), and the unemployment rate.</li>
+        </ul>
+        <h2>Scoring:</h2>
+        <ul>
+            <li>Your performance is determined by the "Happiness Rate," a composite index reflecting how satisfied your citizens are with your management.</li>
+            <li>The Happiness Rate is influenced by multiple factors, including GDP growth, CPI stability, and unemployment rates.</li>
+            <li>Improvements in these indicators generally lead to an increase in the Happiness Rate, while deteriorations will lower it.</li>
+            <li>At the end of each round, an election will be held. Your chances of winning are directly proportional to the Happiness Rate.</li>
+            <li>If you win the election, you proceed to the next round; otherwise, the game is over.</li>
+        </ul>
+        <h2>Example:</h2>
+        <p>
+            Suppose you choose to pay 40% of the due interest through taxes and the remaining through printing money. This may lead to:
+        </p>
+        <ul>
+            <li>A stable GDP but a slight increase in the CPI due to money printing.</li>
+            <li>A Happiness Rate increase by 2 points due to the stable economy but then a 0.5 point decrease due to the increased inflation, netting a 1.5 point increase.</li>
+            <li>You win the end-of-round election because the Happiness Rate is sufficiently high.</li>
+        </ul>
+        <h2>Tips:</h2>
+        <p>
+            Be cautious when making decisions; hasty choices can lead to economic instability. Always aim for a balanced approach to maximize the Happiness Rate and ensure your re-election.
+        </p>
+    </body>
+</div>
+{% endblock %}

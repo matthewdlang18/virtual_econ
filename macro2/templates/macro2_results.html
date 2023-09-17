@@ -1,0 +1,161 @@
+{% extends "base_macro2.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Game Results for Year {{ current_round }}</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   <style>
+        /* General Styles */
+        h1, h2 {
+            color: white;
+        }
+        .table-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;  /* Center tables as a whole */
+        }
+        .table-wrapper {
+            margin-right: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            background-color: #F8F8F8;
+            width: auto; /* Adjusts the table width */
+        }
+        th {
+            background-color: #333; /* Dark background */
+            color: white; /* White text */
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border: 1px solid black;
+        }
+
+        /* Media Query for Smartphones */
+        @media only screen and (max-width: 600px) {
+            .table-container {
+                flex-direction: column;
+                align-items: center; /* Center tables */
+            }
+            table {
+                margin-right: 0;
+                width: 100%;
+                margin: auto; /* Center tables */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Game Results</h1>
+    <h2>You lasted {{ number_of_rounds }} years in office!</h2>
+<div class="center-button">
+  <a href="{{ url_for('macro2.home') }}" class="blue-button">Start Over</a>
+</div>
+<br>
+<div class="center-button">
+  <a href="{{ url_for('macro2.leaderboard') }}" class="blue-button">Go to Leaderboard</a>
+</div>
+<div class="table-container">
+    <!-- Economic Indicators Table -->
+    <div class="table-wrapper"> <!-- Wrapper for individual table -->
+    <h2>Economic Indicators</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Round</th>
+                <th>Real GDP</th>
+                <th>Unemployment</th>
+                <th>CPI</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in results_data %}
+            <tr>
+                <td>{{ data.round }}</td>
+                <td>{{ data.real_GDP if data.real_GDP is not none else 'N/A' }}</td>
+                <td>{{ data.unemployment if data.unemployment is not none else 'N/A' }}</td>
+                <td>{{ data.CPI if data.CPI is not none else 'N/A' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div> <!-- End of table wrapper -->
+
+    <!-- Tax and Revenue Table -->
+    <div class="table-wrapper"> <!-- Wrapper for individual table -->
+    <h2>Taxes</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Round</th>
+                <th>Tax Rate</th>
+                <th>Tax Revenue</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in results_data %}
+            <tr>
+                <td>{{ data.round }}</td>
+                <td>{{ data.tax_rate if data.tax_rate is not none else 'N/A' }}</td>
+                <td>{{ data.tax_revenue if data.tax_revenue is not none else 'N/A' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div> <!-- End of table wrapper -->
+
+    <!-- Public Finances Table -->
+    <div class="table-wrapper"> <!-- Wrapper for individual table -->
+    <h2>Public Finances</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Round</th>
+                <th>Public Spending</th>
+                <th>Debt Level</th>
+                <th>Interest Payment</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in results_data %}
+            <tr>
+                <td>{{ data.round }}</td>
+                <td>{{ data.public_spending if data.public_spending is not none else 'N/A' }}</td>
+                <td>{{ data.debt_level if data.debt_level is not none else 'N/A' }}</td>
+                <td>{{ data.interest_due if data.interest_due is not none else 'N/A' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div> <!-- End of table wrapper -->
+
+    <!-- Additional Metrics Table -->
+    <div class="table-wrapper"> <!-- Wrapper for individual table -->
+    <h2>Additional Metrics</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Round</th>
+                <th>Interest Payment/Tax Revenue</th>
+                <th>Debt-to-GDP</th>
+                <th>Happiness Rate</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in results_data %}
+            <tr>
+                <td>{{ data.round }}</td>
+                <td>{% if data.interest_payment_to_tax_revenue is not none %}{{ (data.interest_payment_to_tax_revenue * 100)|round(2) }}{% else %}N/A{% endif %}</td>
+                <td>{% if data.debt_to_GDP_ratio is not none %}{{ (data.debt_to_GDP_ratio * 100)|round(2) }}{% else %}N/A{% endif %}</td>
+                <td>{{ data.happiness_rate if data.happiness_rate is not none else 'N/A' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div> <!-- End of table wrapper -->
+</div> <!-- End of table container -->
+
+</body>
+{% endblock %}

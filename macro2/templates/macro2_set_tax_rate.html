@@ -1,0 +1,213 @@
+{% extends "base_macro2.html" %}
+
+{% block content %}
+<head>
+  <title>Set Tax Rate</title>
+  <style>
+    .container {
+      text-align: center;
+    }
+    .panel {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin: 10px;
+      background-color: white;
+      min-width: calc(50% - 20px);
+    }
+    .indicators {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .indicator-card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 8px;
+      margin: 8px;
+      text-align: center;
+      flex: 1;
+    }
+    .major {
+      background-color: #e6f7ff;
+    }
+    .minor {
+      background-color: #fff3e6;
+    }
+    .bottom-highlight {
+      background-color: #ccffcc;
+    }
+    .centered-list {
+  list-style-type: none;
+  text-align: center;
+  padding: 0;
+}
+
+.centered-list li {
+  margin: 5px 0;
+}
+
+  </style>
+
+</head>
+<body onload="updateDisplayedValues()">
+  <div class="container">
+    <h1>Update the Tax Rate!</h1>
+    {% if choices_made|length > 1 %}
+    {% set latest_choice = choices_made[-1] %}
+    <div class="panel">
+      <h3>Results from Public Spending of ${{ latest_choice.public_spending_amount|default("N/A")|float|round(3) }}:</h3>
+      <ul class="centered-list">
+        <li>
+          {% if latest_choice.debt_added > 0 %}
+          <strong>Debt Added:</strong> {{ (latest_choice.debt_added)|float|round(2) }}
+          {% elif latest_choice.surplus_used_for_debt > 0 %}
+          <strong>Debt Reduced:</strong> {{ (latest_choice.surplus_used_for_debt)|float|round(2) }}
+          {% else %}
+          <strong>No Change in Debt</strong>
+          {% endif %}
+        </li>
+        <li>
+          <strong>Change in GDP:</strong> {{ "%.2f"|format(latest_choice.change_in_GDP) }}
+        </li>
+        <li>
+          <strong>Change in CPI:</strong> {{ "%.5f"|format(latest_choice.change_in_CPI) }}
+        </li>
+        <li>
+          <strong>Change in Unemployment:</strong> {{ "%.2f"|format(latest_choice.change_in_unemployment) }}
+        </li>
+      </ul>
+    </div>
+    {% endif %}
+
+    <div class="panel">
+      <h3>Current Tax Rate: {{ "%.2f"|format(tax_rate) }}</h3>
+      <h3>Current Funds Available from Taxes: {{ "%.2f"|format(tax_revenue) }}</h3>
+      <p>Increasing the tax rate will increase the funds available from taxes, but it will also decrease the happiness rate.</p>
+
+<form action="{{ url_for('macro2.set_tax_rate') }}" method="post">
+  <label for="taxRateSlider">Update the Tax Rate (%) for Year {{ current_round + 1}}:</label>
+  <br>
+  <input type="range" id="taxRateSlider" name="new_tax_rate" min="0" max="100" step="0.1" value="{{ tax_rate }}" oninput="updateDisplayedValues()">
+  <span id="displayedTaxRate"></span>%
+  <br><br> <!-- Add spacing here -->
+  <label for="taxRateInput">Or enter a specific percentage:</label>
+  <input type="number" id="taxRateInput" name="new_tax_rate_input" min="0" max="100" step="0.01" value="{{ tax_rate }}" oninput="updateSliderValue()">
+  <span>%</span>
+  <br><br> <!-- Add spacing here -->
+  <p>Projected Tax Revenue: <span id="displayedTaxRevenue"></span></p>
+  <br>
+  <div class="center-button">
+    <input type="submit" class="blue-button" value="Submit">
+  </div>
+</form>
+
+
+
+
+    </div>
+    <div class="indicators">
+      <div class="indicator-card major">
+        <h3>Real GDP</h3>
+        <p><span class="indicator-value">{{ "%.2f"|format(GDP) }}</span></p>
+        <h3>Nominal GDP</h3>
+        <p><span class="indicator-value">{{ "%.2f"|format(GDP * (CPI / 100)) }}</span></p>
+        <h3>CPI</h3>
+        <p><span class="indicator-value">{{ "%.2f"|format(CPI) }}</span></p>
+        <h3>Unemployment Rate</h3>
+        <p><span class="indicator-value">{{ "%.2f"|format(unemployment_rate) }}</span></p>
+      </div>
+      <div class="indicator-card minor">
+        <h3>Debt Level</h3>
+        <p><span class="indicator-value">{{ "%.2f"|format(debt_level) }}</span></p>
+        <h3>Interest Rate</h3>
+        <p><span class="indicator-value">{{ "%.2f"|format(interest_rate) }}</span></p>
+        <h3>Tax Rate</h3>
+        <p><span class="indicator-value">{{ "%.2f"|format(tax_rate) }}</span></p>
+        <h3>Funds Available from Taxes</h3>
+        <p><span class="indicator-value">{{ "%.2f"|format(tax_revenue) }}</span></p>
+      </div>
+      <div class="indicator-card bottom-highlight">
+        <h3>Happiness</h3>
+        <p><span class="indicator-value">{{ "%.2f"|format(happiness_rate) }}</span></p>
+      </div>
+    </div>
+  </div>
+<script>
+  // Initialize with default values
+let isFirstLoad = true;
+
+function updateDisplayedValues() {
+    console.log("updateDisplayedValues triggered"); // Debugging line
+  var slider = document.getElementById("taxRateSlider");
+  var displayedTaxRate = document.getElementById("displayedTaxRate");
+  var displayedTaxRevenue = document.getElementById("displayedTaxRevenue");
+  var gdp = parseFloat("{{ GDP }}");
+  var cpi = parseFloat("{{ CPI }}");
+
+  // Update the displayed tax rate
+  displayedTaxRate.innerHTML = slider.value;
+
+  // Calculate the nominal GDP
+  var nominalGDP = gdp * (cpi / 100);
+
+  // Calculate and update the displayed tax revenue based on the nominal GDP
+  var taxRevenue = (slider.value / 100) * nominalGDP;
+  displayedTaxRevenue.innerHTML = taxRevenue.toFixed(2);
+
+  // Update the input field value
+  var taxRateInput = document.getElementById("taxRateInput");
+  if (isFirstLoad) {
+    taxRateInput.value = slider.value;
+    isFirstLoad = false;
+  } else if (taxRateInput.value !== slider.value) {
+    taxRateInput.value = slider.value;
+  }
+}
+
+function updateSliderValue() {
+    console.log("updateSliderValue triggered"); // Debugging line
+  var slider = document.getElementById("taxRateSlider");
+  var input = document.getElementById("taxRateInput");
+
+  // Check if the input is empty
+  if (input.value === "") {
+    input.value = 0; // Set input value to 0 if it's empty
+    slider.value = 0; // Update the slider value to 0
+  } else {
+    // Ensure the input is within the valid range
+    if (input.value < 0) {
+      input.value = 0;
+    } else if (input.value > 100) {
+      input.value = 100;
+    }
+
+    // Update the slider value
+    slider.value = input.value;
+  }
+
+  // Update the displayed tax rate and tax revenue
+  updateDisplayedValues();
+}
+
+window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+    // Redirect to the relative URL for "/macro2/home"
+    window.location.href = "/macro2/home"; // Relative URL
+  }
+});
+
+// Check if the page is being refreshed
+if (performance.navigation.type === 1) {
+  // Redirect to the relative URL for "/macro2/home"
+  window.location.href = "/macro2/home"; // Relative URL
+}
+
+// Add event listeners
+document.getElementById("taxRateSlider").addEventListener("input", updateDisplayedValues);
+document.getElementById("taxRateSlider").addEventListener("change", updateDisplayedValues); // Listen for change events
+document.getElementById("taxRateInput").addEventListener("input", updateSliderValue);
+document.getElementById("taxRateInput").addEventListener("change", updateSliderValue); // Listen for change events
+
+</script>
+</body>
+{% endblock %}

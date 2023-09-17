@@ -1,0 +1,34 @@
+{% extends "base_macro2.html" %}
+
+{% block content %}
+<head>
+  <title>Balancing Act</title>
+</head>
+<style>
+    @media only screen and (max-width: 600px) {
+            h1, h2 {
+                font-size: 1.5em;
+            }
+
+            ul {
+                font-size: 0.9em;
+            }
+        }
+</style>
+<body>
+    <div class="container">
+        <h1>Welcome to a Balancing Act!</h1>
+        <h2>Take the reins of a nation's economy and navigate through fiscal decisions!</h2>
+        <ul>
+            <li><strong>Yearly Decisions:</strong> Review your country's economic status each year and make fiscal choices like paying interest or setting tax rates.</li>
+            <li><strong>Economic Indicators:</strong> Keep an eye on GDP, CPI, Unemployment Rate, and other key metrics to make informed decisions.</li>
+            <li><strong>Policy Choices:</strong> Choose to pay interest via taxes, set public spending levels, and adjust tax rates to impact your economy.</li>
+            <li><strong>Objective:</strong> Aim to maintain a balanced economy while keeping the happiness rate high to win elections and keep your job!</li>
+        </ul>
+        <p>Are you up for the challenge of steering a nation through economic ups and downs?</p>
+        <div class="center-button">
+            <a href="{{ url_for('macro2.start_game') }}" class="blue-button">Start Game</a>
+        </div>
+    </div>
+</body>
+{% endblock %}

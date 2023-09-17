@@ -1,0 +1,201 @@
+{% extends "base_macro2.html" %}
+
+{% block content %}
+<head>
+  <title>Run Election</title>
+  <style>
+    .container {
+      text-align: center;
+    }
+    .panel {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin: auto;
+      max-width: 600px;
+      background-color: white;
+    }
+    #election_result {
+      font-size: 36px;
+      display: none;
+      animation: resultFadeIn 2s ease-in;
+    }
+    #election_result {
+      font-size: 48px;
+      display: none;
+      animation: resultFadeIn 1s ease-in, changeColors 2s infinite;
+    }
+    #election_outcome_number_container {
+      overflow: hidden;
+      white-space: nowrap;
+      width: 0;
+      animation: reveal 2s forwards;
+    }
+    #election_outcome_number {
+      font-size: 48px;
+    }
+    #metric_changes, #happiness_change {
+      display: none;
+      font-size: 20px;
+      margin-top: 20px;
+      animation: resultFadeIn 2s ease-in;
+    }
+    #reveal_election {
+      display: none;
+      font-size: 24px;
+      margin-top: 20px;
+    }
+    @keyframes resultFadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes changeColors {
+      0% { color: #333; }
+      50% { color: #666; }
+      100% { color: #333; }
+    }
+    @keyframes reveal {
+      0% { width: 0; }
+      100% { width: 100%; }
+    }
+    .center-button button {
+      font-size: 12px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+@media only screen and (max-width: 600px) {
+      h1, h2, h3, p, button {
+        font-size: 75%; /* Reduce font size to 80% of the original */
+      }
+      #election_result {
+        font-size: 20px; /* Adjust as needed */
+      }
+      #election_outcome_number {
+        font-size: 20px; /* Adjust as needed */
+      }
+      #metric_changes, #happiness_change {
+        font-size: 16px; /* Adjust as needed */
+      }
+      #reveal_election {
+        font-size: 16px; /* Adjust as needed */
+      }
+      .center-button button {
+        font-size: 10px; /* Adjust as needed */
+      }
+    }
+  </style>
+    <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Your existing code for other elements
+    setTimeout(() => {
+      document.getElementById("metric_changes").style.display = "block";
+    }, 0);
+
+    setTimeout(() => {
+      document.getElementById("happiness_change").style.display = "block";
+    }, 100);
+
+    setTimeout(() => {
+      document.getElementById("reveal_election").style.display = "block";
+    }, 1000);
+  });
+
+  function revealElectionResults() {
+    const electionResultElement = document.getElementById("election_result");
+    const electionOutcomeNumberElement = document.getElementById("election_outcome_number");
+
+    // Reveal the election outcome number
+    const outcomeNumber = parseFloat("{{ election_outcome_number }}").toFixed(2);
+    let revealedOutcomeNumber = '';
+    const revealDuration = 500 * outcomeNumber.length;
+    for (let i = outcomeNumber.length - 1; i >= 0; i--) {
+      setTimeout(() => {
+        revealedOutcomeNumber = outcomeNumber.charAt(i) + revealedOutcomeNumber;
+        electionOutcomeNumberElement.innerText = `Election Outcome Number: ${revealedOutcomeNumber}`;
+      }, (outcomeNumber.length - 1 - i) * 500);
+    }
+
+    // Introduce a delay before revealing the election result
+    setTimeout(() => {
+      // Reveal the election result
+      const result = "{{ election_result }}";
+      electionResultElement.innerText = result;
+      electionResultElement.style.display = "block";
+
+      // Reveal appropriate buttons based on election result
+       const nextRoundButton = document.getElementById("next_round_button");
+  const homeButton = document.getElementById("home_button");
+  const leaderboardButton = document.getElementById("leaderboard_button");
+  const resultsButton = document.getElementById("results_button"); // New button
+
+  if (result === "Election won, moving to next round") {
+    nextRoundButton.style.display = "inline";
+    homeButton.style.display = "none";
+    leaderboardButton.style.display = "none";
+    resultsButton.style.display = "none"; // New line
+  } else {
+    nextRoundButton.style.display = "none";
+    homeButton.style.display = "inline";
+    leaderboardButton.style.display = "inline";
+    resultsButton.style.display = "inline"; // New line
+  }
+    }, revealDuration);
+  }
+
+   window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+      // Redirect to the relative URL for "/macro2/home"
+      window.location.href = "/macro2/home"; // Relative URL
+    }
+  });
+
+  // Check if the page is being refreshed
+  if (performance.navigation.type === 1) {
+    // Redirect to the relative URL for "/macro2/home"
+    window.location.href = "/macro2/home"; // Relative URL
+  }
+</script>
+</head>
+<body>
+  <div class="container">
+    <h1>Election Results for Year {{ current_round}}</h1>
+    <div id="metric_changes">
+      <h2>Your Decisions Changed The Economy:</h2>
+      <p>GDP changed by {{ "%.2f"|format(change_in_GDP) }} and is now {{ "%.2f"|format(GDP) }}</p>
+      <p>CPI changed by {{ "%.2f"|format(change_in_CPI) }} and is now {{ "%.2f"|format(CPI) }}</p>
+      <p>Unemployment changed by {{ "%.2f"|format(change_in_unemployment) }} and is now {{ "%.2f"|format(unemployment_rate) }}</p>
+      <p>The Debt Level changed by {{ "%.2f"|format(change_in_debt) }} and is now {{ "%.2f"|format(debt_level) }}</p>
+      <p>Debt to GDP Ratio changed by {{ "%.2f"|format(change_in_debt_to_GDP) }} and is now {{ "%.2f"|format(debt_level / GDP) }}</p>
+    </div>
+    <div id="happiness_change">
+      <h2>You Started the Round with a Happiness Rate of: {{ "%.2f"|format(pre_election_happiness_rate) }}</h2>
+      <h2>Your New Happiness Rate is: {{ "%.2f"|format(happiness_rate) }}</h2>
+      <h2>Happiness changed by: {{ "%.2f"|format(change_in_happiness) }}</h2>
+    </div>
+
+    <div class="center-button">
+  <button id="reveal_election" class="blue-button" onclick="revealElectionResults()">Election Results</button>
+</div>
+<div id="election_outcome_number_container">
+  <div id="election_outcome_number"></div>
+</div>
+      <br>
+    <div id="election_result"></div>
+    <div class="center-button">
+      <a id="home_button" href="{{ url_for('macro2.home') }}" class="blue-button" style="display:none;">Start Over</a>
+    </div>
+    <br>
+      <div class="center-button">
+    <a id="results_button" href="{{ url_for('macro2.game_results') }}" class="blue-button" style="display:none;">Go to Game Results</a>
+    </div>
+      <br>
+    <div class="center-button">
+      <a id="leaderboard_button" href="{{ url_for('macro2.leaderboard') }}" class="blue-button" style="display:none;">Go to Leaderboard</a>
+    </div>
+    <div class="center-button">
+      <a id="next_round_button" href="{{ url_for('macro2.pay_interest') }}" class="blue-button" style="display:none;">Next Round</a>
+    </div>
+    <br>
+      </div>
+</body>
+{% endblock %}

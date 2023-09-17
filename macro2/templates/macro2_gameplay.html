@@ -1,0 +1,88 @@
+{% extends "base_macro2.html" %}
+
+{% block content %}
+<head>
+  <title>Macro Economics Game 2 - Gameplay</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Gameplay - Round {{ round }}</h1>
+    <hr>
+
+    <!-- Financial Metrics with Cards -->
+    <h3>Financial Metrics</h3>
+    <div class="row">
+      {% for key, value in state.items() %}
+      {% if key in ['GDP', 'national_debt', 'tax_rate'] %}
+        <div class="col-md-4">
+          <div class="card text-white bg-success mb-3">
+            <div class="card-header">{{ key }}</div>
+            <div class="card-body">
+              <h5 class="card-title">{{ value|float|int }}</h5>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    <hr>
+    <h3>Tax Revenue: {{ tax_revenue }}</h3>
+    <h3>Interest on Debt: <!-- Calculate and display here --></h3>
+    <hr>
+
+    <!-- Decision Points -->
+    <h3>Decision Points</h3>
+    <form method="post">
+      <div class="form-group">
+        <label for="debt_payment">Debt Payment</label>
+        <input type="number" class="form-control" name="debt_payment" id="debt_payment">
+      </div>
+
+      <div class="form-group">
+        <label for="tax_rate_change">Change Tax Rate</label>
+        <input type="number" class="form-control" name="tax_rate_change" id="tax_rate_change">
+      </div>
+
+      <div class="form-group">
+        <label for="public_services_investment">Invest in Public Services</label>
+        <input type="number" class="form-control" name="public_services_investment" id="public_services_investment">
+      </div>
+
+      <div class="form-group">
+        <label for="money_printed">Money Printed</label>
+        <input type="number" class="form-control" name="money_printed" id="money_printed">
+      </div>
+
+      <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to proceed?');">Take Actions</button>
+    </form>
+    <hr>
+
+    <!-- Other State Metrics -->
+    <h3>Other State Metrics</h3>
+    <div class="row">
+      {% for key, value in state.items() %}
+      {% if key not in ['GDP', 'national_debt', 'tax_rate'] %}
+        <div class="col-md-4">
+          <div class="card text-white bg-info mb-3">
+            <div class="card-header">{{ key }}</div>
+            <div class="card-body">
+              <h5 class="card-title">{{ value|float|int }}</h5>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
+</body>
+{% endblock %}

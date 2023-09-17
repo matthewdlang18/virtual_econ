@@ -1,0 +1,270 @@
+{% extends "base_macro2.html" %}
+
+{% block content %}
+<head>
+  <title>Pay Interest</title>
+  <style>
+    .container {
+      text-align: center;
+    }
+    .indicators {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      font-size: 14px;
+    }
+    .indicator-card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 8px;
+      margin: 8px;
+      flex: 1;
+    }
+    .major {
+      background-color: #e6f7ff;
+    }
+    .minor {
+      background-color: #fff3e6;
+    }
+    .bottom-highlight {
+      background-color: #ccffcc;
+    }
+    .indicator-value, h3 {
+      font-size: 16px;
+      font-weight: normal;
+    }
+    .slider-container {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    #slider {
+      width: 70%;
+    }
+    .slider-label {
+      width: 15%;
+    }
+    .indicator-card h3, .indicator-card p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+    .info-popup {
+  position: relative;
+  display: inline-block;
+}
+
+.info-icon {
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.info-content {
+  display: none;
+  position: absolute;
+  width: 300px;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  z-index: 1;
+}
+@media only screen and (max-width: 600px) {
+  .body {
+    font-size: 12px;
+  }
+  .container {
+        padding: 10px;
+    }
+    .slider-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .slider-label {
+        width: 100%;
+        text-align: center;
+    }
+    #slider {
+        width: 90%;
+    }
+}
+
+  </style>
+  <script>
+ var isFirstLoad = true;
+
+function updateAmounts() {
+    var slider = document.getElementById("slider");
+    var sliderInput = document.getElementById("sliderInput");
+
+    if (isFirstLoad) {
+        slider.value = 50;
+        sliderInput.value = 50;
+        isFirstLoad = false;
+    }
+
+    var sliderValue = slider.value;
+
+    if (sliderInput.value === "") {
+        sliderInput.value = 0;  // Set the input box to 0 if it's empty
+        sliderValue = 0;  // Set the slider value to 0 as well
+        slider.value = 0;
+    } else if (sliderInput.value !== sliderValue) {
+        sliderInput.value = sliderValue;  // Update the input box if it's different from slider
+    }
+
+    var interest = parseFloat(document.getElementById("interestAmount").innerText);
+    var taxRevenue = parseFloat(document.getElementById("taxRevenueAmount").innerText);
+
+    var payViaTax = interest * sliderValue / 100;
+    var payViaPrinting = interest - payViaTax;
+
+    document.getElementById("payViaTaxAmount").innerText = payViaTax.toFixed(2);
+    document.getElementById("payViaPrintingAmount").innerText = payViaPrinting.toFixed(2);
+}
+
+
+function updateSlider() {
+    var inputValue = document.getElementById("sliderInput").value;
+    var slider = document.getElementById("slider");
+
+    if (inputValue === "") {
+        inputValue = 0; // Set input value to 0 if it's empty
+    }
+
+    slider.value = inputValue;  // Update the slider
+    updateAmounts();
+}
+
+// Hover function for info-icon
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.info-popup').forEach(infoPopup => {
+      const infoContent = infoPopup.querySelector('.info-content');
+      const infoIcon = infoPopup.querySelector('.info-icon');
+
+      infoIcon.addEventListener('mouseover', () => {
+        infoContent.style.display = 'block';
+      });
+
+      infoIcon.addEventListener('mouseleave', () => {
+        infoContent.style.display = 'none';
+      });
+    });
+  });
+ window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+      // Redirect to the relative URL for "/macro2/home"
+      window.location.href = "/macro2/home"; // Relative URL
+    }
+  });
+
+  // Check if the page is being refreshed
+  if (performance.navigation.type === 1) {
+    // Redirect to the relative URL for "/macro2/home"
+    window.location.href = "/macro2/home"; // Relative URL
+  }
+  </script>
+</head>
+<div class="container">
+  <body onload="updateAmounts()">
+    <h1>Year {{ session['game_state']['current_round'] }} Interest Payment</h1>
+      <div class="panel">
+      <div class="info-popup" id="debt_info">
+      <h2>The first thing you must do is pay interest on the debt!</h2>
+      You owe <strong><span id="interestAmount">{{ "%.2f"|format(interest_amount) }}</span></strong> in national debt interest.
+      <span class="info-icon">?</span>
+  <div class="info-content">
+    <h3>Where did the interest payment come from?</h3>
+    <ul>
+      <li>The debt level is {{ "%.2f"|format(session['game_state']['debt_level']) }}.</li>
+      <li>The interest rate is {{ "%.2f"|format(session['game_state']['interest_rate']) }}.</li>
+      <li>Together, this gives you an interest payment of {{ "%.2f"|format(interest_amount) }}.</li>
+    </ul>
+  </div>
+</div>
+      <br><br>
+      <div class="info-popup" id="tax_info">
+      You have <strong><span id="taxRevenueAmount">{{ "%.2f"|format(tax_revenue) }}</span></strong> in tax revenue available.
+        <span class="info-icon">?</span>
+  <div class="info-content">
+    <h3>Where did the tax revenue come from?</h3>
+    <ul>
+      <li>The nominal GDP is currently {{ "%.2f"|format(session['game_state']['GDP'] * (session['game_state']['CPI'] / 100)) }}.</li>
+      <li>The tax rate is {{ "%.2f"|format(session['game_state']['tax_rate']) }}.</li>
+      <li>Together, this gives you tax revenue of {{ "%.2f"|format(tax_revenue) }}.</li>
+    </ul>
+  </div>
+      <br><br>
+        You also have the option to print money in order to make the interest payment.
+      <br><br>
+
+      <div class="info-popup" id="pay_interest_info">
+  How do you want to make the interest payment?
+  <span class="info-icon">?</span>
+  <div class="info-content">
+    <h3>How do you want to make the interest payment?</h3>
+    <ul>
+      <li>Paying interest on debt via taxes reduces tax revenue but does not impact CPI (inflation).</li>
+      <li>Paying via printing money increases the CPI (inflation), but it does not deplete the tax revenue.</li>
+    </ul>
+  </div>
+</div>
+      <form action="{{ url_for('macro2.pay_interest') }}" method="post">
+      {% if tax_revenue < interest_amount %}
+        <p>You have insufficient tax revenue to pay the interest. You must print money to cover the cost.</p>
+        <input type="hidden" name="pay_via_tax" value="0">
+      {% else %}
+        <div class="slider-container">
+          <div class="slider-label">
+            Pay via Printing
+            <br>
+            <span id="payViaPrintingAmount"></span>
+          </div>
+          <input type="range" id="slider" name="pay_via_tax" min="0" max="100" step="0.1" value="50" oninput="updateAmounts()">
+          <div class="slider-label">
+            Pay via Taxes
+            <br>
+            <span id="payViaTaxAmount"></span>
+          </div>
+        </div>
+        <p>Percentage to pay via taxes: <input type="number" id="sliderInput" min="0" max="100" step="1" oninput="updateSlider()"> %</p>
+      {% endif %}
+      <div class="center-button">
+        <input type="submit" value="Submit" class="blue-button">
+      </div>
+    </form>
+  </div>
+
+    <div class="indicators">
+      <div class="indicator-card major">
+        <h3>Real GDP</h3>
+        <p><span class="indicator-value">{{ "%.2f"|format(session['game_state']['GDP']) }}</span></p>
+        <h3>Nominal GDP</h3>
+        <p><span class="indicator-value">{{ "%.2f"|format(session['game_state']['GDP'] * (session['game_state']['CPI'] / 100)) }}</span></p>
+        <h3>CPI</h3>
+        <p><span class="indicator-value">{{ "%.2f"|format(session['game_state']['CPI']) }}</span></p>
+        <h3>Unemployment Rate</h3>
+        <p><span class="indicator-value">{{ "%.2f"|format(session['game_state']['unemployment_rate']) }}</span></p>
+      </div>
+
+      <div class="indicator-card minor">
+        <h3>Debt Level</h3>
+        <p><span class="indicator-value">{{ "%.2f"|format(session['game_state']['debt_level']) }}</span></p>
+        <h3>Interest Rate</h3>
+        <p><span class="indicator-value">{{ "%.2f"|format(session['game_state']['interest_rate']) }}</span></p>
+        <h3>Tax Rate</h3>
+        <p><span class="indicator-value">{{ "%.2f"|format(session['game_state']['tax_rate']) }}</span></p>
+        <h3>Tax Revenue</h3>
+        <p><span class="indicator-value">{{ "%.2f"|format(tax_revenue) }}</span></p>
+      </div>
+
+      <div class="indicator-card bottom-highlight">
+        <h3>Happiness</h3>
+        <p><span class="indicator-value">{{ "%.2f"|format(session['game_state']['happiness_rate']) }}</span></p>
+      </div>
+    </div>
+  </body>
+</div>
+{% endblock %}

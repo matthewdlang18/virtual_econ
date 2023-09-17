@@ -1,0 +1,93 @@
+{% extends "base_macro2.html" %}
+
+{% block content %}
+<div class="container">
+<head>
+  <title>Leaderboard</title>
+</head>
+  <style>
+
+.leaderboard-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 800px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+}
+
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+
+.leaderboard-table th {
+    background-color: palegoldenrod;
+    font-weight: bold;
+}
+
+.leaderboard-table tr:nth-child(even) {
+    background-color: #009cde;
+}
+  @media only screen and (max-width: 600px) {
+      .leaderboard-container {
+        font-size: 12px;
+      }
+
+      .leaderboard-table th,
+      .leaderboard-table td {
+        padding: 8px;
+      }
+
+      .center-button {
+        text-align: center;
+      }
+
+      .blue-button {
+        font-size: 12px;
+        padding: 8px;
+      }
+    }
+  </style>
+<body>
+  {% for class_number, entries in leaderboard_by_class.items() %}
+      <h1>Leaderboard for Class {{ class_number }}</h1>
+      <table class="leaderboard-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Username</th>
+              <th>Max Round Reached</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for entry in entries %}
+              <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ entry['username'] }}</td>
+                <td>{{ entry['max_round_reached'] }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+      </table>
+    {% endfor %}
+  </div>
+
+  <!-- Link to start over -->
+<div class="center-button">
+    <a class="blue-button" href="{{ url_for('macro2.start_game') }}">Start Over</a>
+    <a id="results_button" href="{{ url_for('macro2.game_results') }}" class="blue-button" style="display:none;">Go to Game Results</a>
+  </div>
+</body>
+</div>
+{% endblock %}
