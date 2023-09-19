@@ -90,6 +90,7 @@ def pay_interest():
         max_pay_via_tax = min(tax_revenue, interest)
         paid_via_tax = min(interest * (pay_via_tax_percentage / 100), max_pay_via_tax)
         paid_via_printing = interest - paid_via_tax
+        pre_interest_tax_revenue = tax_revenue
         tax_revenue -= paid_via_tax
         CPI *= 1 + (paid_via_printing / GDP)
         unemployment_rate = game_state['unemployment_rate']
@@ -107,7 +108,8 @@ def pay_interest():
             'impact_on_GDP': GDP,
             'impact_on_unemployment': unemployment_rate,
             'happiness_rate': happiness_rate,
-            'interest_due': interest,  # Existing field for interest due
+            'interest_due': interest,  # Existing field for interest
+            'pre_interest_tax_revenue': pre_interest_tax_revenue,  # <-- New field here
             'tax_revenue_available': tax_revenue,  # <-- New field to store tax revenue available for the round
             'interest_payment_to_tax_revenue': interest / tax_revenue if tax_revenue != 0 else 0,
             'tax_rate': tax_rate
@@ -330,12 +332,14 @@ def run_election_route():
     current_UE = game_state['unemployment_rate']
     current_tax_rate = game_state['tax_rate']
 
+    print(f"Debug: Current tax rate is {current_tax_rate}")
+
     happiness_delta = (
             (0.004 + gauss(0, 0.002) + (current_round * 0.0002) + (current_GDP / 10000)) * change_in_GDP/100
-            - (0.02 + gauss(0, 0.005) + (current_round * 0.0004) + (current_CPI / 100)) * change_in_CPI
+            - (0.02 + gauss(0, 0.005) + (current_round * 0.0004) + (current_CPI / (100 / (1 + current_round / 10)))) * change_in_CPI
             - (0.2 + gauss(0, 0.05) + (current_round * 0.002) + (current_UE / 10)) * change_in_unemployment
-            + (0.02 + gauss(0, 0.005) - (current_round * 0.0002) + (current_tax_rate / 20)) * (1 - debt_to_GDP_ratio)
             - (0.04 + gauss(0, 0.01) + (current_round * 0.0004)) * tax_rate_change
+            - (current_tax_rate * (1 + (current_round / 10)))
     )
 
     happiness_rate = pre_election_happiness_rate + happiness_delta
@@ -356,6 +360,7 @@ def run_election_route():
         update_leaderboard(student_id, session['username'], game_state['current_round'], session['class'])
     else:
         # The game is over, update the game_state with the final metrics
+        print("Game Ended")  # Debugging
         game_state['game_ended'] = True
         final_metrics = {
             'final_real_GDP': game_state['GDP'],
@@ -366,6 +371,7 @@ def run_election_route():
             'final_debt_level': game_state['debt_level'],
             'final_happiness': happiness_rate
         }
+        print(f"Final Metrics: {final_metrics}")  # Debugging
         game_state.update(final_metrics)
         game_state_ref.update(final_metrics)
 
@@ -408,6 +414,7 @@ def game_results():
                 'round': round_number,
                 'real_GDP': round(choice['impact_on_GDP'], 2),
                 'unemployment': round(choice['impact_on_unemployment'], 2),
+                'pre_interest_tax_revenue': round(choice.get('pre_interest_tax_revenue', 0), 2),
                 'tax_revenue': round(choice.get('tax_revenue_available', 0), 2),
                 'debt_level': round(choice.get('debt_level', 0), 2),
                 'debt_to_GDP_ratio': round((choice.get('debt_level', 0) / choice['impact_on_GDP']) if choice['impact_on_GDP'] != 0 else 0, 4),
@@ -425,18 +432,22 @@ def game_results():
 
     # Once the game ends, add the final outcome
     if game_state.get('game_ended', False):
+        print("Game has ended, appending final round data")  # Debugging
         final_round_data = {
             'round': 'Final',
             'real_GDP': round(game_state.get('final_real_GDP', 0), 2),
             'unemployment': round(game_state.get('final_unemployment', 0), 2),
             'CPI': round(game_state.get('final_CPI', 0), 2),
+            'pre_interest_tax_revenue': round(game_state.get('final_pre_interest_tax_revenue', 0), 2),
+            # Modified this line
             'tax_revenue': round(game_state.get('final_tax_revenue', 0), 2),
             'public_spending': round(game_state.get('final_public_spending', 0), 2),
             'debt_level': round(game_state.get('final_debt_level', 0), 2),
-            'interest_payment': round(game_state.get('final_interest_due', 0), 2),  # Changed this line
+            'interest_payment': round(game_state.get('final_interest_due', 0), 2),
             'happiness_rate': round(game_state.get('final_happiness', 0), 2),
-            'debt_to_GDP_ratio': round(game_state.get('final_debt_level', 0) / game_state.get('final_real_GDP', 1) if game_state.get(
-                    'final_real_GDP', 1) != 0 else 0, 4)  # Add this line
+            'debt_to_GDP_ratio': round(
+                game_state.get('final_debt_level', 0) / game_state.get('final_real_GDP', 1) if game_state.get(
+                    'final_real_GDP', 1) != 0 else 0, 4)
         }
         results_data.append(final_round_data)
 
