@@ -99,7 +99,7 @@
             <tr>
                 <td>{{ data.round }}</td>
                 <td>{{ data.tax_rate if data.tax_rate is not none else 'N/A' }}</td>
-                <td>{{ data.tax_revenue if data.tax_revenue is not none else 'N/A' }}</td>
+                <td>{{ data.tax_revenue if data.pre_interest_tax_revenue is not none else 'N/A' }}</td>
             </tr>
             {% endfor %}
         </tbody>

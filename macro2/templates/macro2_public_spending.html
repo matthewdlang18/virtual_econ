@@ -114,7 +114,7 @@
       <ul>
       <li>Paying interest on the debt increased the CPI by {{ 100*latest_choice.impact_on_CPI|default("N/A")|round(4) }}.</li>
       <br>
-      <li>Support public programs for economic growth.</li>
+    <li>Now you need to provide support for public programs.</li>
     <li>$1000 in public programs boosts GDP by $400 in Year 1.</li>
     <li>Voters expect yearly increases in public spending.</li>
     <li>Lack of investment may lower GDP and increase unemployment.</li>
@@ -268,8 +268,11 @@ function updateAllocation() {
         sliderInput.value = 50;
         isFirstLoadAllocation = false;
     }
+  console.log("Slider Value: ", sliderValue);
+console.log("Leftover to tax: ", document.getElementById('leftover_to_tax_percentage').value);
+console.log("Debt Fraction: ", document.getElementById('debtFractionInput').value);
 
-    var sliderValue = slider.value;
+    var sliderValue = parseFloat(slider.value);
 
     if (sliderInput.value === "") {
         sliderInput.value = 0;  // Set the input box to 0 if it's empty

@@ -62,14 +62,14 @@
     <div class="indicators">
       <div class="indicator-card major">
         <h2>Major Indicators</h2>
-        <p><h3>GDP: <span class="indicator-value">{{ initial_values.GDP|round(2) }}</span></h3></p>
+        <p><h3>GDP: <span class="indicator-value">{{ initial_values.GDP|round(2)|format }}</span></h3></p>
         <p><h3>CPI: <span class="indicator-value">{{ initial_values.CPI|round(2) }}</span></h3></p>
         <p><h3>Unemployment Rate: <span class="indicator-value">{{ initial_values.unemployment_rate|round(2) }}</span></h3></p>
       </div>
 
       <div class="indicator-card minor">
         <h2>Minor Indicators</h2>
-        <p><h3>Debt Level: <span class="indicator-value">{{ initial_values.debt_level|round(2) }}</span></h3></p>
+        <p><h3>Debt Level: <span class="indicator-value">{{ initial_values.debt_level|round(2)|format }}</span></h3></p>
         <p><h3>Tax Rate: <span class="indicator-value">{{ initial_values.tax_rate|round(2) }}</span></h3></p>
         <p><h3>Interest Rate: <span class="indicator-value">{{ initial_values.interest_rate|round(2) }}</span></h3></p>
       </div>
