@@ -63,6 +63,11 @@
   margin-right: auto;
   display: block;
 }
+    .center-table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 @media only screen and (max-width: 600px) {
       h1, h2, h3, p, button {
         font-size: 75%; /* Reduce font size to 80% of the original */
@@ -160,14 +165,59 @@
   <div class="container">
     <h1>Election Results for Year {{ current_round}}</h1>
     <div id="metric_changes">
-      <h2>Your Decisions Changed The Economy:</h2>
-      <p>GDP changed by {{ "%.2f"|format(change_in_GDP) }} and is now {{ "%.2f"|format(GDP) }}</p>
-      <p>CPI changed by {{ "%.2f"|format(change_in_CPI) }} and is now {{ "%.2f"|format(CPI) }}</p>
-      <p>Unemployment changed by {{ "%.2f"|format(change_in_unemployment) }} and is now {{ "%.2f"|format(unemployment_rate) }}</p>
-      <p>The Debt Level changed by {{ "%.2f"|format(change_in_debt) }} and is now {{ "%.2f"|format(debt_level) }}</p>
-      <p>Debt to GDP Ratio changed by {{ "%.2f"|format(change_in_debt_to_GDP) }} and is now {{ "%.2f"|format(debt_level / GDP) }}</p>
+  <h2>Your Decisions Changed The Economy:</h2>
+<table border="1" class="center-table">
+    <tr>
+      <th>Metric</th>
+      <th>Starting Value</th>
+      <th>Change</th>
+      <th>New Value</th>
+    </tr>
+    <tr>
+      <td>GDP</td>
+      <td>{{ "%.2f"|format(starting_GDP) }}</td>
+      <td>{{ "%.2f"|format(change_in_GDP) }}</td>
+      <td>{{ "%.2f"|format(GDP) }}</td>
+    </tr>
+    <tr>
+      <td>CPI</td>
+      <td>{{ "%.2f"|format(starting_CPI) }}</td>
+      <td>{{ "%.2f"|format(change_in_CPI) }}</td>
+      <td>{{ "%.2f"|format(CPI) }}</td>
+    </tr>
+    <tr>
+      <td>Unemployment</td>
+      <td>{{ "%.2f"|format(starting_unemployment) }}</td>
+      <td>{{ "%.2f"|format(change_in_unemployment) }}</td>
+      <td>{{ "%.2f"|format(unemployment_rate) }}</td>
+    </tr>
+    <tr>
+      <td>Debt Level</td>
+      <td>{{ "%.2f"|format(starting_debt_level) }}</td>
+      <td>{{ "%.2f"|format(change_in_debt) }}</td>
+      <td>{{ "%.2f"|format(debt_level) }}</td>
+    </tr>
+    <tr>
+      <td>Debt to GDP Ratio</td>
+      <td>{{ "%.2f"|format(starting_debt_level / starting_GDP) }}</td>
+      <td>{{ "%.2f"|format(change_in_debt_to_GDP) }}</td>
+      <td>{{ "%.2f"|format(debt_level / GDP) }}</td>
+    </tr>
+    <tr>
+      <td>Tax Rate</td>
+      <td>{{ "%.2f"|format(starting_tax_rate) }}</td>
+      <td>{{ "%.2f"|format(change_in_tax_rate) }}</td>
+      <td>{{ "%.2f"|format(tax_rate) }}</td>
+    </tr>
+    <tr>
+        <td>Tax Pool</td>
+        <td>{{ "%.2f"|format(starting_tax_pool) }}</td>
+        <td>{{ "%.2f"|format(change_in_tax_pool) }}</td>
+        <td>{{ "%.2f"|format(current_tax_pool) }}</td>
+    </tr>
+</table>
+</div>
 
-    </div>
     <div id="happiness_change">
       <h2>You Started the Round with a Happiness Rate of: {{ "%.2f"|format(pre_election_happiness_rate) }}</h2>
       <h2>Your New Happiness Rate is: {{ "%.2f"|format(happiness_rate) }}</h2>

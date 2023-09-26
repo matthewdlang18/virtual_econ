@@ -136,9 +136,9 @@
         <br>
         <input type="number" name="money_printing_used" id="money_printing_used" min="0" step="0.01" onchange="updateFundingChoices()">
         <br>
-        <label for="tax_revenue_used">How much tax revenue do you want to use (Max: {{ "%.2f"|format(tax_revenue) }}):</label>
+        <label for="tax_pool_used">How much of the tax pool do you want to use (Max: {{ "%.2f"|format(tax_pool) }}):</label>
         <br>
-        <input type="number" name="tax_revenue_used" id="tax_revenue_used" min="0" max="{{ tax_revenue }}" step="0.01" onchange="updateFundingChoices()">
+        <input type="number" name="tax_pool_used" id="tax_pool_used" min="0" max="{{ tax_pool }}" step="0.01" onchange="updateFundingChoices()">
         <br>
       </center>
     </div>
@@ -151,7 +151,7 @@
         <span class="slider-label">Pay off Debt:<span id="addToTaxAmount">0.00</span></span>
   </div>
   <label for="debtFractionNumeric">Fraction of funds allocated to Debt:</label>
-  <input type="number" id="debtFractionNumeric" min="0" max="100" step="0.01" value="50" oninput="updateSliderFromInput()">
+  <input type="number" id="debtFractionNumeric" min="0" max="100" step="0.01" value="50" oninput="updateSliderFromInput()">%
   <input type="hidden" name="leftover_to_tax_percentage" id="leftover_to_tax_percentage">
   <input type="hidden" name="debt_fraction" id="debtFractionInput">
 <div class="center-button">
@@ -194,7 +194,7 @@
       <h3>Tax Rate</h3>
       <p><span class="indicator-value">{{ "%.2f"|format(tax_rate) }}</span></p>
       <h3>Tax Pool</h3>
-      <p><span class="indicator-value">{{ "%.2f"|format(tax_revenue) }}</span></p>
+      <p><span class="indicator-value">{{ "%.2f"|format(tax_pool) }}</span></p>
     </div>
 
     <div class="indicator-card bottom-highlight">
@@ -215,7 +215,7 @@ let leftoverAmount = 0;
 // Function to update debt information
 function updateDebtInfo() {
   const publicSpendingAmount = parseFloat(document.getElementById('public_spending_amount').value) || 0;
-  const taxRevenueUsed = parseFloat(document.getElementById('tax_revenue_used').value) || 0;
+  const taxRevenueUsed = parseFloat(document.getElementById('tax_pool_used').value) || 0;
   const moneyPrintingUsed = parseFloat(document.getElementById('money_printing_used').value) || 0;
 
   const debtIncrease = publicSpendingAmount - (taxRevenueUsed + moneyPrintingUsed);
@@ -229,14 +229,14 @@ function updateDebtInfo() {
 // Function to update funding choices
 function updateFundingChoices() {
   publicSpendingAmount = parseFloat(document.getElementById('public_spending_amount').value) || 0;
-  taxRevenueUsed = parseFloat(document.getElementById('tax_revenue_used').value) || 0;
+  taxRevenueUsed = parseFloat(document.getElementById('tax_pool_used').value) || 0;
   moneyPrintingUsed = parseFloat(document.getElementById('money_printing_used').value) || 0;
 
-  const maxTaxRevenue = parseFloat(document.getElementById('tax_revenue_used').max);
+  const maxTaxRevenue = parseFloat(document.getElementById('tax_pool_used').max);
   if (taxRevenueUsed > maxTaxRevenue) {
-    alert('Tax Revenue Used cannot exceed the maximum available tax revenue.');
-    document.getElementById('tax_revenue_used').value = maxTaxRevenue;
-    taxRevenueUsed = maxTaxRevenue;
+    alert('Tax Pool Used cannot exceed the maximum available tax pool.');
+    document.getElementById('tax_pool_used').value = maxPoolRevenue;
+    taxRevenueUsed = maxPoolRevenue;
   }
 
   const totalFunding = taxRevenueUsed + moneyPrintingUsed;

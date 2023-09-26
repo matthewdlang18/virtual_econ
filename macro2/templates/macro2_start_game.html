@@ -2,7 +2,7 @@
 
 {% block content %}
 <head>
-  <title>Your Economic Adventure Begins</title>
+  <title>Balancing Act</title>
   <style>
     .container {
       text-align: center;
@@ -56,8 +56,8 @@
   </style>
 </head>
 <div class="container">
-  <h1>Welcome, {{ session['username'] }}!</h1>
-  <h2>Your Balancing Act Begins Here</h2>
+  <h1>Your Balancing Act Begins Here</h1>
+  <h2>Here are the starting indicators in your economy:</h2>
   {% if initial_values %}
     <div class="indicators">
       <div class="indicator-card major">
@@ -79,6 +79,7 @@
         <p><h3><span class="indicator-value">{{ initial_values.happiness_rate|round(2) }}</span></p></h3>
       </div>
     </div>
+  <h2>Your first order of business is to pay interest on the debt!</h2>
 
     <div class="center-button">
     <a href="{{ url_for('macro2.pay_interest') }}" class="blue-button">Proceed to Pay Interest</a>

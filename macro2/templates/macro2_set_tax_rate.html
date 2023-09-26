@@ -46,6 +46,9 @@
   margin: 5px 0;
 }
 
+.double-length {
+  width: 50%;  /* or any other value that suits your layout */
+}
   </style>
 
 </head>
@@ -81,17 +84,17 @@
 
     <div class="panel">
       <h3>Current Tax Rate: {{ "%.2f"|format(tax_rate) }}</h3>
-      <h3>Current Funds Available from Taxes: {{ "%.2f"|format(tax_revenue) }}</h3>
+      <h3>Current Funds Available in the Tax Pool: {{ "%.2f"|format(tax_pool) }}</h3>
       <p>Increasing the tax rate will increase the funds available from taxes, but it will also decrease the happiness rate.</p>
 
 <form action="{{ url_for('macro2.set_tax_rate') }}" method="post">
   <label for="taxRateSlider">Update the Tax Rate (%) for Year {{ current_round + 1}}:</label>
   <br>
-  <input type="range" id="taxRateSlider" name="new_tax_rate" min="0" max="100" step="0.1" value="{{ tax_rate }}" oninput="updateDisplayedValues()">
+  <input type="range" id="taxRateSlider" class="double-length" name="new_tax_rate" min="0" max="100" step="0.1" value="{{ tax_rate }}" oninput="updateDisplayedValues()">
   <span id="displayedTaxRate"></span>%
   <br><br> <!-- Add spacing here -->
   <label for="taxRateInput">Or enter a specific percentage:</label>
-  <input type="number" id="taxRateInput" name="new_tax_rate_input" min="0" max="100" step="0.01" value="{{ tax_rate }}" oninput="updateSliderValue()">
+<input type="number" id="taxRateInput" name="new_tax_rate_input" min="0" max="100" step="0.1" value="{{ tax_rate }}" onchange="updateSliderValue()">
   <span>%</span>
   <br><br> <!-- Add spacing here -->
   <p>Projected Tax Revenue: <span id="displayedTaxRevenue"></span></p>
@@ -123,8 +126,8 @@
         <p><span class="indicator-value">{{ "%.2f"|format(interest_rate) }}</span></p>
         <h3>Tax Rate</h3>
         <p><span class="indicator-value">{{ "%.2f"|format(tax_rate) }}</span></p>
-        <h3>Funds Available from Taxes</h3>
-        <p><span class="indicator-value">{{ "%.2f"|format(tax_revenue) }}</span></p>
+        <h3>Tax Pool</h3>
+        <p><span class="indicator-value">{{ "%.2f"|format(tax_pool) }}</span></p>
       </div>
       <div class="indicator-card bottom-highlight">
         <h3>Happiness</h3>
@@ -165,29 +168,36 @@ function updateDisplayedValues() {
 }
 
 function updateSliderValue() {
-    console.log("updateSliderValue triggered"); // Debugging line
+  console.log("updateSliderValue triggered"); // Debugging line
   var slider = document.getElementById("taxRateSlider");
   var input = document.getElementById("taxRateInput");
 
-  // Check if the input is empty
-  if (input.value === "") {
-    input.value = 0; // Set input value to 0 if it's empty
-    slider.value = 0; // Update the slider value to 0
-  } else {
-    // Ensure the input is within the valid range
-    if (input.value < 0) {
-      input.value = 0;
-    } else if (input.value > 100) {
-      input.value = 100;
+  // Allow browser to update input value first, then correct if out of range
+  setTimeout(function() {
+    // Check if the input is empty
+    if (input.value === "") {
+      input.value = 0; // Set input value to 0 if it's empty
+      slider.value = 0; // Update the slider value to 0
+    } else {
+      // Convert input.value to float for accurate comparison
+      var inputValue = parseFloat(input.value);
+
+      // Ensure the input is within the valid range
+      if (inputValue < 0) {
+        input.value = 0;
+      } else if (inputValue > 100) {
+        input.value = 100;
+      }
+
+      // Update the slider value
+      slider.value = input.value;
     }
 
-    // Update the slider value
-    slider.value = input.value;
-  }
-
-  // Update the displayed tax rate and tax revenue
-  updateDisplayedValues();
+    // Update the displayed tax rate and tax revenue
+    updateDisplayedValues();
+  }, 0);
 }
+
 
 window.addEventListener('pageshow', function(event) {
   if (event.persisted) {

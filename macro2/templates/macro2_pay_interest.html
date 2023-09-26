@@ -116,7 +116,7 @@ function updateAmounts() {
     }
 
     var interest = parseFloat(document.getElementById("interestAmount").innerText);
-    var taxRevenue = parseFloat(document.getElementById("taxRevenueAmount").innerText);
+    var taxPool = parseFloat(document.getElementById("taxPoolAmount").innerText);
 
     var payViaTax = interest * sliderValue / 100;
     var payViaPrinting = interest - payViaTax;
@@ -172,9 +172,7 @@ function updateSlider() {
     <h1>Year {{ session['game_state']['current_round'] }} Interest Payment</h1>
       <div class="panel">
       <div class="info-popup" id="debt_info">
-      <h2>The first thing you must do is pay interest on the debt!</h2>
-      You owe <strong><span id="interestAmount">{{ "%.2f"|format(interest_amount) }}</span></strong> in national debt interest.
-      <span class="info-icon">?</span>
+      <h2>You need to use tax revenue or print money to make the interest rate payment of <strong><span id="interestAmount">{{ "%.2f"|format(interest_amount) }}</span></strong>.<span class="info-icon">?</span></h2>
   <div class="info-content">
     <h3>Where did the interest payment come from?</h3>
     <ul>
@@ -186,25 +184,16 @@ function updateSlider() {
 </div>
       <br><br>
       <div class="info-popup" id="tax_info">
-      You have <strong><span id="taxRevenueAmount">{{ "%.2f"|format(tax_revenue) }}</span></strong> in tax revenue available.
-        <span class="info-icon">?</span>
-  <div class="info-content">
-    <h3>Where did the tax revenue come from?</h3>
-    <ul>
-      <li>The nominal GDP is currently {{ "%.2f"|format(session['game_state']['GDP'] * (session['game_state']['CPI'] / 100)) }}.</li>
-      <li>The tax rate is {{ "%.2f"|format(session['game_state']['tax_rate']) }}.</li>
-      <li>Together, this gives you tax revenue of {{ "%.2f"|format(tax_revenue) }}.</li>
-    </ul>
-  </div>
+      The tax pool currently has: <strong><span id="taxPoolAmount">{{ "%.2f"|format(tax_pool) }}</span></strong> available.
       <br><br>
         You also have the option to print money in order to make the interest payment.
       <br><br>
 
       <div class="info-popup" id="pay_interest_info">
-  How do you want to make the interest payment?
+  How do you want to pay for interest on the debt?
   <span class="info-icon">?</span>
   <div class="info-content">
-    <h3>How do you want to make the interest payment?</h3>
+    <h3>How do you want to pay for interest on the debt?</h3>
     <ul>
       <li>Paying interest on debt via taxes reduces tax revenue but does not impact CPI (inflation).</li>
       <li>Paying via printing money increases the CPI (inflation), but it does not deplete the tax revenue.</li>
@@ -212,7 +201,7 @@ function updateSlider() {
   </div>
 </div>
       <form action="{{ url_for('macro2.pay_interest') }}" method="post">
-      {% if tax_revenue < interest_amount %}
+      {% if tax_pool < interest_amount %}
     <p>You have insufficient tax revenue to pay the entire interest. You can use what you have and print the rest.</p>
     <div class="slider-container">
       <div class="slider-label">
@@ -221,14 +210,14 @@ function updateSlider() {
         <span id="payViaPrintingAmount"></span>
       </div>
       <!-- Set the maximum value of the slider to the ratio of tax revenue to interest amount times 100 -->
-      <input type="range" id="slider" name="pay_via_tax" min="0" max="{{ (tax_revenue / interest_amount * 100)|round(1, 'floor') }}" step="0.1" value="{{ (tax_revenue / interest_amount * 100)|round(1, 'floor') }}" oninput="updateAmounts()">
+      <input type="range" id="slider" name="pay_via_tax" min="0" max="{{ (tax_pool / interest_amount * 100)|round(1, 'floor') }}" step="0.1" value="{{ (tax_pool / interest_amount * 100)|round(1, 'floor') }}" oninput="updateAmounts()">
       <div class="slider-label">
         Pay via Taxes
         <br>
         <span id="payViaTaxAmount"></span>
       </div>
     </div>
-    <p>Percentage to pay via taxes: <input type="number" id="sliderInput" min="0" max="{{ (tax_revenue / interest_amount * 100)|round(1, 'floor') }}" step="0.1" oninput="updateSlider()"> %</p>
+    <p>Percentage to pay via taxes: <input type="number" id="sliderInput" min="0" max="{{ (tax_pool / interest_amount * 100)|round(1, 'floor') }}" step="0.1" oninput="updateSlider()"> %</p>
   {% else %}
         <div class="slider-container">
           <div class="slider-label">
@@ -270,8 +259,8 @@ function updateSlider() {
         <p><span class="indicator-value">{{ "%.2f"|format(session['game_state']['interest_rate']) }}</span></p>
         <h3>Tax Rate</h3>
         <p><span class="indicator-value">{{ "%.2f"|format(session['game_state']['tax_rate']) }}</span></p>
-        <h3>Tax Revenue</h3>
-        <p><span class="indicator-value">{{ "%.2f"|format(tax_revenue) }}</span></p>
+        <h3>Tax Pool</h3>
+        <p><span class="indicator-value">{{ "%.2f"|format(tax_pool) }}</span></p>
       </div>
 
       <div class="indicator-card bottom-highlight">
