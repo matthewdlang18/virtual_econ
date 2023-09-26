@@ -20,6 +20,7 @@ def initialize_economy():
     initial_values['tax_revenue'] = initial_values['GDP'] * (initial_values['tax_rate'] / 100.0) # Initialize tax_revenue
     initial_values['current_round'] = 1
     initial_values['public_spending_amount'] = 0
+    initial_values['tax_pool'] = 0
     return initial_values
 
 @macro2.route('/home', methods=['GET'])
@@ -37,19 +38,24 @@ def start_game():
     class_number = session.get('class_number', None)
     session.pop('economic_shock_info', None)
 
-
-    if request.method == 'POST':
-        # If POST, then proceed with the already initialized economy
+    if request.method == 'POST' or request.method == 'GET':
         initial_values = initialize_economy()
+        initial_values['tax_pool'] = 0.0
         client.collection('macro2_game_state').document(student_id).set(initial_values)
+        client.collection('macro2_game_state').document(student_id).update({'initial_values': initial_values})
     else:
         # If GET, then reset the initial values and update Firestore
         initial_values = initialize_economy()
+        initial_values['tax_pool'] = 0.0
         client.collection('macro2_game_state').document(student_id).set(initial_values)
 
-        # Fetch the initial values from the Firestore database
+        # Store initial values as 'round_0' in Firestore
         game_state_ref = client.collection('macro2_game_state').document(student_id)
         game_state = game_state_ref.get().to_dict()
+        if 'round_data' not in game_state:
+            game_state['round_data'] = {}
+        game_state['round_data']['round_0'] = initial_values  # Set round_0 data
+        game_state_ref.update({'round_data': game_state['round_data']})
 
         if game_state is not None:
             initial_values = game_state
@@ -65,13 +71,7 @@ def pay_interest():
     game_state_ref = client.collection('macro2_game_state').document(student_id)
     game_state = game_state_ref.get().to_dict()
     # Save the initial state for later comparison, before any choices are made.
-    session['initial_values_this_round'] = {
-        'GDP': game_state['GDP'],
-        'CPI': game_state['CPI'],
-        'unemployment_rate': game_state['unemployment_rate'],
-        'debt_level': game_state['debt_level'],
-        'happiness_rate': game_state['happiness_rate']
-    }
+
 
     session['game_state'] = game_state
     GDP = game_state['GDP']
@@ -84,14 +84,25 @@ def pay_interest():
     interest = debt_level * (interest_rate / 100.0)
     nominal_GDP = GDP * (CPI / 100.0)
     tax_revenue = nominal_GDP * (tax_rate / 100.0)
+    tax_pool = game_state['tax_pool'] + tax_revenue if current_round == 1 else game_state['tax_pool']
+
+    session['initial_values_this_round'] = {
+        'GDP': game_state['GDP'],
+        'CPI': game_state['CPI'],
+        'unemployment_rate': game_state['unemployment_rate'],
+        'debt_level': game_state['debt_level'],
+        'happiness_rate': game_state['happiness_rate'],
+        'tax_rate': game_state['tax_rate'],
+        'tax_pool': tax_pool
+    }
 
     if request.method == 'POST':
         pay_via_tax_percentage = float(request.form['pay_via_tax'])
-        max_pay_via_tax = min(tax_revenue, interest)
+        max_pay_via_tax = min(tax_pool, interest)
         paid_via_tax = min(interest * (pay_via_tax_percentage / 100), max_pay_via_tax)
         paid_via_printing = interest - paid_via_tax
         pre_interest_tax_revenue = tax_revenue
-        tax_revenue -= paid_via_tax
+        tax_pool -= paid_via_tax
         CPI *= 1 + (paid_via_printing / GDP)
         unemployment_rate = game_state['unemployment_rate']
         happiness_rate = game_state['happiness_rate']
@@ -118,7 +129,7 @@ def pay_interest():
 
         game_state_ref.update(
             {'tax_revenue': tax_revenue, 'debt_level': debt_level, 'CPI': CPI,
-             'happiness_rate': previous_happiness_rate,
+             'happiness_rate': previous_happiness_rate, 'tax_pool': tax_pool,
              'choices_made': choices_made})
 
         return redirect(url_for('macro2.public_spending'))
@@ -151,6 +162,7 @@ def public_spending():
     current_round = game_state['current_round']
     diminishing_factor = 1 / (1 + 0.1 * current_round)
     tax_rate = game_state['tax_rate']
+    tax_pool = game_state['tax_pool']
 
     if request.method == 'POST':
         # Save initial state variables for later comparison
@@ -159,10 +171,12 @@ def public_spending():
         initial_unemployment_rate = unemployment_rate
 
         public_spending_amount = float(request.form.get('public_spending_amount', '0') or 0.0)
-        funding_from_tax = float(request.form.get('tax_revenue_used', 0.0) or 0.0)
-        funding_from_tax = min(funding_from_tax, tax_revenue)
         funding_from_printing = float(request.form.get('money_printing_used', 0.0) or 0.0)
-        debt_added = public_spending_amount - (funding_from_tax + funding_from_printing)
+        # New lines for tax_pool_used
+        tax_pool_used = float(request.form.get('tax_pool_used', 0.0) or 0.0)
+        tax_pool_used = min(tax_pool_used, tax_pool)  # Ensure it doesn't exceed available tax pool
+
+        debt_added = public_spending_amount - (funding_from_printing + tax_pool_used)  # Modified this line
 
         # Decide what to do with leftover funds
         leftover_action = request.form.get('leftover_action', 'pay_debt')
@@ -180,21 +194,24 @@ def public_spending():
             print(f"Debug: Calculated to_tax_pool is {to_tax_pool}")
             print(f"Debug: Calculated to_debt_payment is {to_debt_payment}")
 
-            tax_revenue += to_tax_pool  # Add to tax pool
+            tax_pool += to_tax_pool  # Add to tax pool
             debt_level -= to_debt_payment  # Pay down the debt
         else:
             debt_level += debt_added  # If no leftover, just add the debt
 
         # Update state variables
-        tax_revenue -= funding_from_tax
+        tax_pool -= tax_pool_used  # Subtract the tax pool used
         CPI *= 1 + (funding_from_printing / GDP)
 
         # Introduce some randomness for simulation
         noise_factor_gdp = random.uniform(0.99, 1.05)
         noise_factor_unemployment = random.uniform(0.9, 1.1)
 
+        adjustment = 1 / (
+                    1 + (public_spending_amount / 100000) ** 2)  # Adjust the denominator for desired sensitivity
+
         # Update GDP
-        GDP += (public_spending_amount * 0.4 * diminishing_factor) * noise_factor_gdp - GDP * 0.01 * current_round
+        GDP += (public_spending_amount * 0.6 * adjustment) * noise_factor_gdp - GDP * 0.01 * current_round
 
         # Update unemployment rate
         unemployment_shock = random.gauss(0.05 * unemployment_rate, 0.01 * unemployment_rate)
@@ -212,7 +229,8 @@ def public_spending():
             'public_spending': public_spending_amount,  # Add this line
             'tax_revenue': tax_revenue,  # Update this line
             'debt_level': debt_level,  # Update this line
-            'funding_from_tax': funding_from_tax,
+            'tax_pool': tax_pool,  # Update this line
+            'tax_pool_used': tax_pool_used,  # Add this line
             'funding_from_printing': funding_from_printing,
             'impact_on_GDP': GDP,
             'impact_on_CPI': CPI,
@@ -241,6 +259,7 @@ def public_spending():
             'CPI': CPI,
             'unemployment_rate': unemployment_rate,
             'tax_revenue': tax_revenue,
+            'tax_pool': tax_pool,
             'current_round': current_round,
             'choices_made': choices_made  # Don't forget to update this field
 
@@ -266,14 +285,20 @@ def set_tax_rate():
         # Capture user input for the new tax rate
         new_tax_rate = float(request.form['new_tax_rate'])
 
+        # Fetch existing tax revenue
+        existing_tax_pool = game_state['tax_pool']
+
         # Update game state variables
         game_state['tax_rate'] = new_tax_rate
-        game_state['tax_revenue'] = game_state['GDP'] * (new_tax_rate / 100.0) * game_state['CPI'] / 100.0
+        new_tax_revenue = game_state['GDP'] * (new_tax_rate / 100.0) * game_state['CPI'] / 100.0
+
+        # Add existing tax revenue to the newly calculated one
+        tax_pool = new_tax_revenue + existing_tax_pool
 
         # Update game state in Firestore using partial update
         game_state_ref.update({
             'tax_rate': new_tax_rate,
-            'tax_revenue': game_state['GDP'] * (new_tax_rate / 100.0) * game_state['CPI'] / 100.0
+            'tax_pool': tax_pool
         })
 
         return redirect(url_for('macro2.run_election_route'))
@@ -291,7 +316,6 @@ def run_election(happiness_rate):
         return False, election_outcome_number  # User loses the election
 
 
-
 @macro2.route('/run_election', methods=['GET'])
 def run_election_route():
     if 'student_id' not in session:
@@ -300,21 +324,39 @@ def run_election_route():
     student_id = session['student_id']
     game_state_ref = client.collection('macro2_game_state').document(student_id)
     game_state = game_state_ref.get().to_dict()
+    current_round = game_state['current_round']
     if not game_state:
         return 'Game state not found', 404
 
-    initial_values_this_round = session.get('initial_values_this_round', {})
-    happiness_impact_factors = game_state.get('happiness_impact_factors', {})
-    choices_made = game_state.get('choices_made', [])
-    latest_choice = choices_made[-1] if choices_made else {}
+    initial_values = game_state.get('initial_values', {})
+    # Check if this is the first round
+    if current_round == 1:
+        initial_values_this_round = game_state.get('initial_values', {})
+    else:
+        # Retrieve final values from the previous round to use as initial values for this round
+        previous_round_data = game_state['round_data'].get(f'round_{current_round - 1}', {})
+        initial_values_this_round = {
+            'GDP': previous_round_data.get('final_GDP', 0),
+            'CPI': previous_round_data.get('final_CPI', 0),
+            'unemployment_rate': previous_round_data.get('final_unemployment', 0),
+            'debt_level': previous_round_data.get('final_debt_level', 0),
+            'tax_rate': previous_round_data.get('final_tax_rate', 0),
+            'tax_pool': previous_round_data.get('final_tax_pool', 0),
+        }
 
-    # Extract and calculate necessary variables
-    current_round = game_state['current_round']
-    difficulty_scaling_factor = 1 + (current_round / 100)
+    happiness_impact_factors = game_state.get('happiness_impact_factors', {})
+
     debt_to_GDP_ratio = game_state['debt_level'] / game_state['GDP']
     tax_rate_change = happiness_impact_factors.get('tax_rate_change', 0)
 
-    # Calculate changes in metrics
+    # Retrieve initial values for this round
+    starting_GDP = initial_values_this_round.get('GDP', 0)
+    starting_CPI = initial_values_this_round.get('CPI', 0)
+    starting_unemployment = initial_values_this_round.get('unemployment_rate', 0)
+    starting_debt_level = initial_values_this_round.get('debt_level', 0)
+    starting_tax_rate = initial_values_this_round.get('tax_rate', 0)
+    starting_tax_pool = initial_values_this_round.get('tax_pool', 0)
+
     def calculate_change(metric):
         return game_state[metric] - initial_values_this_round.get(metric, 0)
 
@@ -324,65 +366,139 @@ def run_election_route():
     change_in_debt = calculate_change('debt_level')
     change_in_debt_to_GDP = debt_to_GDP_ratio - (
                 initial_values_this_round.get('debt_level', 0) / initial_values_this_round.get('GDP', 1))
+    change_in_tax_rate = calculate_change('tax_rate')
+    change_in_tax_pool = calculate_change('tax_pool')
 
-    # Calculate happiness
+    # Calculate happiness and current values
     pre_election_happiness_rate = game_state['happiness_rate']
     current_GDP = game_state['GDP']
     current_CPI = game_state['CPI']
     current_UE = game_state['unemployment_rate']
     current_tax_rate = game_state['tax_rate']
+    current_tax_pool = game_state['tax_pool']
 
-    print(f"Debug: Current tax rate is {current_tax_rate}")
+    # Store round data for later use
+    round_data = {
+        'starting_GDP': starting_GDP,
+        'starting_CPI': starting_CPI,
+        'starting_unemployment': starting_unemployment,
+        'starting_debt_level': starting_debt_level,
+        'starting_tax_rate': starting_tax_rate,
+        'starting_tax_pool': starting_tax_pool,
+        'current_GDP': current_GDP,
+        'current_CPI': current_CPI,
+        'current_UE': current_UE,
+        'current_tax_rate': current_tax_rate,
+        'current_tax_pool': current_tax_pool
+    }
+
+    debt_impact = (game_state['debt_level'] ** (1 + current_round / 10)) / 20000
 
     happiness_delta = (
-            (0.004 + gauss(0, 0.002) + (current_round * 0.0002) + (current_GDP / 10000)) * change_in_GDP/100
-            - (0.02 + gauss(0, 0.005) + (current_round * 0.0004) + (current_CPI / (100 / (1 + current_round / 10)))) * change_in_CPI
-            - (0.2 + gauss(0, 0.05) + (current_round * 0.002) + (current_UE / 10)) * change_in_unemployment
-            - (0.04 + gauss(0, 0.01) + (current_round * 0.0004)) * tax_rate_change
-            - (current_tax_rate * (1 + (current_round / 10)))
+            (0.004 + gauss(0, 0.002) + (current_round * 0.0002) + (current_GDP / 10000) * (change_in_GDP) / 100
+             - (0.02 + gauss(0, 0.005) + (current_round * 0.0004) + (
+                            current_CPI / (100 / (1 + current_round / 10)))) * change_in_CPI
+             - (0.2 + gauss(0, 0.05) + (current_round * 0.002) + (current_UE / 10)) * change_in_unemployment
+             - (0.04 + gauss(0, 0.01) + (current_round * 0.0004)) * tax_rate_change
+             - (current_tax_rate * (1 + (current_round / 10))))
+            - debt_impact
     )
 
     happiness_rate = pre_election_happiness_rate + happiness_delta
     happiness_rate = max(0, min(100, happiness_rate))
     change_in_happiness = happiness_delta
 
-    # Update game state
-    game_state_ref.update({'happiness_rate': happiness_rate})
+    round_data['happiness_rate'] = happiness_rate
+    # Update session['initial_values_this_round'] for the next round
+    session['initial_values_this_round'] = {
+        'GDP': current_GDP,
+        'CPI': current_CPI,
+        'unemployment_rate': current_UE,
+        'debt_level': game_state['debt_level'],
+        'tax_rate': current_tax_rate,
+        'tax_pool': current_tax_pool,
+    }
 
-    # Run election and update if won
+    game_state_ref.update({'happiness_rate': happiness_rate})
+    round_data.update({
+        'final_GDP': current_GDP,
+        'final_CPI': current_CPI,
+        'final_unemployment': current_UE,
+        'final_happiness': happiness_rate,
+        'final_tax_rate': current_tax_rate,
+        'final_tax_pool': current_tax_pool,
+        'final_debt_level': game_state['debt_level'],
+        'final_debt_to_GDP': 100*debt_to_GDP_ratio,
+        'final_interest_payment': game_state['debt_level'] * (game_state['interest_rate'] / 100.0),
+        'final_interest_payment_tax_pool': 100 * game_state['debt_level'] * (
+                game_state['interest_rate'] / 100.0) / current_tax_pool if current_tax_pool != 0 else 0
+    })
+    # Update session['initial_values_this_round'] for the next round
+    session['initial_values_this_round'] = {
+        'GDP': current_GDP,
+        'CPI': current_CPI,
+        'unemployment_rate': current_UE,
+        'debt_level': game_state['debt_level'],
+        'tax_rate': current_tax_rate,
+        'tax_pool': current_tax_pool,
+    }
+
+    if 'round_data' not in game_state:
+        game_state['round_data'] = {}
+
+        # If this is the first round, store the initial values as 'round_0'
+    if current_round == 1:
+        round_0_data = game_state['round_data'].get('round_0', {})
+        if not round_0_data:
+            # This code assumes that initial_values is properly set and available at this point.
+            round_0_data = {
+                'final_GDP': initial_values['GDP'],
+                'final_CPI': initial_values['CPI'],
+                'final_unemployment': initial_values['unemployment_rate'],
+                'final_happiness': initial_values['happiness_rate'],
+                'final_tax_rate': initial_values['tax_rate'],
+                'final_tax_pool': initial_values['tax_pool'],
+                'final_debt_level': initial_values['debt_level'],
+                'final_debt_to_GDP': 100 * initial_values['debt_level'] / initial_values['GDP'],
+                'final_interest_payment': initial_values['debt_level'] * (initial_values['interest_rate'] / 100.0),
+                'final_interest_payment_tax_pool': 100 * initial_values['debt_level'] * (
+                        initial_values['interest_rate'] / 100.0) / (initial_values['tax_rate']*initial_values['GDP']) if initial_values[
+                                                                                                     'tax_pool'] != 0 else 0
+            }
+            game_state['round_data']['round_0'] = round_0_data
+
+    game_state['round_data'][f'round_{current_round}'] = round_data
+    game_state_ref.update({'round_data': game_state['round_data']})
+
+
     election_won, election_outcome_number = run_election(happiness_rate)
     election_result = "Election won, moving to next round" if election_won else "Election lost, game over"
-    # Update game state
+
+    existing_tax_pool = game_state.get('tax_pool', 0)
+
     if election_won:
         game_state['current_round'] += 1
-        game_state_ref.update({'current_round': game_state['current_round']})
+        game_state_ref.update({'current_round': game_state['current_round'],
+                               'tax_revenue': game_state['tax_revenue']})
         session['current_round'] = game_state['current_round']
         update_leaderboard(student_id, session['username'], game_state['current_round'], session['class'])
     else:
-        # The game is over, update the game_state with the final metrics
-        print("Game Ended")  # Debugging
         game_state['game_ended'] = True
-        final_metrics = {
-            'final_real_GDP': game_state['GDP'],
-            'final_unemployment': game_state['unemployment_rate'],
-            'final_CPI': game_state['CPI'],
-            'final_tax_revenue': game_state.get('tax_revenue', 'N/A'),
-            'final_public_spending': game_state.get('public_spending', 'N/A'),
-            'final_debt_level': game_state['debt_level'],
-            'final_happiness': happiness_rate
-        }
-        print(f"Final Metrics: {final_metrics}")  # Debugging
-        game_state.update(final_metrics)
-        game_state_ref.update(final_metrics)
+
 
     return render_template('macro2_run_election.html', election_result=election_result, GDP=game_state['GDP'],
                            change_in_GDP=change_in_GDP, change_in_CPI=change_in_CPI,
                            change_in_unemployment=change_in_unemployment, change_in_debt_to_GDP=change_in_debt_to_GDP,
                            change_in_debt=change_in_debt, pre_election_happiness_rate=pre_election_happiness_rate,
-                           change_in_happiness=change_in_happiness, debt_level=game_state['debt_level'],
+                           change_in_happiness=change_in_happiness, change_in_tax_pool=change_in_tax_pool, debt_level=game_state['debt_level'], change_in_tax_rate=change_in_tax_rate,
                            CPI=game_state['CPI'], unemployment_rate=game_state['unemployment_rate'],
                            happiness_rate=happiness_rate, tax_rate=game_state['tax_rate'],
-                           current_round=current_round, election_outcome_number=election_outcome_number)
+                           current_round=current_round, election_outcome_number=election_outcome_number, starting_GDP=starting_GDP,
+                       starting_CPI=starting_CPI,
+                       starting_unemployment=starting_unemployment,
+                       starting_debt_level=starting_debt_level,
+                     starting_tax_pool=starting_tax_pool,
+                       starting_tax_rate=starting_tax_rate, current_tax_pool=current_tax_pool)
 
 @macro2.route('/instructions')
 def instructions():
@@ -392,70 +508,19 @@ def instructions():
 @macro2.route('/game_results', methods=['GET'])
 def game_results():
     if 'student_id' not in session:
-        return "Student ID not found in session. Please login or start a new game.", 400
+        return 'Not logged in', 401
 
     student_id = session['student_id']
     game_state_ref = client.collection('macro2_game_state').document(student_id)
     game_state = game_state_ref.get().to_dict()
     if not game_state:
-        return "Game state not found", 404
+        return 'Game state not found', 404
 
-    # Fetch choices made during the game
-    choices_made = game_state.get('choices_made', [])
+    round_data = game_state.get('round_data', {})
+    number_of_rounds = game_state.get('current_round', 0)
+    sorted_round_data = {k: round_data[k] for k in sorted(round_data, key=lambda x: int(x.replace('round_', '')))}
 
-    # Extract the necessary data for each round
-    results_data = []
-    final_round_data = {}
-    for i, choice in enumerate(choices_made):
-        round_number = choice['round']
-        if i % 2 == 0:
-            # Initial state
-            round_data = {
-                'round': round_number,
-                'real_GDP': round(choice['impact_on_GDP'], 2),
-                'unemployment': round(choice['impact_on_unemployment'], 2),
-                'pre_interest_tax_revenue': round(choice.get('pre_interest_tax_revenue', 0), 2),
-                'tax_revenue': round(choice.get('tax_revenue_available', 0), 2),
-                'debt_level': round(choice.get('debt_level', 0), 2),
-                'debt_to_GDP_ratio': round((choice.get('debt_level', 0) / choice['impact_on_GDP']) if choice['impact_on_GDP'] != 0 else 0, 4),
-                'interest_due': round(choice.get('interest_due', 0), 2),
-                'happiness_rate': round(choice.get('happiness_rate', 0), 2), # Add happiness if available
-                'tax_rate': round(choice.get('tax_rate', 0), 2),
-                'interest_payment_to_tax_revenue': round(choice.get('interest_payment_to_tax_revenue', 0), 4)
-
-            }
-        else:
-            # Final state
-            round_data['CPI'] = round(choice['impact_on_CPI'], 2)
-            round_data['public_spending'] = round(choice.get('public_spending', 0), 2)
-            results_data.append(round_data)
-
-    # Once the game ends, add the final outcome
-    if game_state.get('game_ended', False):
-        print("Game has ended, appending final round data")  # Debugging
-        final_round_data = {
-            'round': 'Final',
-            'real_GDP': round(game_state.get('final_real_GDP', 0), 2),
-            'unemployment': round(game_state.get('final_unemployment', 0), 2),
-            'CPI': round(game_state.get('final_CPI', 0), 2),
-            'pre_interest_tax_revenue': round(game_state.get('final_pre_interest_tax_revenue', 0), 2),
-            # Modified this line
-            'tax_revenue': round(game_state.get('final_tax_revenue', 0), 2),
-            'public_spending': round(game_state.get('final_public_spending', 0), 2),
-            'debt_level': round(game_state.get('final_debt_level', 0), 2),
-            'interest_payment': round(game_state.get('final_interest_due', 0), 2),
-            'happiness_rate': round(game_state.get('final_happiness', 0), 2),
-            'debt_to_GDP_ratio': round(
-                game_state.get('final_debt_level', 0) / game_state.get('final_real_GDP', 1) if game_state.get(
-                    'final_real_GDP', 1) != 0 else 0, 4)
-        }
-        results_data.append(final_round_data)
-
-    # Count the number of rounds
-    number_of_rounds = len(results_data)
-
-    return render_template('macro2_results.html', results_data=results_data, number_of_rounds=number_of_rounds)
-
+    return render_template('macro2_results.html', round_data=sorted_round_data, number_of_rounds=number_of_rounds)
 
 @macro2.route('/leaderboard', methods=['GET'])
 def leaderboard():
