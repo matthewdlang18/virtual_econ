@@ -10,8 +10,8 @@ client = firestore.Client()
 
 def initialize_economy():
     initial_values = {}
-    initial_values['GDP'] = random.uniform(9000, 11000)
-    initial_values['debt_level'] = random.uniform(4000, 8000)
+    initial_values['GDP'] = random.uniform(45000, 50000)
+    initial_values['debt_level'] = random.uniform(20000, 30000)
     initial_values['CPI'] = 100
     initial_values['tax_rate'] = random.uniform(5, 15)
     initial_values['unemployment_rate'] = random.uniform(4, 8)
@@ -395,7 +395,7 @@ def run_election_route():
     debt_impact = (change_in_debt_to_GDP)*10*game_state['debt_level']/10000
 
     happiness_delta = (
-            (0.004 + gauss(0, 0.002) + (current_round * 0.0002) + (current_GDP / 10000) * (change_in_GDP) / 100
+            (0.004 + gauss(0, 0.002) + (current_round * 0.0002) + (current_GDP / 25000) * (change_in_GDP) / 1000
              - (0.02 + gauss(0, 0.005) + (current_round * 0.0004) + (
                             current_CPI / (100 / (1 + current_round / 10)))) * change_in_CPI
              - (0.2 + gauss(0, 0.05) + (current_round * 0.002) + (current_UE / 10)) * change_in_unemployment
@@ -457,13 +457,12 @@ def run_election_route():
                 'final_unemployment': initial_values['unemployment_rate'],
                 'final_happiness': initial_values['happiness_rate'],
                 'final_tax_rate': initial_values['tax_rate'],
-                'final_tax_pool': initial_values['tax_rate']*initial_values['GDP'],
+                'final_tax_pool': initial_values['tax_rate']*initial_values['GDP']/100,
                 'final_debt_level': initial_values['debt_level'],
                 'final_debt_to_GDP': 100 * initial_values['debt_level'] / initial_values['GDP'],
                 'final_interest_payment': initial_values['debt_level'] * (initial_values['interest_rate'] / 100.0),
                 'final_interest_payment_tax_pool': 100 * initial_values['debt_level'] * (
-                        initial_values['interest_rate'] / 100.0) / (initial_values['tax_rate']*initial_values['GDP']) if initial_values[
-                                                                                                     'tax_pool'] != 0 else 0
+                        initial_values['interest_rate']) / (initial_values['tax_rate']*initial_values['GDP'])
             }
             game_state['round_data']['round_0'] = round_0_data
 
