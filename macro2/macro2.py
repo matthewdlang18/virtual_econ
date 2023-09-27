@@ -392,7 +392,7 @@ def run_election_route():
         'current_tax_pool': current_tax_pool
     }
 
-    debt_impact = (game_state['debt_level'] ** (1 + current_round / 10)) / 20000
+    debt_impact = (change_in_debt_to_GDP)*10*game_state['debt_level']/10000
 
     happiness_delta = (
             (0.004 + gauss(0, 0.002) + (current_round * 0.0002) + (current_GDP / 10000) * (change_in_GDP) / 100
@@ -400,7 +400,7 @@ def run_election_route():
                             current_CPI / (100 / (1 + current_round / 10)))) * change_in_CPI
              - (0.2 + gauss(0, 0.05) + (current_round * 0.002) + (current_UE / 10)) * change_in_unemployment
              - (0.04 + gauss(0, 0.01) + (current_round * 0.0004)) * tax_rate_change
-             - (current_tax_rate * (1 + (current_round / 10))))
+             - (current_tax_rate * (1 + (current_round / 20))))
             - debt_impact
     )
 
@@ -457,7 +457,7 @@ def run_election_route():
                 'final_unemployment': initial_values['unemployment_rate'],
                 'final_happiness': initial_values['happiness_rate'],
                 'final_tax_rate': initial_values['tax_rate'],
-                'final_tax_pool': initial_values['tax_pool'],
+                'final_tax_pool': initial_values['tax_rate']*initial_values['GDP'],
                 'final_debt_level': initial_values['debt_level'],
                 'final_debt_to_GDP': 100 * initial_values['debt_level'] / initial_values['GDP'],
                 'final_interest_payment': initial_values['debt_level'] * (initial_values['interest_rate'] / 100.0),
