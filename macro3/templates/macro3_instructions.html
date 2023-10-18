@@ -1,0 +1,50 @@
+{% extends "base_macro3.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Odyssey Instructions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_macro3.css') }}">
+</head>
+<style>
+@media only screen and (max-width: 600px) {
+    h1 {
+        font-size: 95%;
+    }
+    h2, h3, p, li, button {
+        font-size: 90%; /* Reduce font size to 90% of the original */
+    }
+}
+</style>
+<div class="container">
+    <body>
+        <h1>Investment Odyssey Instructions</h1>
+        <h2>Objective:</h2>
+        <p>
+            Welcome to "Investment Odyssey." Your goal is to navigate the complex world of investments and maximize the value of your portfolio. Make strategic decisions regarding buying and selling various assets while keeping an eye on global economic indicators.
+        </p>
+        <h2>Gameplay:</h2>
+        <ul>
+            <li>Each round, you will have the option to buy or sell assets like stocks, bonds, real estate, gold, commodities, and even Bitcoin.</li>
+            <li>Asset prices fluctuate based on macroeconomic indicators, historical trends, and random shocks.</li>
+            <li>Your decisions will be reflected in the value of your portfolio. Asset prices may be influenced by events like Bitcoin reaching a significant milestone.</li>
+        </ul>
+        <h2>Scoring:</h2>
+        <ul>
+            <li>Your score is determined by the total value of your portfolio, which includes both your cash and the market value of your assets.</li>
+            <li>Successfully managing your investments and adapting to market conditions will help maximize your portfolio's value.</li>
+        </ul>
+        <h2>Example:</h2>
+        <p>
+            If you decide to invest heavily in Bitcoin and its price soars in the next round, the value of your portfolio will increase. Conversely, if Bitcoin crashes, you might face significant losses.
+        </p>
+        <h2>Tips:</h2>
+        <ul>
+            <li>Diversify your investments. Don't put all your eggs in one basket.</li>
+            <li>Manage risk. While high-reward assets like Bitcoin can be tempting, they also come with high volatility.</li>
+            <li>Remember, in the world of investments, past performance is not indicative of future results.</li>
+        </ul>
+    </body>
+</div>
+{% endblock %}

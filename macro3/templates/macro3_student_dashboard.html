@@ -1,0 +1,473 @@
+{% extends "base_macro3.html" %}
+
+{% block content %}
+<html>
+<head>
+    <title>Student Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_macro3.css') }}">
+    <style>
+        @media only screen and (max-width: 600px) {
+            table, table th, table td {
+                font-size: 1em; /* Decreased font size for tables */
+            }
+
+            h1, h2 {
+                font-size: 1em;
+            }
+
+            p, label {
+                font-size: 1em;
+            }
+
+            .card-header {
+                font-size: 1em; /* Adjusting the card header font size */
+            }
+
+            .card-body {
+                font-size: 1em;
+            }
+
+            /* Reducing button font-size and padding in the Buy/Sell Assets section */
+            #tradeForm .btn {
+                font-size: 0.8em;
+                padding: 5px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="text-center mt-4 mb-4" id="dashboardTitle">Student Dashboard</h1>
+    <div class="text-center mt-3 mb-3">
+    <button id="refreshPortfolio" class="btn btn-secondary">Refresh Portfolio</button>
+</div>
+    <h2>Total Portfolio Value: <span id="totalPortfolioValue"></span></h2>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    Current Portfolio
+                </div>
+                <div class="card-body">
+                    <table id="portfolioTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>Asset</th>
+                                <th>Quantity</th>
+                                <th>Current Price</th>
+                                <th>Total Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Portfolio data will go here -->
+                        </tbody>
+                    </table>
+                    <p>Available Cash: <span id="cashAmount"></span></p>
+                    <p>Latest Cash Injection: <span id="latestCashInjection"></span></p>  <!-- Line for cash injection -->
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    Asset Prices
+                </div>
+                <div class="card-body">
+                    <table id="assetPricesTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>Asset</th>
+                                <th>Current Price</th>
+                                <th>Price Change (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Asset prices will go here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    Buy/Sell Assets
+                </div>
+                <div class="card-body">
+                    <form id="tradeForm" class="row">
+                        <div class="col-md-3">
+                            <label for="assetSelect">Choose an asset:</label>
+                            <select id="assetSelect" name="asset" class="form-control">
+                                <!-- Options will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="quantity">Quantity:</label>
+                            <div class="d-flex">
+                                <input type="number" id="quantity" name="quantity" min="0.001" step="0.001" class="form-control">
+                                <button id="maxBuyBtn" type="button" class="btn btn-secondary ml-2">Max</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="action">Action:</label>
+                            <select id="action" name="action" class="form-control" onchange="updateMaxQuantity()">
+                                <option value="buy">Buy</option>
+                                <option value="sell">Sell</option>
+                            </select>
+
+                        </div>
+                        <div class="col-md-3">
+    <button type="submit" class="btn btn-secondary" style="margin-top: 32px;">Submit Trade</button>
+</div>
+                        <div class="col-md-12 text-center mt-3">
+<button type="button" id="distributeCash" class="btn" style="background: linear-gradient(to right, blue, black, gold); color: white;">Distribute Remaining Cash Evenly</button>
+                            <button type="button" id="cashOutAllAssets" class="btn btn-success">Cash Out All Assets</button> <!-- Add this line -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <h2>Portfolio Distribution</h2>
+<div class="text-center" style="max-width: 300px; margin: auto;">
+    <canvas id="portfolioPieChart" width="400" height="400" style="max-width: 100%; max-height: 100%;"></canvas>
+</div>
+<div class="text-center mt-3">
+    <a href="/macro3/student_portfolio_page" class="btn btn-secondary">Portfolio History and Statistics</a>
+</div>
+
+
+
+</div>
+
+<script>
+
+let myPieChart = null;  // Declare a variable to hold the chart object
+let availableCash = 0;  // Declare a variable to hold the available cash amount
+let assetPrices = {};   // Declare a variable to hold the current asset prices
+
+// Function to get the color for a given asset
+function getAssetColor(asset) {
+    const colorMap = {
+        'Cash': 'darkgreen',
+        'Bitcoin': 'orange',
+        'Real Estate': 'blue',
+        'Bonds': 'red',
+        'Commodities': 'grey',
+        'S&P': 'lightgreen',
+        'Gold': 'gold'
+    };
+    return colorMap[asset] || 'black';
+}
+
+// Function to fetch data and update the dashboard
+function fetchData() {
+    $.get("/macro3/student_dashboard_data", function(data) {
+        console.log("Received data:", data);
+        if (data.status === "Fetched portfolio and game state") {
+            const portfolio = data.data.portfolio.assets;
+            assetPrices = data.data.game_state.asset_prices;
+            const roundNumber = data.data.game_state.round_number;
+            const assetPriceHistory = data.data.game_state.asset_price_history;
+            const previousRoundNumber = roundNumber - 1;
+            const previousAssetPrices = assetPriceHistory[previousRoundNumber.toString()] || {};
+            const username = '{{ session['username'] }}';
+            const dashboardTitle = `${username}'s Dashboard<br>Year: ${data.data.game_state.round_number}`;
+            document.getElementById("dashboardTitle").innerHTML = dashboardTitle;
+
+            availableCash = data.data.cash;
+            assetPrices = data.data.game_state.asset_prices;
+            const latestCashInjection = data.data.latest_cash_injection;
+
+            document.getElementById("maxBuyBtn").addEventListener("click", function() {
+                const assetName = $("#assetSelect").val();
+                const action = $("#action").val();
+                let maxQuantity = 0;
+
+                if (action === "buy") {
+                    const assetPrice = assetPrices[assetName];
+                    if (assetPrice) {
+                        maxQuantity = Math.floor(availableCash / assetPrice * 1000) / 1000;
+                    }
+                } else if (action === "sell") {
+                    maxQuantity = portfolio[assetName] || 0;
+                    maxQuantity = Math.floor(maxQuantity * 1000) / 1000;
+                }
+
+                $("#quantity").val(maxQuantity);
+            });
+
+            $("#cashAmount").text(availableCash.toFixed(2));
+            $("#latestCashInjection").text(latestCashInjection.toFixed(2));
+
+            let totalPortfolioValue = availableCash;
+             for (const [asset, quantity] of Object.entries(portfolio)) {
+                totalPortfolioValue += assetPrices[asset] * quantity;
+            }
+            $("#totalPortfolioValue").text(totalPortfolioValue.toFixed(2));
+            let totalAssetValue = 0;  // Initialize totalAssetValue
+
+            $("#portfolioTable tbody").empty();
+            let pieChartData = [];
+            let pieChartLabels = [];
+            for (const [asset, quantity] of Object.entries(portfolio)) {
+                const totalValue = assetPrices[asset] * quantity;
+                totalAssetValue += totalValue;  // Add to totalAssetValue
+                $("#portfolioTable tbody").append(`
+                    <tr>
+                        <td>${asset}</td>
+                        <td>${quantity.toFixed(2)}</td>
+                        <td>${assetPrices[asset].toFixed(2)}</td>
+                        <td>${totalValue.toFixed(2)}</td>
+                    </tr>
+                `);
+                pieChartData.push(totalValue);
+                pieChartLabels.push(asset);
+            }
+
+            // Append the total value row
+            $("#portfolioTable tbody").append(`
+                <tr style="font-weight: bold;">
+                    <td>Total</td>
+                    <td></td>
+                    <td></td>
+                    <td>${totalAssetValue.toFixed(2)}</td>
+                </tr>
+            `);
+
+            pieChartData.push(availableCash);
+            pieChartLabels.push("Cash");
+
+            $("#assetPricesTable tbody").empty();
+            for (const [asset, price] of Object.entries(assetPrices)) {
+                let change = "N/A";
+                if (previousAssetPrices[asset] !== undefined) {
+                    const percentageChange = ((price - previousAssetPrices[asset]) / previousAssetPrices[asset]) * 100;
+                    const color = percentageChange >= 0 ? "green" : "red";
+                    change = `<span style="color: ${color};">${percentageChange.toFixed(2)}%</span>`;
+                }
+                $("#assetPricesTable tbody").append(`
+                    <tr>
+                        <td>${asset}</td>
+                        <td>${price.toFixed(2)}</td>
+                        <td>${change}</td>
+                    </tr>
+                `);
+            }
+
+            const ctx = document.getElementById('portfolioPieChart').getContext('2d');
+            const backgroundColors = pieChartLabels.map(getAssetColor);
+
+            if (myPieChart) {
+                myPieChart.data.labels = pieChartLabels;
+                myPieChart.data.datasets[0].data = pieChartData;
+                myPieChart.data.datasets[0].backgroundColor = backgroundColors;
+                myPieChart.update();
+            } else {
+                myPieChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: pieChartLabels,
+                        datasets: [{
+                            data: pieChartData,
+                            backgroundColor: backgroundColors
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const label = context.label || '';
+                                        const value = context.parsed;
+                                        const percentage = ((value / totalPortfolioValue) * 100).toFixed(2);
+                                        return `${label}: $${value.toFixed(2)} (${percentage}%)`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            $("#assetSelect").empty();
+            for (const asset of Object.keys(assetPrices)) {
+                $("#assetSelect").append(`<option value="${asset}">${asset}</option>`);
+            }
+        }
+    });
+}
+
+// Function to update max quantity based on selected asset and action
+function updateMaxQuantity(availableCash, assetPrices, portfolio) {
+    const assetName = $("#assetSelect").val();
+    const action = $("#action").val();
+    let maxQuantity = 0;
+
+    if (action === "buy") {
+        const assetPrice = assetPrices[assetName];
+        if (assetPrice) {
+            maxQuantity = Math.floor(availableCash / assetPrice * 1000) / 1000;
+        }
+    } else if (action === "sell") {
+        maxQuantity = portfolio[assetName] || 0;
+        maxQuantity = Math.floor(maxQuantity * 1000) / 1000;
+    }
+
+    $("#quantity").val(maxQuantity);
+}
+
+// Distribute remaining cash equally across all assets
+function distributeCash() {
+    const assetNames = Object.keys(assetPrices);
+    const numAssets = assetNames.length;
+    if (numAssets === 0 || availableCash <= 0) {
+        alert("No assets available or no cash remaining.");
+        return;
+    }
+
+    const amountPerAsset = availableCash / numAssets;
+
+    let promise = Promise.resolve();  // Start with a resolved promise
+
+    for (const assetName of assetNames) {
+        const assetPrice = assetPrices[assetName];
+        const quantity = Math.floor(amountPerAsset / assetPrice * 1000) / 1000;  // Rounded down to 3 decimal places
+        if (quantity > 0) {
+            promise = promise.then(() => buyAsset(assetName, quantity));  // Chain the next promise
+        }
+    }
+}
+
+function buyAsset(assetName, quantity) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: `/macro3/buy_asset`,
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({ asset_name: assetName, quantity: quantity }),
+            success: function(data) {
+                if (data.status === "Asset bought") {
+                    // Wrap fetchData in a Promise
+                    new Promise((resolveFetch, rejectFetch) => {
+                        fetchData();
+                        resolveFetch();
+                    }).then(() => {
+                        resolve();  // Resolve the buyAsset promise after fetchData
+                    });
+                } else {
+                    reject(new Error(data.status));
+                }
+            }
+        });
+    });
+}
+
+function cashOutAllAssets() {
+    // Fetch the latest portfolio data
+    $.get("/macro3/student_dashboard_data", function(data) {
+        if (data.status === "Fetched portfolio and game state") {
+            const portfolio = data.data.portfolio.assets; // Accessing portfolio from fetched data
+            let promise = Promise.resolve();  // Start with a resolved promise
+
+            for (const [assetName, quantity] of Object.entries(portfolio)) {
+                if (quantity > 0) {
+                    promise = promise.then(() => sellAsset(assetName, quantity));  // Chain the next promise
+                }
+            }
+        } else {
+            alert("Failed to fetch portfolio data.");
+        }
+    });
+}
+
+function sellAsset(assetName, quantity) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: `/macro3/sell_asset`,
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({ asset_name: assetName, quantity: quantity }),
+            success: function(data) {
+                if (data.status === "Asset sold") {
+                    // Wrap fetchData in a Promise
+                    new Promise((resolveFetch, rejectFetch) => {
+                        fetchData();
+                        resolveFetch();
+                    }).then(() => {
+                        resolve();  // Resolve the sellAsset promise after fetchData
+                    });
+                } else {
+                    reject(new Error(data.status));
+                }
+            }
+        });
+    });
+}
+
+$("#tradeForm").submit(function(event) {
+    event.preventDefault();
+
+    const assetName = $("#assetSelect").val();
+    const quantity = $("#quantity").val();
+    const action = $("#action").val();
+
+    $.ajax({
+        url: `/macro3/${action}_asset`,
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify({ asset_name: assetName, quantity: quantity }),
+        success: function(data) {
+            if (data.status === "Asset bought" || data.status === "Asset sold") {
+                fetchData();
+            } else {
+                alert(data.status);
+            }
+        }
+    });
+});
+
+// Initialize the dashboard
+$(document).ready(function() {
+    fetchData();
+    $("#cashOutAllAssets").click(cashOutAllAssets);
+
+    // Add click event listener for max buy button
+    $("#maxBuyBtn").click(function() {
+        const assetName = $("#assetSelect").val();
+        const action = $("#action").val();
+
+        $.get("/macro3/student_dashboard_data", function(data) {
+            if (data.status === "Fetched portfolio and game state") {
+                const availableCash = data.data.cash;
+                const assetPrices = data.data.game_state.asset_prices;
+                const portfolio = data.data.portfolio.assets;
+
+                updateMaxQuantity(availableCash, assetPrices, portfolio);
+            }
+        });
+    });
+
+    $("#distributeCash").click(distributeCash);
+
+    // Event listener for the "Refresh Portfolio" button
+    $("#refreshPortfolio").click(function() {
+        fetchData();
+    });
+});
+
+</script>
+
+</body>
+</html>
+
+{% endblock %}

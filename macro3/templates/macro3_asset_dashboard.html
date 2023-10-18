@@ -1,0 +1,506 @@
+{% extends "base_macro3.html" %}
+
+{% block content %}
+<html>
+<head>
+  <title>Asset History</title>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <style>
+  #assetPricesContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .asset-box {
+    border: 2px solid gray;
+    margin: 5px;
+    padding: 5px;
+    width: 250px;
+    height: 200px;
+    text-align: center;
+    font-size: 16px;
+  }
+  .price-up {
+    color: green;
+  }
+  .price-down {
+    color: red;
+  }
+  .flip {
+    animation: flip 0.2s;
+  }
+  @keyframes flip {
+    0% { transform: rotateX(0deg); }
+    100% { transform: rotateX(360deg); }
+  }
+
+  .grow-shrink {
+    animation: growShrink 0.5s ease-in-out;
+  }
+
+  @keyframes growShrink {
+    0% { font-size: 16px; }
+    50% { font-size: 24px; }
+    100% { font-size: 16px; }
+  }
+
+  /* Center the table */
+  table {
+    margin: auto;
+  }
+
+  /* Center the text inside the cells */
+  th, td {
+    text-align: center;
+    min-width: 80px;  /* Set minimum width */
+    padding: 5px;     /* Add some padding */
+  }
+    /* Hide the split tables by default */
+.split-tables {
+  display: none;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;  /* Optional: Adds some spacing above and below the button */
+}
+
+.centered-container {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    height: 5vh !important;
+}
+
+    @media only screen and (max-width: 600px) {
+      h1, h2 {
+        font-size: 1.2em;
+      }
+      .main-table {
+    display: none;
+  }
+
+
+  .split-tables {
+    display: block;
+  }
+
+  /* Adjust table font-size for mobile view */
+  th, td {
+    font-size: 10px;
+    padding: 3px;
+  }
+      .asset-box, .table, th, td {
+        font-size: 0.8em; /* Adjust font size for tables, asset boxes and headers on smaller screens */
+      }
+
+    /* Adjusting graph width and height for smaller screens */
+      #realEstateGoldPriceHistoryChart,
+      #bondsCommoditiesSppPriceHistoryChart,
+      #bitcoinPriceHistoryChart,
+      #CPIChart {
+        width: 100% !important;
+        height: 400px !important;
+      }
+
+      /* Rescale asset boxes for mobile view */
+      .asset-box {
+        width: 100px;
+        height: 100px;
+        font-size: 8px;
+      }
+
+      /* Adjust table font-size for mobile view */
+      th, td {
+        font-size: 10px;
+        padding: 3px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+<div class="container">
+<h1>Asset History</h1>
+
+<h2>Current Round: <span id="currentRound"></span></h2>
+<h2>Current CPI: <span id="currentCPI"></span></h2>
+
+<h2>Current Asset Prices</h2>
+<!-- Placeholder for asset prices table -->
+<div id="assetPricesContainer"></div>
+
+<h2>Asset Price History</h2>
+  <!-- Main table for larger screens -->
+  <div id="assetPriceHistoryTable" class="main-table"></div>
+
+  <!-- Split tables for mobile screens -->
+  <div class="split-tables">
+    <!-- Table for Real Estate, Gold, Bitcoin -->
+    <div id="assetPriceHistoryTable1"></div>
+
+    <!-- Table for Bonds, Commodities, S&P500 -->
+    <div id="assetPriceHistoryTable2"></div>
+  </div>
+<br>
+<h2>Real Estate & Gold Price History</h2>
+<div id="realEstateGoldPriceHistoryChart" style="width: 900px; height: 500px;"></div>
+
+<h2>Bonds, Commodities & S&P Price History</h2>
+<div id="bondsCommoditiesSppPriceHistoryChart" style="width: 900px; height: 500px;"></div>
+
+  <h2>Bitcoin Price History</h2>
+<!-- Placeholder for Bitcoin price history graph -->
+<div id="bitcoinPriceHistoryChart" style="width: 900px; height: 500px;"></div>
+
+  <!-- Placeholder for CPI history table -->
+<h2>CPI Table</h2>
+<div id="CPITable"></div>
+
+<h2>CPI History</h2>
+<!-- Placeholder for CPI chart -->
+<div id="CPIChart" style="width: 900px; height: 500px;"></div>
+
+</div>
+
+<script>
+  // A global variable to store the previous prices
+let previousPrices = {};
+
+// Function to draw Real Estate and Gold price history chart
+function drawRealEstateGoldPriceHistoryChart(assetPriceHistory) {
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(() => {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Round');
+    data.addColumn('number', 'Real Estate');
+    data.addColumn('number', 'Gold');
+
+    for (const [round, prices] of Object.entries(assetPriceHistory)) {
+      const realEstatePrice = prices['Real Estate'];
+      const goldPrice = prices['Gold'];
+      data.addRow([round, realEstatePrice, goldPrice]);
+    }
+
+    const options = {
+  title: 'Real Estate & Gold Prices Over Time',
+  curveType: 'function',
+  legend: { position: 'bottom' },
+  colors: ['blue', 'gold']  // Colors for Real Estate and Gold
+};
+
+    const chart = new google.visualization.LineChart(document.getElementById('realEstateGoldPriceHistoryChart'));
+    chart.draw(data, options);
+  });
+}
+
+// Function to draw Bonds, Commodities, and S&P price history chart
+function drawBondsCommoditiesSppPriceHistoryChart(assetPriceHistory) {
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(() => {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Round');
+    data.addColumn('number', 'Bonds');
+    data.addColumn('number', 'Commodities');
+    data.addColumn('number', 'S&P500');
+
+    for (const [round, prices] of Object.entries(assetPriceHistory)) {
+      const bondsPrice = prices['Bonds'];
+      const commoditiesPrice = prices['Commodities'];
+      const sppPrice = prices['S&P500'];
+      data.addRow([round, bondsPrice, commoditiesPrice, sppPrice]);
+    }
+
+    const options = {
+  title: 'Bonds, Commodities & S&P Prices Over Time',
+  curveType: 'function',
+  legend: { position: 'bottom' },
+  colors: ['red', 'grey', 'lightgreen']  // Colors for Bonds, Commodities, and S&P
+};
+
+
+    const chart = new google.visualization.LineChart(document.getElementById('bondsCommoditiesSppPriceHistoryChart'));
+    chart.draw(data, options);
+  });
+}
+async function fetchAssetDashboard() {
+    const response = await fetch('/macro3/asset_dashboard');
+    const data = await response.json();
+
+  if (data.status === "Game initialized") {
+    // Access the nested 'data' dictionary to get the game state
+    const gameData = data.data;
+
+    // Update the Current Round and CPI
+    document.getElementById("currentRound").innerText = gameData.round_number;
+    document.getElementById("currentCPI").innerText = gameData.CPI.toFixed(2);
+
+    // Draw the asset prices table
+    drawAssetPricesTable(gameData.asset_prices);
+
+    // Draw the asset price history chart
+    drawAssetPricesChart(gameData.asset_price_history);
+
+    // Draw the asset price history table
+    drawAssetPriceHistoryTable(gameData.asset_price_history);
+
+    // Draw the Bitcoin price history chart
+    drawBitcoinPriceHistoryChart(gameData.asset_price_history);
+
+    // Draw the CPI history chart
+    drawCPIChart(gameData.CPI_history);
+
+    // Draw the CPI table
+    drawCPITable(gameData.CPI_history);
+
+    // Add these lines to draw the new charts
+    drawRealEstateGoldPriceHistoryChart(gameData.asset_price_history);
+    drawBondsCommoditiesSppPriceHistoryChart(gameData.asset_price_history);
+
+  } else {
+    // Disable Next Round button
+    document.getElementById("nextRoundButton").disabled = true;
+
+    // Show an alert to initialize the game
+    alert('Please initialize the game first.');
+  }
+}
+
+// Function to draw CPI table
+function drawCPITable(CPIHistory) {
+  let tableHtml = '<table border="1"><tr><th>Round</th><th>CPI</th></tr>';
+  for (const [round, cpi] of Object.entries(CPIHistory)) {
+    tableHtml += `<tr><td>${round}</td><td>${cpi.toFixed(2)}</td></tr>`;
+  }
+  tableHtml += '</table>';
+  document.getElementById("CPITable").innerHTML = tableHtml;
+}
+
+
+// Function to draw Bitcoin price history chart
+function drawBitcoinPriceHistoryChart(assetPriceHistory) {
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(() => {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Round');
+    data.addColumn('number', 'Bitcoin');
+
+    for (const [round, prices] of Object.entries(assetPriceHistory)) {
+      const bitcoinPrice = prices['Bitcoin'];
+      data.addRow([round, bitcoinPrice]);
+    }
+
+    const options = {
+      title: 'Bitcoin Prices Over Time',
+      curveType: 'function',
+      legend: { position: 'bottom' },
+      colors: ['orange']  // Color for Bitcoin
+    };
+
+    const chart = new google.visualization.LineChart(document.getElementById('bitcoinPriceHistoryChart'));
+    chart.draw(data, options);
+  });
+}
+
+function drawAssetPricesTable(assetPrices) {
+  let containerHtml = '';
+  for (const [asset, price] of Object.entries(assetPrices)) {
+    const elementId = `${asset}PriceElement`;
+    const prevPriceId = `${asset}PrevPriceElement`;
+    const changeId = `${asset}ChangeElement`;
+    containerHtml += `
+      <div class="asset-box">
+        <h2>${asset}</h2>
+        <div id="${elementId}" class="price-cell">Loading...</div>
+        <div id="${prevPriceId}" class="prev-price"></div>
+        <div id="${changeId}" class="price-change"></div>
+      </div>`;
+  }
+  document.getElementById("assetPricesContainer").innerHTML = containerHtml;
+
+  // Reveal prices one by one
+  const assetKeys = Object.keys(assetPrices);
+  let index = 0;
+
+  function revealNextPrice() {
+    if (index < assetKeys.length) {
+      const asset = assetKeys[index];
+      const price = assetPrices[asset];
+      const elementId = `${asset}PriceElement`;
+      const prevPriceId = `${asset}PrevPriceElement`;
+      const changeId = `${asset}ChangeElement`;
+      animatePriceReveal(price, elementId, prevPriceId, changeId, asset);
+      index++;
+      setTimeout(revealNextPrice, 1000);
+    }
+  }
+
+  // Start the reveal
+  revealNextPrice();
+}
+
+
+function animatePriceReveal(finalPrice, elementId, prevPriceId, changeId, asset) {
+  let step = 0;
+  const totalSteps = 10;  // Increase the number of steps
+  const element = document.getElementById(elementId);
+
+  function updatePrice() {
+    if (step < totalSteps) {
+      const fakePrice = Math.floor(Math.random() * 1000);
+      element.innerText = fakePrice.toFixed(2);
+      element.classList.add("flip");
+      setTimeout(() => {
+        element.classList.remove("flip");
+      }, 300);
+      step++;
+      setTimeout(updatePrice, 100);
+    } else {
+      element.innerText = finalPrice.toFixed(2);
+      element.style.color = "black";
+
+      // Add grow-shrink animation for the final number
+      element.classList.add("grow-shrink");
+      setTimeout(() => {
+        element.classList.remove("grow-shrink");
+      }, 1000);
+
+      // Previous price and percentage change logic remains the same
+      if (previousPrices[asset]) {
+        const prevPrice = previousPrices[asset];
+        const change = ((finalPrice - prevPrice) / prevPrice * 100).toFixed(2);
+        document.getElementById(prevPriceId).innerText = `Previous: ${prevPrice.toFixed(2)}`;
+        document.getElementById(changeId).innerText = `Change: ${change}%`;
+        document.getElementById(changeId).className = change >= 0 ? 'price-change price-up' : 'price-change price-down';
+      }
+
+      // Store the current price for the next round
+      previousPrices[asset] = finalPrice;
+    }
+  }
+
+  // Start the animation
+  updatePrice();
+}
+
+// Function to draw asset price history table
+// Function to draw asset price history table
+function drawAssetPriceHistoryTable(assetPriceHistory) {
+  // Main table for larger screens
+  let tableHtml = '<table border="1"><tr><th>Round</th>';
+
+  // Add asset names as header columns for the main table
+  const firstRound = Object.keys(assetPriceHistory)[0];
+  for (const asset of Object.keys(assetPriceHistory[firstRound])) {
+    tableHtml += `<th>${asset}</th>`;
+  }
+  tableHtml += '</tr>';
+
+  // Add asset prices for each round to the main table
+  for (const [round, prices] of Object.entries(assetPriceHistory)) {
+    tableHtml += `<tr><td>${round}</td>`;
+    for (const asset of Object.keys(prices)) {
+      tableHtml += `<td>${prices[asset].toFixed(2)}</td>`;
+    }
+    tableHtml += '</tr>';
+  }
+  tableHtml += '</table>';
+  document.getElementById("assetPriceHistoryTable").innerHTML = tableHtml;
+
+  // Split tables for mobile
+
+  // Table for Real Estate, Gold, Bitcoin
+  let tableHtml1 = '<table border="1"><tr><th>Round</th><th>Real Estate</th><th>Gold</th><th>Bitcoin</th></tr>';
+  for (const [round, prices] of Object.entries(assetPriceHistory)) {
+    tableHtml1 += `<tr><td>${round}</td><td>${prices['Real Estate'].toFixed(2)}</td><td>${prices['Gold'].toFixed(2)}</td><td>${prices['Bitcoin'].toFixed(2)}</td></tr>`;
+  }
+  tableHtml1 += '</table>';
+  document.getElementById("assetPriceHistoryTable1").innerHTML = tableHtml1;
+
+  // Table for Bonds, Commodities, S&P500
+  let tableHtml2 = '<table border="1"><tr><th>Round</th><th>Bonds</th><th>Commodities</th><th>S&P500</th></tr>';
+  for (const [round, prices] of Object.entries(assetPriceHistory)) {
+    tableHtml2 += `<tr><td>${round}</td><td>${prices['Bonds'].toFixed(2)}</td><td>${prices['Commodities'].toFixed(2)}</td><td>${prices['S&P500'].toFixed(2)}</td></tr>`;
+  }
+  tableHtml2 += '</table>';
+  document.getElementById("assetPriceHistoryTable2").innerHTML = tableHtml2;
+}
+
+
+
+// Function to draw asset prices chart without Bitcoin
+function drawAssetPricesChart(assetPriceHistory) {
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(() => {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Round');
+
+    // Add asset names as header columns, but skip Bitcoin
+    const firstRound = Object.keys(assetPriceHistory)[0];
+    for (const asset of Object.keys(assetPriceHistory[firstRound])) {
+      if (asset !== 'Bitcoin') {
+        data.addColumn('number', asset);
+      }
+    }
+
+    // Add asset prices for each round, but skip Bitcoin
+    for (const [round, prices] of Object.entries(assetPriceHistory)) {
+      const row = [round];
+      for (const asset of Object.keys(prices)) {
+        if (asset !== 'Bitcoin') {
+          row.push(prices[asset]);
+        }
+      }
+      data.addRow(row);
+    }
+
+    const options = {
+      title: 'Asset Prices Over Time (Excluding Bitcoin)',
+      curveType: 'function',
+      legend: { position: 'bottom' }
+    };
+
+    const chart = new google.visualization.LineChart(document.getElementById('assetPricesChart'));
+    chart.draw(data, options);
+  });
+}
+
+
+// Function to draw CPI chart
+function drawCPIChart(CPIHistory) {
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(() => {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Round');
+    data.addColumn('number', 'CPI');
+
+    for (const [round, cpi] of Object.entries(CPIHistory)) {
+      data.addRow([round, cpi]);
+    }
+
+    const options = {
+  title: 'CPI Over Time',
+  curveType: 'function',
+  legend: { position: 'bottom' },
+  colors: ['green']  // Color for CPI
+};
+
+
+    const chart = new google.visualization.LineChart(document.getElementById('CPIChart'));
+    chart.draw(data, options);
+  });
+}
+
+// Fetch the data when the page loads
+fetchAssetDashboard();
+</script>
+
+</body>
+</html>
+
+{% endblock %}

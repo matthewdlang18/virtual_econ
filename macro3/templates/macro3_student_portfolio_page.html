@@ -1,0 +1,276 @@
+{% extends "base_macro3.html" %}
+
+{% block content %}
+<html>
+<head>
+    <title>Student Portfolio History and Statistics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_macro3.css') }}">
+    <style>
+        @media only screen and (max-width: 600px) {
+            table, table th, table td {
+                font-size: 0.8em; /* Decreased font size for tables */
+            }
+
+            h1, h2 {
+                font-size: 1.5em;
+            }
+
+            p, label, .card-header, .accordion-button, .btn {
+                font-size: 0.9em;
+            }
+            #portfolioValueHistoryTable, .accordion-body .table {
+                font-size: 0.8em; /* Adjust font size for tables on smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="text-center mt-4 mb-4">Portfolio History and Statistics</h1>
+
+    <!-- Go back to Trading Page Button -->
+    <div class="row mb-4">
+        <div class="col-md-12 text-center">
+            <a href="/macro3/student_dashboard" class="btn btn-secondary">Go back to Trading Page</a>
+        </div>
+    </div>
+
+    <!-- Portfolio History Chart -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    Portfolio History Chart
+                </div>
+                <div class="card-body">
+                    <canvas id="portfolioValueHistoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Portfolio History Table -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    Portfolio History
+                </div>
+                <div class="card-body">
+                    <table id="portfolioValueHistoryTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>Round</th>
+                                <th>Cash Injection</th>
+                                <th>Portfolio Value</th>
+                                <th>Change (%)</th>
+                                <th>ROI (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Rows will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trade History -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    Trade History
+                </div>
+                <div class="card-body">
+                    <div class="accordion" id="tradeHistoryAccordion">
+                        <!-- Accordion items will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Fetch trade history and populate accordion
+    // Fetch trade history and populate accordion
+function fetchTradeHistory() {
+    $.get("/macro3/student_dashboard_data", function(data) {
+        const tradeHistory = data.data.trade_history;
+
+        const groupedByRound = {};
+        tradeHistory.forEach(function(trade) {
+            if (!groupedByRound[trade.round]) {
+                groupedByRound[trade.round] = [];
+            }
+            groupedByRound[trade.round].push(trade);
+        });
+
+        const sortedRounds = Object.keys(groupedByRound).sort((a, b) => b - a);
+
+        sortedRounds.forEach(function(round) {
+            const trades = groupedByRound[round];
+            const cardId = `round${round}`;
+
+            let tradeRows = '';
+            trades.forEach(trade => {
+                tradeRows += `
+                    <tr>
+                        <td>${trade.asset}</td>
+                        <td>${trade.quantity}</td>
+                        <td>${trade.action}</td>
+                        <td>${parseFloat(trade.price).toFixed(2)}</td> <!-- Round to 2 decimal places -->
+                    </tr>
+                `;
+            });
+
+            $("#tradeHistoryAccordion").append(`
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading${cardId}">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#${cardId}" aria-expanded="true" aria-controls="${cardId}">
+                            Round ${round}
+                        </button>
+                    </h2>
+                    <div id="${cardId}" class="accordion-collapse collapse" aria-labelledby="heading${cardId}" data-bs-parent="#tradeHistoryAccordion">
+                        <div class="accordion-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Asset</th>
+                                        <th>Quantity</th>
+                                        <th>Action</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${tradeRows}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `);
+        });
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        console.error("Error fetching trade history:", textStatus, errorThrown);
+    });
+}
+
+function fetchPortfolioHistory() {
+    $.get("/macro3/student_dashboard_data", function(data) {
+        console.log(data); // logging the fetched data
+
+        if (data.status === "Fetched portfolio and game state") {
+            const portfolioValueHistory = data.data.portfolio_value_history;
+            const cashInjectionHistory = data.data.cash_injection_history || [];
+            let totalCashInjected = 5000; // Initialize with the initial cash amount
+
+            // Manually append the first row for Round 0
+            $("#portfolioValueHistoryTable tbody").append(`
+                <tr>
+                    <td>0</td>
+                    <td>5000.00</td>
+                    <td>5000.00</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                </tr>
+            `);
+
+            for (let index = 1; index < portfolioValueHistory.length; index++) {
+                console.log('Processing round:', index); // logging the current loop iteration
+
+                const cashInjection = parseFloat(cashInjectionHistory[index] || 0).toFixed(2);
+                totalCashInjected += parseFloat(cashInjection);
+                let currentValue = parseFloat(portfolioValueHistory[index]).toFixed(2);
+                let prevValue = parseFloat(portfolioValueHistory[index - 1]).toFixed(2);
+                let denominator = index === 1 ? 5000 : prevValue; // Use 5000 for Round 1, otherwise use prevValue
+                let change = isNaN(currentValue) || isNaN(denominator) || denominator === 0 ? 'N/A' : ((currentValue - denominator) / denominator * 100).toFixed(2) + '%';
+                let roi = isNaN(currentValue) || totalCashInjected === 0 ? 'N/A' : ((currentValue - totalCashInjected) / totalCashInjected * 100).toFixed(2) + '%';
+
+                $("#portfolioValueHistoryTable tbody").append(`
+                    <tr>
+                        <td>${index}</td>
+                        <td>${cashInjection}</td>
+                        <td>${currentValue}</td>
+                        <td>${change}</td>
+                        <td>${roi}</td>
+                    </tr>
+                `);
+            }
+            renderPortfolioHistoryChart(portfolioValueHistory);
+        }
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        console.error("Error fetching portfolio history:", textStatus, errorThrown);
+    });
+}
+
+// Render the portfolio history chart using Chart.js
+function renderPortfolioHistoryChart(portfolioValueHistory) {
+    const ctx = document.getElementById('portfolioValueHistoryChart').getContext('2d');
+    const shiftedData = portfolioValueHistory;
+    const labels = shiftedData.map((_, index) => `Round ${index}`);
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Portfolio Value',
+                data: shiftedData,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    beginAtZero: true
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+function fetchAssetPriceHistory() {
+    $.get("/macro3/asset_price_history", function(data) {
+        if (data.status === "success") {
+            drawAssetPriceHistoryTable(data.data);
+        }
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        console.error("Error fetching asset price history:", textStatus, errorThrown);
+    });
+}
+
+function fetchCPIHistory() {
+    $.get("/macro3/CPI_history", function(data) {
+        if (data.status === "success") {
+            drawCPITable(data.data);
+        }
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        console.error("Error fetching CPI history:", textStatus, errorThrown);
+    });
+}
+
+// Initialize the page
+$(document).ready(function() {
+    fetchTradeHistory();
+    fetchPortfolioHistory();
+});
+
+</script>
+
+</body>
+</html>
+
+{% endblock %}

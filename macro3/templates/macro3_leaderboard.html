@@ -1,0 +1,85 @@
+{% extends "base_macro3.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Macro3 Leaderboard</title>
+    <!-- Add Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    /* Custom Styling for the leaderboard */
+    .table {
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Highlight top 3 with colors */
+    .gold { background-color: #FFD700; }
+    .silver { background-color: #C0C0C0; }
+    .bronze { background-color: #CD7F32; }
+
+    @media only screen and (max-width: 600px) {
+        h1, h2 {
+            font-size: 1.2em;
+        }
+        .table, .table th, .table td {
+            font-size: 1.0em; /* Adjust font size for tables on smaller screens */
+        }
+    }
+
+</style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="text-center mb-5">Leaderboards for Class {{ session['class'] }}</h1>
+    <h2 class="mt-5 mb-4">Portfolio Value</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Username</th>
+                <th>Portfolio Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in portfolio_leaderboard %}
+            <tr class="{{ 'gold' if loop.index == 1 else 'silver' if loop.index == 2 else 'bronze' if loop.index == 3 else '' }}">
+                <td>{{ loop.index }}</td>
+                <td>{{ entry.username }}</td>
+                <td>${{ (entry.portfolio_value)|round(2) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2 class="mt-5 mb-4">ROI</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Username</th>
+                <th>ROI (%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in roi_leaderboard %}
+            <tr class="{{ 'gold' if loop.index == 1 else 'silver' if loop.index == 2 else 'bronze' if loop.index == 3 else '' }}">
+                <td>{{ loop.index }}</td>
+                <td>{{ entry.username }}</td>
+                <td>{{ (entry.ROI * 100)|round(2) }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Add Bootstrap JS and Popper.js for Bootstrap JS components -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+
+{% endblock %}
