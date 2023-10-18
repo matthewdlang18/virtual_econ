@@ -342,6 +342,7 @@ def run_election_route():
             'debt_level': previous_round_data.get('final_debt_level', 0),
             'tax_rate': previous_round_data.get('final_tax_rate', 0),
             'tax_pool': previous_round_data.get('final_tax_pool', 0),
+            'public_spending_amount': previous_round_data.get('final_public_spending', 0),
         }
 
     happiness_impact_factors = game_state.get('happiness_impact_factors', {})
@@ -417,6 +418,7 @@ def run_election_route():
         'debt_level': game_state['debt_level'],
         'tax_rate': current_tax_rate,
         'tax_pool': current_tax_pool,
+        'public_spending_amount': game_state['public_spending_amount']
     }
 
     game_state_ref.update({'happiness_rate': happiness_rate})
@@ -431,7 +433,8 @@ def run_election_route():
         'final_debt_to_GDP': 100*debt_to_GDP_ratio,
         'final_interest_payment': game_state['debt_level'] * (game_state['interest_rate'] / 100.0),
         'final_interest_payment_tax_pool': 100 * game_state['debt_level'] * (
-                game_state['interest_rate'] / 100.0) / current_tax_pool if current_tax_pool != 0 else 0
+                game_state['interest_rate'] / 100.0) / current_tax_pool if current_tax_pool != 0 else 0,
+        'final_public_spending': game_state['public_spending_amount']
     })
     # Update session['initial_values_this_round'] for the next round
     session['initial_values_this_round'] = {
