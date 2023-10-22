@@ -7,16 +7,51 @@
     <title>Investment Odyssey Instructions</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles_macro3.css') }}">
 </head>
-<style>
-@media only screen and (max-width: 600px) {
-    h1 {
-        font-size: 95%;
-    }
-    h2, h3, p, li, button {
-        font-size: 90%; /* Reduce font size to 90% of the original */
-    }
-}
-</style>
+ <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* Mobile Styles */
+        @media only screen and (max-width: 600px) {
+            h1 {
+                font-size: 95%;
+            }
+            h2, h3, p, li, button {
+                font-size: 90%; /* Reduce font size to 90% of the original */
+            }
+        }
+    </style>
 <div class="container">
     <body>
         <h1>Investment Odyssey Instructions</h1>
@@ -45,6 +80,31 @@
             <li>Manage risk. While high-reward assets like Bitcoin can be tempting, they also come with high volatility.</li>
             <li>Remember, in the world of investments, past performance is not indicative of future results.</li>
         </ul>
+        <h2>Asset Returns:</h2>
+        <p>
+            The following table provides information on average returns, standard deviation, minimum, and maximum returns for various assets:
+        </p>
+        <table>
+    <tr>
+        <th>Asset</th>
+        <th>Average Return</th>
+        <th>Standard Deviation</th>
+        <th>Minimum Return</th>
+        <th>Maximum Return</th>
+    </tr>
+{% for asset, params in asset_params.items()|sort %}
+    <tr>
+        <td>{{ asset }}</td>
+        <td>{{ (params["avg_return"] * 100)|round(2) }}%</td>
+        <td>{{ (params["std_dev"] * 100)|round(2) }}%</td>
+        <td>{{ (params["min"] * 100)|round(2) }}%</td>
+        <td>{{ (params["max"] * 100)|round(2) }}%</td>
+    </tr>
+    {% endfor %}
+</table>
+        <p>
+            Note: Returns can be correlated across assets and there it is possible that autocorrelation is present. Bitcoin volatility subject to change over time.
+        </p>
     </body>
 </div>
 {% endblock %}

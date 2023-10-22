@@ -128,7 +128,7 @@
 <div class="container">
 <h1>Asset History</h1>
 
-<h2>Current Round: <span id="currentRound"></span></h2>
+<h2>Current Year: <span id="currentRound"></span></h2>
 <h2>Current CPI: <span id="currentCPI"></span></h2>
 
 <h2>Current Asset Prices</h2>
@@ -392,7 +392,7 @@ function animatePriceReveal(finalPrice, elementId, prevPriceId, changeId, asset)
 // Function to draw asset price history table
 function drawAssetPriceHistoryTable(assetPriceHistory) {
   // Main table for larger screens
-  let tableHtml = '<table border="1"><tr><th>Round</th>';
+  let tableHtml = '<table border="1"><tr><th>Year</th>';
 
   // Add asset names as header columns for the main table
   const firstRound = Object.keys(assetPriceHistory)[0];
@@ -415,7 +415,7 @@ function drawAssetPriceHistoryTable(assetPriceHistory) {
   // Split tables for mobile
 
   // Table for Real Estate, Gold, Bitcoin
-  let tableHtml1 = '<table border="1"><tr><th>Round</th><th>Real Estate</th><th>Gold</th><th>Bitcoin</th></tr>';
+  let tableHtml1 = '<table border="1"><tr><th>Year</th><th>Real Estate</th><th>Gold</th><th>Bitcoin</th></tr>';
   for (const [round, prices] of Object.entries(assetPriceHistory)) {
     tableHtml1 += `<tr><td>${round}</td><td>${prices['Real Estate'].toFixed(2)}</td><td>${prices['Gold'].toFixed(2)}</td><td>${prices['Bitcoin'].toFixed(2)}</td></tr>`;
   }
@@ -423,7 +423,7 @@ function drawAssetPriceHistoryTable(assetPriceHistory) {
   document.getElementById("assetPriceHistoryTable1").innerHTML = tableHtml1;
 
   // Table for Bonds, Commodities, S&P500
-  let tableHtml2 = '<table border="1"><tr><th>Round</th><th>Bonds</th><th>Commodities</th><th>S&P500</th></tr>';
+  let tableHtml2 = '<table border="1"><tr><th>Year</th><th>Bonds</th><th>Commodities</th><th>S&P500</th></tr>';
   for (const [round, prices] of Object.entries(assetPriceHistory)) {
     tableHtml2 += `<tr><td>${round}</td><td>${prices['Bonds'].toFixed(2)}</td><td>${prices['Commodities'].toFixed(2)}</td><td>${prices['S&P500'].toFixed(2)}</td></tr>`;
   }

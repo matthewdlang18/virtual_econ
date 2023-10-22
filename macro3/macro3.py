@@ -45,7 +45,7 @@ def initialize_game():
     class_number = session.get('class', None)  # Fetch the class from the session
 
     # Initialize Firestore document for the game state
-    game_ref = client.collection('macro3_game_state').document('game_state')
+    game_ref = client.collection('macro3_game_states').document(str(class_number))
     game_ref.set({
         "class": class_number,
         "round_number": 0,
@@ -84,8 +84,11 @@ def initialize_game():
 
 @macro3.route('/next_round', methods=['POST'])
 def next_round():
+    class_number = session.get('class', None)
+    if class_number is None:
+        return "Class number not found in session", 400
     # Advance to the next round and update asset prices
-    game_ref = client.collection('macro3_game_state').document('game_state')
+    game_ref = client.collection('macro3_game_states').document(str(class_number))
     game_state = game_ref.get().to_dict()
     participating_class = game_state.get('class', None)
 
@@ -282,6 +285,9 @@ def adjust_bitcoin_params(bitcoin_price, extreme_bitcoin_event):
 @macro3.route('/professor_dashboard', methods=['GET'])
 def professor_dashboard():
     student_id = session.get('student_id', None)
+    class_number = session.get('class', None)
+    if class_number is None:
+        return "Class number not found in session", 400
 
     # Check if the logged-in user is the professor
     is_professor = (student_id == 'matt')
@@ -291,7 +297,7 @@ def professor_dashboard():
 
     # Rest of your code for professor access
     # Fetch the current game state from Firestore
-    game_ref = client.collection('macro3_game_state').document('game_state')
+    game_ref = client.collection('macro3_game_states').document(str(class_number))
     game_state = game_ref.get().to_dict()
 
     if game_state:
@@ -323,9 +329,12 @@ def check_professor():
 @macro3.route('/asset_dashboard', methods=['GET'])
 def asset_dashboard():
     student_id = session['student_id']
+    class_number = session.get('class', None)
+    if class_number is None:
+        return "Class number not found in session", 400
 
     # Fetch the current game state from Firestore
-    game_ref = client.collection('macro3_game_state').document('game_state')
+    game_ref = client.collection('macro3_game_states').document(str(class_number))
     game_state = game_ref.get().to_dict()
 
     if game_state:
@@ -367,8 +376,12 @@ def student_dashboard_page():
 
 @macro3.route('/student_dashboard_data', methods=['GET'])
 def student_dashboard_data():
+    class_number = session.get('class', None)
+    if class_number is None:
+        return "Class number not found in session", 400
+
     # Fetch the game state from Firestore
-    game_ref = client.collection('macro3_game_state').document('game_state')
+    game_ref = client.collection('macro3_game_states').document(str(class_number))
     game_state = game_ref.get().to_dict()
 
     # Fetch the student's portfolio from Firestore
@@ -431,7 +444,15 @@ def student_dashboard_data():
 
 @macro3.route('/instructions', methods=['GET'])
 def instructions():
-    return render_template('macro3_instructions.html')
+    asset_params = {
+        "S&P500": {"avg_return": 0.1151, "std_dev": 0.1949, "min": -0.43, "max": 0.50},
+        "Bonds": {"avg_return": 0.0334, "std_dev": 0.0301, "min": 0.0003, "max": 0.14},
+        "Real Estate": {"avg_return": 0.0439, "std_dev": 0.0620, "min": -0.12, "max": 0.24},
+        "Gold": {"avg_return": 0.0648, "std_dev": 0.2076, "min": -0.32, "max": 1.25},
+        "Commodities": {"avg_return": 0.0815, "std_dev": 0.1522, "min": -0.25, "max": 2.00},
+        "Bitcoin": {"avg_return": 0.50, "std_dev": 1.00, "min": -0.73, "max": 4.50}
+    }
+    return render_template('macro3_instructions.html', asset_params=asset_params)
 
 @macro3.route('/student_portfolio_page', methods=['GET'])
 def student_portfolio_page():
@@ -443,17 +464,16 @@ def buy_asset():
     student_id = session['student_id']
     asset_name = request.json['asset_name']
     quantity = float(request.json['quantity'])
-
+    class_number = session['class']
 
     print(f"Attempting to buy {quantity} of {asset_name} for {student_id}")  # Debugging line
 
     # Fetch current game state to get asset prices
-    game_ref = client.collection('macro3_game_state').document('game_state')
+    game_ref = client.collection('macro3_game_states').document(str(class_number))
     game_data = game_ref.get().to_dict()
     asset_price = game_data['asset_prices'][asset_name]
 
     # Fetch student data to update portfolio and cash
-    class_number = session['class']
     student_ref = client.collection(f'macro3_students_class_{class_number}').document(student_id)
     student_data = student_ref.get().to_dict()
 
@@ -481,14 +501,14 @@ def sell_asset():
     student_id = session['student_id']
     asset_name = request.json['asset_name']
     quantity = float(request.json['quantity'])
+    class_number = session['class']
 
     # Fetch current game state to get asset prices
-    game_ref = client.collection('macro3_game_state').document('game_state')
+    game_ref = client.collection('macro3_game_states').document(str(class_number))
     game_data = game_ref.get().to_dict()
     asset_price = game_data['asset_prices'][asset_name]
 
     # Fetch student data to update portfolio and cash
-    class_number = session['class']
     student_ref = client.collection(f'macro3_students_class_{class_number}').document(student_id)
     student_data = student_ref.get().to_dict()
 

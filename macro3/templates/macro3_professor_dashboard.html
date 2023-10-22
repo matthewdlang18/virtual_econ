@@ -146,7 +146,7 @@
 </div>
 
 
-<h2>Current Round: <span id="currentRound"></span></h2>
+<h2>Current Year: <span id="currentRound"></span></h2>
 <h2>Current CPI: <span id="currentCPI"></span></h2>
 
 <h2>Current Asset Prices</h2>
@@ -319,7 +319,7 @@ async function fetchProfessorDashboard() {
 
 // Function to draw CPI table
 function drawCPITable(CPIHistory) {
-  let tableHtml = '<table border="1"><tr><th>Round</th><th>CPI</th></tr>';
+  let tableHtml = '<table border="1"><tr><th>Year</th><th>CPI</th></tr>';
   for (const [round, cpi] of Object.entries(CPIHistory)) {
     tableHtml += `<tr><td>${round}</td><td>${cpi.toFixed(2)}</td></tr>`;
   }
@@ -438,7 +438,7 @@ function animatePriceReveal(finalPrice, elementId, prevPriceId, changeId, asset)
 // Function to draw asset price history table
 function drawAssetPriceHistoryTable(assetPriceHistory) {
   // Main table for larger screens
-  let tableHtml = '<table border="1"><tr><th>Round</th>';
+  let tableHtml = '<table border="1"><tr><th>Year</th>';
 
   // Add asset names as header columns for the main table
   const firstRound = Object.keys(assetPriceHistory)[0];
@@ -461,7 +461,7 @@ function drawAssetPriceHistoryTable(assetPriceHistory) {
   // Split tables for mobile
 
   // Table for Real Estate, Gold, Bitcoin
-  let tableHtml1 = '<table border="1"><tr><th>Round</th><th>Real Estate</th><th>Gold</th><th>Bitcoin</th></tr>';
+  let tableHtml1 = '<table border="1"><tr><th>Year</th><th>Real Estate</th><th>Gold</th><th>Bitcoin</th></tr>';
   for (const [round, prices] of Object.entries(assetPriceHistory)) {
     tableHtml1 += `<tr><td>${round}</td><td>${prices['Real Estate'].toFixed(2)}</td><td>${prices['Gold'].toFixed(2)}</td><td>${prices['Bitcoin'].toFixed(2)}</td></tr>`;
   }
@@ -469,7 +469,7 @@ function drawAssetPriceHistoryTable(assetPriceHistory) {
   document.getElementById("assetPriceHistoryTable1").innerHTML = tableHtml1;
 
   // Table for Bonds, Commodities, S&P500
-  let tableHtml2 = '<table border="1"><tr><th>Round</th><th>Bonds</th><th>Commodities</th><th>S&P500</th></tr>';
+  let tableHtml2 = '<table border="1"><tr><th>Year</th><th>Bonds</th><th>Commodities</th><th>S&P500</th></tr>';
   for (const [round, prices] of Object.entries(assetPriceHistory)) {
     tableHtml2 += `<tr><td>${round}</td><td>${prices['Bonds'].toFixed(2)}</td><td>${prices['Commodities'].toFixed(2)}</td><td>${prices['S&P500'].toFixed(2)}</td></tr>`;
   }
@@ -543,7 +543,7 @@ function drawCPIChart(CPIHistory) {
 }
 
 // Define a predefined password
-const predefinedPassword = "actualpassword"; // Replace with your actual password
+const predefinedPassword = "confirm"; // Replace with your actual password
 
 // Initialize Game button with password protection
 document.getElementById("initializeGameButton").addEventListener("click", async () => {
@@ -570,14 +570,14 @@ document.getElementById("nextRoundButton").addEventListener("click", async () =>
   const response = await fetch('/macro3/next_round', { method: 'POST' });
   const data = await response.json();
   if (response.status === 200) {
-    //alert('Advanced to Next Round');
+    //alert('Advanced to Next Year');
     fetchProfessorDashboard();
   } else {
     alert('Failed to Advance to Next Round');
   }
 });
 
-const PROFESSOR_PASSWORD = "actualpassword";
+const PROFESSOR_PASSWORD = "profPass123";
 
 function checkPassword() {
     const enteredPassword = document.getElementById('professorPassword').value;
