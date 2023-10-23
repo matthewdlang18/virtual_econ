@@ -138,8 +138,9 @@
 <div class="text-center" style="max-width: 300px; margin: auto;">
     <canvas id="portfolioPieChart" width="400" height="400" style="max-width: 100%; max-height: 100%;"></canvas>
 </div>
-<div class="text-center mt-3">
-    <a href="/macro3/student_portfolio_page" class="btn btn-secondary">Portfolio History and Statistics</a>
+<div class="d-flex justify-content-center mt-3">
+        <a class="btn btn-secondary mr-2" href="/macro3/student_portfolio_page">Portfolio History</a></a>
+        <a class="btn btn-secondary" href="{{ url_for('macro3.asset_dashboard_page') }}">Asset History</a>
 </div>
 
 

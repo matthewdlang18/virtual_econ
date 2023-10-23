@@ -126,7 +126,11 @@
 
 <body>
 <div class="container">
-<h1>Asset History</h1>
+    <h1>Asset History</h1>
+    <div class="d-flex justify-content-center mt-3">
+        <a class="btn btn-secondary mr-2" href="{{ url_for('macro3.student_dashboard_page') }}">Trading Dashboard</a>
+        <a class="btn btn-secondary" href="{{ url_for('macro3.student_portfolio_page') }}">Portfolio History</a>
+    </div>
 
 <h2>Current Year: <span id="currentRound"></span></h2>
 <h2>Current CPI: <span id="currentCPI"></span></h2>

@@ -34,12 +34,11 @@
     <h1 class="text-center mt-4 mb-4">Portfolio History and Statistics</h1>
 
     <!-- Go back to Trading Page Button -->
-    <div class="row mb-4">
-        <div class="col-md-12 text-center">
-            <a href="/macro3/student_dashboard" class="btn btn-secondary">Go back to Trading Page</a>
-        </div>
+    <div class="d-flex justify-content-center mt-3">
+        <a class="btn btn-secondary mr-2" href="{{ url_for('macro3.student_dashboard_page') }}">Trading Dashboard</a>
+        <a class="btn btn-secondary" href="{{ url_for('macro3.asset_dashboard_page') }}">Asset History</a>
     </div>
-
+<br>
     <!-- Portfolio History Chart -->
     <div class="row mb-4">
         <div class="col-md-12">
