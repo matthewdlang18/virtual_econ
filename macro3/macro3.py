@@ -39,7 +39,7 @@ def home():
 def initialize_game():
     student_id = session['student_id']
 
-    if student_id != 'matt':  # Only 'matt' is allowed to initialize the game
+    if student_id != 'professor':  # Only 'professor' is allowed to initialize the game
         return jsonify({"status": "Unauthorized"}), 401
 
     class_number = session.get('class', None)  # Fetch the class from the session
@@ -290,7 +290,7 @@ def professor_dashboard():
         return "Class number not found in session", 400
 
     # Check if the logged-in user is the professor
-    is_professor = (student_id == 'matt')
+    is_professor = (student_id == 'professor')
 
     if not is_professor:
         return jsonify({"status": "Unauthorized", "message": "You are not authorized to access this page."}), 403
@@ -310,7 +310,7 @@ def professor_dashboard_page():
     student_id = session.get('student_id', None)
 
     # Check if the logged-in user is the professor
-    is_professor = (student_id == 'matt')
+    is_professor = (student_id == 'professor')
 
     if not is_professor:
         return "Unauthorized. You are not authorized to access this page.", 403
@@ -322,7 +322,7 @@ def professor_dashboard_page():
 @macro3.route('/check_professor', methods=['GET'])
 def check_professor():
     student_id = session.get('student_id', None)
-    is_professor = (student_id == 'matt')
+    is_professor = (student_id == 'professor')
     return jsonify({"is_professor": is_professor})
 
 
