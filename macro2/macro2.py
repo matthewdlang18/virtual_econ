@@ -553,6 +553,7 @@ def update_leaderboard(student_id, username, max_round_reached, class_number, sc
 
     # Fetch the student's current leaderboard entry
     doc = doc_ref.get()
+    existing_data = doc.to_dict() if doc.exists else {}
 
     # Prepare the data to update
     data_to_update = {
@@ -562,13 +563,11 @@ def update_leaderboard(student_id, username, max_round_reached, class_number, sc
         'max_round_reached': max_round_reached
     }
 
-    # If score is provided, then update the score only if it's higher than the existing one
-    if score is not None:
-        if not doc.exists or (doc.exists and doc.to_dict().get('max_round_reached', 0) < score):
-            data_to_update['max_round_reached'] = score
+    # Update the max_round_reached only if the current round is greater than what's stored
+    if not existing_data or max_round_reached > existing_data.get('max_round_reached', 0):
+        doc_ref.set(data_to_update, merge=True)
+    # Optionally, handle the score update logic here as well, if applicable
 
-    # Update the document
-    doc_ref.set(data_to_update, merge=True)
 
 
 def get_leaderboard(class_number):
