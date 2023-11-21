@@ -6,6 +6,7 @@ from game4.game4 import game4
 from macro1.macro1 import macro1
 from macro2.macro2 import macro2
 from macro3.macro3 import macro3
+from mining.mining import mining
 from main.main import main
 import os
 
@@ -22,6 +23,8 @@ app.register_blueprint(game4, url_prefix='/game4')
 app.register_blueprint(macro1, url_prefix='/macro1')
 app.register_blueprint(macro2, url_prefix='/macro2')
 app.register_blueprint(macro3, url_prefix='/macro3')
+app.register_blueprint(mining, url_prefix='/mining')
+
 
 app.config['SECRET_KEY'] = 'thisisasecret'
 app.config['SESSION_PERMANENT'] = True
