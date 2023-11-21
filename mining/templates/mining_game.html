@@ -1,0 +1,469 @@
+{% extends "base_mining.html" %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bitcoin Block Mining</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        textarea {
+            width: 75%;
+            height: 80px;
+            box-sizing: border-box;
+        }
+        .block-table, .ledger-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .block-table th, .block-table td, .ledger-table th, .ledger-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        .block-table th, .ledger-table th {
+            background-color: #f2f2f2;
+        }
+            /* Style for nonce cell to wrap text */
+        .nonce-cell {
+        max-width: 120px; /* or any width you prefer */
+        word-wrap: break-word;
+        }
+            /* Style for nonce and hash cells to wrap text */
+        .wrap-cell {
+        max-width: 120px; /* Adjust the width as needed */
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        }
+            .previous-hash-cell {
+        max-width: 120px; /* or any width you prefer */
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+
+    <h1>Bitcoin Block Mining</h1>
+    <div class="inline-form-group">
+    <label for="previous_hash"><h4>Previous Hash:</h4></label>
+    <textarea id="previous_hash" rows="2" readonly>0</textarea>
+</div>
+
+
+<div class="inline-form-group">
+    <label for="difficulty"><h4>Set Difficulty (Leading Zeros):</h4></label>
+    <input type="number" id="difficulty" value="1" min="1" max="4">
+</div>
+
+<div class="row">
+    <!-- Block Reward Column -->
+    <div class="column">
+        <h3>Block Reward</h3>
+        <div class="inline-form-group">
+    <label for="miner">Miner:</label>
+    <input type="text" id="miner" oninput="aggregateData()">
+</div>
+<div class="inline-form-group">
+    <label for="block_reward_amount">Amount:</label>
+    <input type="text" id="block_reward_amount" oninput="validateNumericInput(this); aggregateData();">
+</div>
+<div class="inline-form-group">
+    <label for="nonce">Nonce:</label>
+    <textarea id="nonce" oninput="filterNonceInput(); validateAndAggregateData();"></textarea>
+</div>
+        <div class="button-group">
+            <button class="btn" onclick="mineBlock()">Mine Block</button>
+            <button class="btn" id="autoMineButton" onclick="autoMineBlock()" style="display: none;">Auto Mine Block</button>
+        </div>
+    </div>
+
+    <!-- Transaction Column -->
+<div class="column">
+    <h3>Transaction</h3>
+    <div id="transaction1">
+        <div class="inline-form-group">
+            <label for="sender1">Sender:</label>
+            <input type="text" id="sender1" oninput="aggregateData()">
+        </div>
+        <div class="inline-form-group">
+            <label for="receiver1">Receiver:</label>
+            <input type="text" id="receiver1" oninput="aggregateData()">
+        </div>
+        <div class="inline-form-group">
+            <label for="amount1">Amount:</label>
+            <input type="text" id="amount1" oninput="validateNumber()" title="Only numbers are allowed">
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="grid-container">
+    <div class="column">
+        <h2>Data:</h2>
+        <div class="input-group">
+            <textarea id="aggregated_info" readonly></textarea>
+        </div>
+    </div>
+    <div class="column">
+        <h2>Calculated Hash:</h2>
+        <p id="hash_output"></p>
+    </div>
+</div>
+
+    <div class="table-responsive">
+    <table class="table">
+        <h2>Blockchain:</h2>
+    <div id="blockchain"></div>
+    </table>
+</div>
+
+    <h2>Bitcoin Ledger:</h2>
+    <div id="ledger"></div>
+</div>
+
+    <script>
+        var blockchain = [];
+        var currentDifficulty;
+        var blockCount = 0; // Track the number of blocks mined
+
+function isValidBlockReward() {
+var miner = document.getElementById('miner').value;
+var blockRewardAmount = document.getElementById('block_reward_amount').value;
+
+// Check if both miner and block reward amount are provided
+if (miner.trim() === '' || blockRewardAmount.trim() === '') {
+alert("Please fill out both the miner and block reward amount.");
+return false;
+}
+return true;
+}
+
+function validateAndAggregateData() {
+    var nonce = document.getElementById('nonce').value;
+    if (!nonce.match(/^\d+$/)) {
+        alert("Nonce must be a numeric value.");
+        return;
+    }
+    aggregateData();
+}
+
+document.getElementById('difficulty').addEventListener('input', function(e) {
+    var value = parseInt(e.target.value, 10);
+    if (value < 1) e.target.value = 1;
+    if (value > 4) e.target.value = 4;
+});
+
+function validateNumber() {
+    var inputField = document.getElementById('amount1');
+    var validValue = inputField.value.replace(/[^0-9]/g, ''); // Replace non-numeric characters
+    inputField.value = validValue;
+}
+
+function aggregateData() {
+    var previous_hash = document.getElementById('previous_hash').value;
+    var transaction1 = document.getElementById('sender1').value + "-" + document.getElementById('receiver1').value + "-" + document.getElementById('amount1').value;
+    var miner = document.getElementById('miner').value;
+    var block_reward_amount = document.getElementById('block_reward_amount').value;
+    var nonce = document.getElementById('nonce').value;
+
+    var aggregated_info = previous_hash + "|" + miner + "-" + block_reward_amount + "|" + transaction1 + "|"  + nonce; // Include transaction2 in the data
+    document.getElementById('aggregated_info').value = aggregated_info;
+    calculateHash(aggregated_info);
+}
+
+
+        function calculateHash(aggregated_info) {
+            var hash = CryptoJS.SHA256(aggregated_info).toString();
+            document.getElementById('hash_output').innerText = hash;
+        }
+
+function validateTransaction(transaction) {
+    // If the sender is blank, it's considered a valid transaction (new coin generation)
+    if (!transaction.sender) {
+        return true;
+    }
+
+    var senderBalance = balances[transaction.sender] || 0;
+    return senderBalance >= parseFloat(transaction.amount);
+}
+
+function mineBlock() {
+    if (!isValidBlockReward()) {
+        return; // Stop the mining process if block reward is invalid
+    }
+    currentDifficulty = parseInt(document.getElementById('difficulty').value);
+    var hash = document.getElementById('hash_output').innerText;
+
+    // Validate each transaction before mining
+    var transactions = getTransactions();
+    for (var i = 0; i < transactions.length; i++) {
+        if (!validateTransaction(transactions[i])) {
+            alert("Invalid transaction: Sender does not have enough balance.");
+            return; // Stop mining if any transaction is invalid
+        }
+    }
+
+    if (hash.startsWith('0'.repeat(currentDifficulty))) {
+        addToBlockchain(hash);
+        // Confirm the nonce used in the textarea
+        document.getElementById('nonce').value = document.getElementById('nonce').value;
+    } else {
+        alert("Hash does not meet difficulty requirement.");
+    }
+}
+
+function autoMineBlock() {
+        if (!isValidBlockReward()) {
+        return; // Stop the auto mining process if block reward is invalid
+    }
+    currentDifficulty = parseInt(document.getElementById('difficulty').value);
+    var nonce = 0;
+    var validHash = false;
+    var hash;
+
+    while (!validHash) {
+        document.getElementById('nonce').value = nonce;
+        aggregateData(); // This function aggregates data and calculates the hash
+        hash = document.getElementById('hash_output').innerText;
+
+        if (hash.startsWith('0'.repeat(currentDifficulty))) {
+            validHash = true;
+        } else {
+            nonce++;
+        }
+    }
+
+    if (validHash) {
+        addToBlockchain(hash);
+        // The nonce is already being updated in the textarea in the loop above
+        alert("Block successfully mined with nonce: " + nonce);
+    }
+}
+
+function validateNumericInput(input) {
+    // Remove any characters that are not digits or a period (for decimal numbers)
+    input.value = input.value.replace(/[^0-9.]/g, '');
+
+    // If you want to allow only whole numbers, remove the period from the regex
+    // input.value = input.value.replace(/[^0-9]/g, '');
+
+    // This additional step ensures that there's only one period in the input for decimal numbers
+    // If you are allowing decimal numbers, uncomment the following line
+    // input.value = input.value.replace(/(\..*)\./g, '$1');
+}
+
+function addToBlockchain(hash) {
+    var block = {
+        previous_hash: document.getElementById('previous_hash').value,
+        transactions: getTransactions(),
+        block_reward: getBlockReward(),
+        nonce: document.getElementById('nonce').value,
+        hash: hash
+    };
+
+    blockchain.push(block);
+    displayBlockchain();
+    prepareForNextBlock(hash);
+    updateBalances(block);
+    displayLedger();
+
+    // Check if blockchain length is 3 and display the button
+    if (blockchain.length === 3) {
+        document.getElementById('autoMineButton').style.display = 'block';
+    }
+}
+
+function filterNonceInput() {
+    var nonce = document.getElementById('nonce');
+    nonce.value = nonce.value.replace(/[^0-9]/g, ''); // Replace non-digits with nothing
+}
+
+        function getTransactions() {
+    // Retrieve and return transaction data
+    var transactions = [];
+    // Only add the transaction if sender and receiver fields are not empty
+    if (document.getElementById('sender1').value && document.getElementById('receiver1').value) {
+        transactions.push({
+            sender: document.getElementById('sender1').value,
+            receiver: document.getElementById('receiver1').value,
+            amount: document.getElementById('amount1').value
+        });
+    }
+    return transactions;
+}
+
+
+        function getBlockReward() {
+            return {
+                miner: document.getElementById('miner').value,
+                amount: document.getElementById('block_reward_amount').value
+            };
+        }
+
+function displayBlockchain() {
+    var blockchainDiv = document.getElementById('blockchain');
+    blockchainDiv.innerHTML = ''; // Clear the display
+
+    // Create a table element
+    var table = document.createElement('table');
+    table.className = 'block-table';
+
+    // Add table header
+    var thead = document.createElement('thead');
+    var headerRow = document.createElement('tr');
+    var headers = ['Block #', 'Previous Hash', 'Nonce', 'Hash', 'Transactions', 'Block Reward'];
+    headers.forEach(function(header) {
+        var th = document.createElement('th');
+        th.textContent = header;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Add table body
+    var tbody = document.createElement('tbody');
+    blockchain.forEach(function(block, index) {
+        var row = document.createElement('tr');
+
+        row.appendChild(createCell(index + 1));
+        // Create previous_hash cell with specific class
+        var prevHashCell = document.createElement('td');
+        prevHashCell.className = 'previous-hash-cell';
+        prevHashCell.textContent = block.previous_hash;
+        row.appendChild(prevHashCell);
+                        // Create nonce cell with specific class
+        var nonceCell = document.createElement('td');
+        nonceCell.className = 'nonce-cell';
+        nonceCell.textContent = block.nonce;
+        row.appendChild(nonceCell);
+                // Create hash cell with specific class
+        var hashCell = document.createElement('td');
+        hashCell.className = 'wrap-cell';
+        hashCell.textContent = block.hash;
+        row.appendChild(hashCell);
+        // Create transactions cell with formatted transactions
+        var transactionsCell = document.createElement('td');
+        transactionsCell.innerHTML = formatTransactions(block.transactions); // Use innerHTML to interpret <br> as a line break
+        row.appendChild(transactionsCell);
+        row.appendChild(createCell(formatBlockReward(block.block_reward)));
+
+
+
+        tbody.appendChild(row);
+    });
+    table.appendChild(tbody);
+
+    // Append the table to the blockchain display div
+    blockchainDiv.appendChild(table);
+}
+
+function createCell(content) {
+    var cell = document.createElement('td');
+    cell.textContent = content || '';  // If content is falsy, set it to an empty string
+    return cell;
+}
+
+function formatTransactions(transactions) {
+    // Filter out any incomplete transactions
+    var filteredTransactions = transactions.filter(function(transaction) {
+        return transaction.sender && transaction.receiver && transaction.amount; // Ensure all details are present
+    });
+
+    // Return a string with each transaction formatted on a new line
+    return filteredTransactions.map(function(transaction) {
+        return `Sender: ${transaction.sender}, Receiver: ${transaction.receiver}, Amount: ${transaction.amount}`;
+    }).join('<br>'); // Use the HTML line break for separation in the HTML display
+}
+
+function formatBlockReward(block_reward) {
+    // Ensure block_reward is an object with miner and amount properties
+    if (block_reward && block_reward.miner && block_reward.amount) {
+        return `Block Mined by ${block_reward.miner} for a reward of ${block_reward.amount}`;
+    }
+    return ''; // Return an empty string if block_reward is not properly formatted
+}
+
+
+
+        function prepareForNextBlock(previousHash) {
+            document.getElementById('previous_hash').value = previousHash;
+            // Reset nonce and transaction inputs for the next block
+            document.getElementById('nonce').value = '';
+            // Reset transaction inputs
+            // Example for one transaction
+            document.getElementById('sender1').value = '';
+            document.getElementById('receiver1').value = '';
+            document.getElementById('amount1').value = '';
+            // Reset block reward inputs
+            document.getElementById('miner').value = '';
+            document.getElementById('block_reward_amount').value = '';
+        }
+
+        var balances = {}; // This object will hold the balances
+
+function updateBalances(block) {
+    // Update balances for each transaction
+    block.transactions.forEach(function(transaction) {
+        // Check if the sender has enough balance or if the sender is blank
+        if (transaction.sender === "" || validateTransaction(transaction)) {
+            // Subtract amount from sender (if not a new coin generation)
+            if (transaction.sender !== "") {
+                balances[transaction.sender] = (balances[transaction.sender] || 0) - parseFloat(transaction.amount);
+            }
+            // Add amount to receiver
+            balances[transaction.receiver] = (balances[transaction.receiver] || 0) + parseFloat(transaction.amount);
+        }
+    });
+
+    // Update balance for block reward (miner)
+    balances[block.block_reward.miner] = (balances[block.block_reward.miner] || 0) + parseFloat(block.block_reward.amount);
+}
+
+function displayLedger() {
+    var ledgerDiv = document.getElementById('ledger');
+    ledgerDiv.innerHTML = '';
+
+    var table = document.createElement('table');
+    table.className = 'ledger-table';
+
+    // Add table header
+    var thead = document.createElement('thead');
+    var headerRow = document.createElement('tr');
+    var headers = ['Participant', 'Balance'];
+    headers.forEach(function(header) {
+        var th = document.createElement('th');
+        th.textContent = header;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Add table body
+    var tbody = document.createElement('tbody');
+    for (var participant in balances) {
+        var row = document.createElement('tr');
+
+        var cell1 = document.createElement('td');
+        cell1.textContent = participant;
+        row.appendChild(cell1);
+
+        var cell2 = document.createElement('td');
+        cell2.textContent = balances[participant].toFixed(2); // Showing balance with 2 decimal places
+        row.appendChild(cell2);
+
+        tbody.appendChild(row);
+    }
+    table.appendChild(tbody);
+
+    ledgerDiv.appendChild(table);
+}
+    </script>
+</body>
+</html>
+{% endblock %}
+```

@@ -1,0 +1,48 @@
+{% extends "base_mining.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bitcoin Mining Simulation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Bitcoin Mining Simulation Instructions</h1>
+        </header>
+        <section>
+            <h2>Step-by-Step Guide</h2>
+            <p>To simulate the process of Bitcoin mining, follow these steps:</p>
+            <ol>
+                <li>
+                    <strong>Set Difficulty Level:</strong> Adjust the difficulty level for mining by setting the number of leading zeros required in the block hash.
+                </li>
+                <li>
+                    <strong>Claim Block Rewards:</strong> Begin by claiming the block reward. This simulates the reward that miners get for successfully mining a block.
+                </li>
+                                <li>
+                    <strong>Create Transactions:</strong> Enter the details of the transactions you want to record on the block. Include sender, receiver, and the amount of Bitcoin to transfer.
+                </li>
+                <li>
+                    <strong>Verify Wallet Balance:</strong> Ensure that the sending address has enough Bitcoin to cover the transaction. Transactions will not be processed without sufficient balance.
+                </li>
+                <li>
+                    <strong>Find the Nonce:</strong> After finding the nonce that generates the correct number leading zeroes, click 'Mine Block' and successfully mine the block.
+                </li>
+                <li>
+                    <strong>Review the Blockchain:</strong> After mining the block, review the blockchain to see the list of all mined blocks, including their nonces, hashes, and transactions.
+                </li>
+                <li>
+                    <strong>Auto Mine Option:</strong> After completing round 3, the auto mine option becomes available, streamlining the mining process for subsequent blocks.
+                </li>
+            </ol>
+            <p>Follow these instructions to understand the role of miners and the intricacies of blockchain technology. Happy mining!</p>
+        </section>
+    </div>
+</body>
+</html>
+{% endblock %}
